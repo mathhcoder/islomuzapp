@@ -8,15 +8,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
 import uz.islom.ui.AppTheme
 import uz.islom.ui.base.BaseTextView
-import uz.islom.ui.dp
-import uz.islom.ui.wrap
-
-/**
- * developer -> Qodiriy
- * project -> IslomUz
- * date -> 28 April 2019
- * github -> github.com/qodiriy
- */
+import uz.islom.util.dp
+import uz.islom.util.wrap
 
 class SmallImageButton @JvmOverloads constructor(
     context: Context,

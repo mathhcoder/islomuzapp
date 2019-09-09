@@ -1,4 +1,4 @@
-package uz.islom.ui
+package uz.islom.ui.fragments
 
 import android.os.Bundle
 import android.view.Gravity
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.islom.ui.base.BaseFragment

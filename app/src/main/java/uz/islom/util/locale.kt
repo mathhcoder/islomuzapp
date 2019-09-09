@@ -7,15 +7,6 @@ import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import java.util.*
 
-
-/**
- * developer -> Qodiriy
- * project -> App
- * date -> 20 May 2019
- * github -> github.com/qodiriy
- */
-
-
 fun Context.setLocal(): Context {
     return setNewLocale(getLanguage())
 }

@@ -1,29 +1,14 @@
 package uz.islom.ui.custom
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
-import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.cardview.widget.CardView
-import uz.islom.ui.AppTheme
-import uz.islom.ui.dp
-import uz.islom.ui.wrap
-import android.util.TypedValue
-import androidx.appcompat.widget.DrawableUtils
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.shape.ShapeAppearanceModel
+import uz.islom.ui.AppTheme
 import uz.islom.ui.base.BaseTextView
-
-
-/**
- * developer -> Qodiriy
- * project -> IslomUz
- * date -> 28 April 2019
- * github -> github.com/qodiriy
- */
+import uz.islom.util.dp
+import uz.islom.util.wrap
 
 class BigImageButton @JvmOverloads constructor(
         context: Context,

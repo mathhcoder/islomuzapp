@@ -8,14 +8,6 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import com.squareup.picasso.Transformation
 
-
-/**
- * developer -> Qodiriy
- * project -> App
- * date -> 28 May 2019
- * github -> github.com/qodiriy
- */
-
 class Blur(private val context: Context, radius: Int) : Transformation {
 
     companion object {
