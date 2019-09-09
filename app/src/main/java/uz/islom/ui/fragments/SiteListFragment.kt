@@ -1,4 +1,4 @@
-package uz.islom.ui
+package uz.islom.ui.fragments
 
 import uz.islom.ui.base.BaseFragment
 

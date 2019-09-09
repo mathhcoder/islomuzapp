@@ -1,4 +1,4 @@
-package uz.islom.ui
+package uz.islom.ui.fragments
 
 import android.graphics.Color
 import android.graphics.Rect
@@ -21,9 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
+import uz.islom.ui.AppTheme
+import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.custom.BigImageButton
 import uz.islom.util.dp
+import uz.islom.util.full
+import uz.islom.util.wrap
 
 class FunctionsFragment : BaseFragment() {
 

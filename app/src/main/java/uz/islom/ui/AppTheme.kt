@@ -2,14 +2,6 @@ package uz.islom.ui
 
 import android.graphics.Color
 
-/**
- * developer -> Qodiriy
- * project -> IslomUz
- * date -> 18 April 2019
- * github -> github.com/qodiriy
- */
-
-
 enum class AppTheme(
     val primaryColor: Int,
     val statusBarColor: Int,

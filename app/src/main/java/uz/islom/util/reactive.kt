@@ -9,13 +9,6 @@ import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
 import timber.log.Timber
 
-/**
- * developer -> Qodiriy
- * project -> App
- * date -> 21 February 2019
- * github -> github.com/qodiriy
- */
-
 val defaultErrorHandler = Consumer { t: Throwable -> Timber.e(t) }
 
 fun <T> Single<T>.subscribeKt(

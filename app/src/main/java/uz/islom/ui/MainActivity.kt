@@ -1,15 +1,15 @@
 package uz.islom.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
-import me.yokeyword.swipebackfragment.SwipeBackActivity
 import uz.islom.R
 import uz.islom.model.Function
+import uz.islom.model.Site
 import uz.islom.ui.base.BaseActivity
-import uz.islom.ui.functions.KiblaFragment
-import uz.islom.ui.functions.TasbihFragment
+import uz.islom.ui.fragments.MainFragment
+import uz.islom.ui.fragments.SiteFragment
+import uz.islom.ui.fragments.functions.KiblaFragment
+import uz.islom.ui.fragments.functions.TasbihFragment
 
 
 class MainActivity : BaseActivity(), FragmentNavigator {
@@ -38,6 +38,10 @@ class MainActivity : BaseActivity(), FragmentNavigator {
         }
 
         addFragment(fragment = fragment, tag = function.name, withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToSite(site: Site) {
+        addFragment(fragment = SiteFragment.newInstance(site), tag = "site:${site.id}", withBackStack = true, withAnimation = true)
     }
 
 

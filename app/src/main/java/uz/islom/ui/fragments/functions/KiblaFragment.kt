@@ -1,4 +1,4 @@
-package uz.islom.ui.functions
+package uz.islom.ui.fragments.functions
 
 import android.os.Bundle
 import android.view.LayoutInflater

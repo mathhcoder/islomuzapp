@@ -5,16 +5,13 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 
+const val wrap = ViewGroup.LayoutParams.WRAP_CONTENT
+const val full = ViewGroup.LayoutParams.MATCH_PARENT
 
-/**
- * developer -> Qodiriy
- * project -> App
- * date -> 09 May 2019
- * github -> github.com/qodiriy
- */
 
 fun Activity.hideKeyboard() {
     var view = currentFocus
