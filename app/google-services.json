@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "111698634650",
+    "firebase_url": "https://uzedtech.firebaseio.com",
+    "project_id": "uzedtech",
+    "storage_bucket": "uzedtech.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111698634650:android:fc19f8eedc3f7847",
+        "android_client_info": {
+          "package_name": "uz.okidoki.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111698634650-idon2s02hd5umvmegrikps62eq5dc9oi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uz.okidoki.app",
+            "certificate_hash": "e788a74eb69fbb2ea148e49e89be81648b918525"
+          }
+        },
+        {
+          "client_id": "111698634650-mtsca9m0ctjqgn308pecnavjtl6fe6rl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uz.okidoki.app",
+            "certificate_hash": "a568b45ae91b7b3c19e228c71238f4a7f56786a4"
+          }
+        },
+        {
+          "client_id": "111698634650-fh4lvem4d2n498docj8tbmmntvoqtkgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOQdgtf4rlbPuD3ntOm4gYFwmjV9hsf-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111698634650-fh4lvem4d2n498docj8tbmmntvoqtkgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

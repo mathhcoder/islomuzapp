@@ -1,0 +1,130 @@
+import kotlin.Pair
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+Pair<Integer, String> getAppVersion(boolean increment = true) {
+    def file = new File(projectDir, "version.properties")
+
+    def version = new Properties()
+    version.load(new FileReader(file.path))
+
+    def major = Integer.parseInt(version.getProperty("major.version"))
+    def minor = Integer.parseInt(version.getProperty("minor.version"))
+    def build = Integer.parseInt(version.getProperty("build.version"))
+
+    if (increment) {
+        version.setProperty("build.version", String.valueOf(build + 1))
+        version.store(new FileWriter(file.path), "build-${build + 1}")
+    }
+
+    return new Pair(build + minor * 10**3 + major * 10**5, "$major.$minor.$build")
+}
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        def v = getAppVersion(false)
+
+        applicationId "uz.islom"
+        minSdkVersion 17
+        targetSdkVersion 28
+
+
+        versionCode v.first
+        versionName v.second
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+    }
+
+    buildTypes {
+
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "IslomUz-" + "${variant.name}" + "<" + "${variant.versionName}" + ">" + ".apk"
+            }
+        }
+
+        debug {
+            applicationIdSuffix '.debug'
+
+            debuggable true
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled true
+            useProguard true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // android jetpack
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
+
+    //custom views
+    implementation 'me.yokeyword:swipebackfragment:0.4.0'
+    implementation 'me.tankery.lib:circularSeekBar:1.1.7'
+
+
+    //log, crashlytics
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+
+    //fireBase
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+
+    //exoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.9.4'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.4'
+    implementation 'com.google.android.exoplayer:extension-okhttp:2.9.4'
+
+    //rx
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
+
+    // okHttp
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"  // do not upgrade! it is for api<21
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+    // room
+    implementation 'androidx.room:room-runtime:2.1.0'
+    implementation 'androidx.room:room-rxjava2:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+
+}

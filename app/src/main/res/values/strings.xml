@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name" translatable="false">Islom.uz ilovasi</string>
+
+    <string name="radio">Radio</string>
+    <string name="mosque">Masjidlar</string>
+    <string name="kuran">Qur`on</string>
+    <string name="kibla">Qibla</string>
+    <string name="calendar">Taqvim</string>
+    <string name="media">Media</string>
+    <string name="dua">Duo</string>
+    <string name="asmaul_husna">Ismlar</string>
+    <string name="tasbih">Tasbeh</string>
+    <string name="zakat_calculator">Zakot hisoblagich</string>
+
+
+</resources>
