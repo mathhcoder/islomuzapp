@@ -1,4 +1,4 @@
-package uz.islom.util
+package uz.islom.model.media
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -8,7 +8,7 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import com.squareup.picasso.Transformation
 
-class Blur(private val context: Context, radius: Int) : Transformation {
+class BlurTransform(private val context: Context, radius: Int) : Transformation {
 
     companion object {
         private const val UP_LIMIT = 25

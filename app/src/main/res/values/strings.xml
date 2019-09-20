@@ -2,6 +2,7 @@
 
     <string name="app_name" translatable="false">Islom.uz ilovasi</string>
 
+    <string name="notification">E\'lonlar</string>
     <string name="radio">Radio</string>
     <string name="mosque">Masjidlar</string>
     <string name="kuran">Qur`on</string>
@@ -12,6 +13,19 @@
     <string name="asmaul_husna">Ismlar</string>
     <string name="tasbih">Tasbeh</string>
     <string name="zakat_calculator">Zakot hisoblagich</string>
+    <string name="favourite">Saqlanganlar</string>
 
+    <string name="settings">Sozlamalar</string>
+    <string name="feedback">Murojat</string>
+    <string name="about">Dastur haqida</string>
+    <string name="offer">Boshqa dasturlar</string>
+    <string name="share">Ulashish</string>
+    <string name="logout">Chiqish</string>
+
+    <string name="fajr">Bomdod</string>
+    <string name="dhuhr">Peshin</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Shom</string>
+    <string name="isha">Xufton</string>
 
 </resources>

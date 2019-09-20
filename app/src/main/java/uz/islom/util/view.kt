@@ -7,7 +7,9 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import uz.islom.ui.base.BaseTextView
 
 const val wrap = ViewGroup.LayoutParams.WRAP_CONTENT
 const val full = ViewGroup.LayoutParams.MATCH_PARENT
@@ -39,5 +41,9 @@ fun Resources.dp(value: Int): Int {
             value.toFloat(),
             displayMetrics
     ).toInt()
+}
+
+fun TextView.setTextSizeSp(value: Int) {
+    setTextSize(TypedValue.COMPLEX_UNIT_SP, value.toFloat())
 }
 

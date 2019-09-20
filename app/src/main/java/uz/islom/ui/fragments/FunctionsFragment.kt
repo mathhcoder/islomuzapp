@@ -1,6 +1,5 @@
 package uz.islom.ui.fragments
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -21,13 +20,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
+import uz.islom.model.PrayTimeState
+import uz.islom.model.Salat
 import uz.islom.ui.AppTheme
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.custom.BigImageButton
-import uz.islom.util.dp
-import uz.islom.util.full
-import uz.islom.util.wrap
+import uz.islom.util.*
 
 class FunctionsFragment : BaseFragment() {
 
@@ -41,10 +41,9 @@ class FunctionsFragment : BaseFragment() {
 
     private val functionsAdapter by lazy {
         return@lazy FunctionsAdapter().apply {
-            data = uz.islom.model.Function.values().toMutableList()
+            data = uz.islom.model.Function.values().toMutableList().filter { it.type == 0 }
         }
     }
-
 
     private val progressSize by lazy {
         return@lazy dp(168)
@@ -89,22 +88,22 @@ class FunctionsFragment : BaseFragment() {
                                 orientation = LinearLayoutCompat.VERTICAL
                                 gravity = Gravity.CENTER
 
-                                addView(AppCompatTextView(context).apply {
-                                    text = "Shom"
-                                    setTextColor(Color.WHITE)
+                                addView(BaseTextView(context).apply {
+                                    id = R.id.currentSalatView
                                     gravity = Gravity.CENTER
+                                    setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
                                 addView(TextClock(context).apply {
                                     gravity = Gravity.CENTER
-                                    setTextColor(Color.WHITE)
-                                    textSize = 24f
+                                    setTextSizeSp(24)
+                                    setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
-                                addView(AppCompatTextView(context).apply {
+                                addView(BaseTextView(context).apply {
+                                    id = R.id.nextSalatReservedTimeView
                                     gravity = Gravity.CENTER
-                                    setTextColor(Color.WHITE)
-                                    text = "-01:27:40"
+                                    setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
                             }, ViewGroup.LayoutParams(full, full))
@@ -121,7 +120,7 @@ class FunctionsFragment : BaseFragment() {
 
                         addView(LinearLayout(context).apply {
 
-                            setPadding(dp(8),dp(16),0,dp(16))
+                            setPadding(dp(8), dp(16), 0, dp(16))
                             orientation = LinearLayout.VERTICAL
                             gravity = Gravity.CENTER_VERTICAL
                             weightSum = 3f
@@ -135,12 +134,12 @@ class FunctionsFragment : BaseFragment() {
                                     setImageResource(R.drawable.ic_circle_gradient)
                                 }, FrameLayout.LayoutParams(dp(24), dp(24)))
 
-                                addView(AppCompatTextView(requireContext()).apply {
-                                    setTextColor(Color.argb(70, 255, 255, 255))
+                                addView(BaseTextView(requireContext()).apply {
+                                    setTextColor(appTheme.secondaryColor)
                                     text = "19 rajab, 1440"
                                 })
 
-                            }, LinearLayout.LayoutParams(full, 0,1f))
+                            }, LinearLayout.LayoutParams(full, 0, 1f))
 
                             addView(LinearLayout(context).apply {
 
@@ -154,16 +153,16 @@ class FunctionsFragment : BaseFragment() {
                                 addView(CardView(context).apply {
                                     setCardBackgroundColor(appTheme.mainIconsDarkColor)
                                     radius = dp(16).toFloat()
-                                    addView(AppCompatTextView(context).apply {
-                                        setPadding(dp(16),dp(8),dp(16),dp(8))
-                                        setTextColor(Color.WHITE)
-                                        text = "Xufton 20:30"
+                                    addView(BaseTextView(context).apply {
+                                        id = R.id.nextSalatView
+                                        setPadding(dp(16), dp(8), dp(16), dp(8))
+                                        setTextColor(appTheme.secondaryColor)
                                         gravity = Gravity.CENTER
                                     }, ViewGroup.LayoutParams(wrap, wrap))
 
                                 }, ViewGroup.LayoutParams(wrap, wrap))
 
-                            }, LinearLayout.LayoutParams(full,  0,1f))
+                            }, LinearLayout.LayoutParams(full, 0, 1f))
 
 
                             addView(LinearLayout(context).apply {
@@ -176,17 +175,17 @@ class FunctionsFragment : BaseFragment() {
                                 }, LinearLayout.LayoutParams(dp(24), dp(24)))
 
 
-                                addView(AppCompatTextView(context).apply {
+                                addView(BaseTextView(context).apply {
                                     text = "Eslatish"
                                     gravity = Gravity.CENTER_VERTICAL
-                                    setTextColor(Color.WHITE)
+                                    setTextColor(appTheme.secondaryColor)
                                 }, LinearLayout.LayoutParams(wrap, wrap))
 
                                 addView(AppCompatImageView(context).apply {
 
                                 }, LinearLayout.LayoutParams(dp(48), dp(48)))
 
-                            }, LinearLayout.LayoutParams(full,  0,1f))
+                            }, LinearLayout.LayoutParams(full, 0, 1f))
 
                         }, FrameLayout.LayoutParams(full, full).apply {
                             rightMargin = progressSize
@@ -195,7 +194,6 @@ class FunctionsFragment : BaseFragment() {
                     }, FrameLayout.LayoutParams(full, full))
 
                 }, LinearLayout.LayoutParams(full, progressSize).apply {
-                    topMargin = dp(16)
                     leftMargin = dp(16)
                     rightMargin = dp(16)
                 })
@@ -204,12 +202,24 @@ class FunctionsFragment : BaseFragment() {
                     layoutManager = GridLayoutManager(requireContext(), 3)
                     adapter = functionsAdapter
                     addItemDecoration(FunctionItemDecoration(dp(16), 3))
+                    isNestedScrollingEnabled = true
+                    overScrollMode = View.OVER_SCROLL_NEVER
                 }, LinearLayout.LayoutParams(full, wrap).apply {
                     bottomMargin = dp(8)
                 })
 
             }, ViewGroup.LayoutParams(full, wrap))
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindPrayTimeState(view, PrayTimeState(Salat.ISHA, Salat.FAJR))
+    }
+
+    private fun bindPrayTimeState(view: View, prayTimeState: PrayTimeState) {
+        view.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalat.title)
+        view.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalat.title)
     }
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
@@ -220,8 +230,7 @@ class FunctionsFragment : BaseFragment() {
                 notifyDataSetChanged()
             }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FunctionHolder =
-                FunctionHolder(BigImageButton(p0.context))
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FunctionHolder = FunctionHolder(BigImageButton(p0.context))
 
         override fun onViewAttachedToWindow(holder: FunctionHolder) {
             super.onViewAttachedToWindow(holder)

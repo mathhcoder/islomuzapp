@@ -8,6 +8,7 @@ import com.google.android.material.card.MaterialCardView
 import uz.islom.ui.AppTheme
 import uz.islom.ui.base.BaseTextView
 import uz.islom.util.dp
+import uz.islom.util.setTextSizeSp
 import uz.islom.util.wrap
 
 class BigImageButton @JvmOverloads constructor(
@@ -31,29 +32,22 @@ class BigImageButton @JvmOverloads constructor(
     var theme: AppTheme = AppTheme.GREEN
         set(value) {
             field = value
-         //   textView.setTextColor(Color.WHITE)
-          //  setCardBackgroundColor(theme.mainFunctionsColor)
+            imageView.setColorFilter(theme.primaryColor)
+            textView.setTextColor(theme.tertiaryColor)
+            setCardBackgroundColor(theme.secondaryColor)
         }
 
     private val imageView by lazy {
         return@lazy AppCompatImageView(context).apply {
-            layoutParams = LayoutParams(dp(48), dp(48), Gravity.CENTER_HORIZONTAL)
-                    .apply {
-                        topMargin = dp(16)
-                    }
-            setColorFilter(theme.mainFunctionsColor)
+            setColorFilter(theme.primaryColor)
         }
     }
 
     private val textView by lazy {
         return@lazy BaseTextView(context).apply {
-            layoutParams = LayoutParams(wrap, wrap, Gravity.CENTER_HORIZONTAL).apply {
-                topMargin = dp(72)
-                bottomMargin = dp(8)
-            }
-            //setTextColor(theme.mainFunctionsTextColor)
-            textSize = 12f
             gravity = Gravity.CENTER_HORIZONTAL
+            setTextColor(theme.tertiaryColor)
+            setTextSizeSp(12)
         }
     }
 
@@ -61,8 +55,16 @@ class BigImageButton @JvmOverloads constructor(
         isClickable = true
         radius = dp(6).toFloat()
 
-        addView(imageView)
-        addView(textView)
+        setCardBackgroundColor(theme.secondaryColor)
+
+        addView(imageView, LayoutParams(dp(48), dp(48), Gravity.CENTER_HORIZONTAL).apply {
+            topMargin = dp(16)
+        })
+
+        addView(textView, LayoutParams(wrap, wrap, Gravity.CENTER_HORIZONTAL).apply {
+            topMargin = dp(72)
+            bottomMargin = dp(8)
+        })
 
     }
 
