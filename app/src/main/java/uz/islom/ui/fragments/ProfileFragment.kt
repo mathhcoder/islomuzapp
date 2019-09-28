@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import uz.islom.model.media.CircleTransform
 import uz.islom.R
+import uz.islom.model.Option
 import uz.islom.model.User
 import uz.islom.ui.AppTheme
 import uz.islom.ui.FragmentNavigator
@@ -30,8 +31,8 @@ class ProfileFragment : BaseFragment() {
     }
 
     private val functionsAdapter by lazy {
-        return@lazy FunctionsAdapter().apply {
-            data = uz.islom.model.Function.values().toMutableList().filter { it.type == 1 }
+        return@lazy OptionsAdapter().apply {
+            data = Option.values().toMutableList()
         }
     }
 
@@ -87,36 +88,36 @@ class ProfileFragment : BaseFragment() {
     }
 
 
-    inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
+    inner class OptionsAdapter : RecyclerView.Adapter<OptionHolder>() {
 
-        var data: List<uz.islom.model.Function> = ArrayList()
+        var data: List<Option> = ArrayList()
             set(value) {
                 field = value
                 notifyDataSetChanged()
             }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FunctionHolder = FunctionHolder(MenuButton(p0.context).apply {
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OptionHolder = OptionHolder(MenuButton(p0.context).apply {
             layoutParams = ViewGroup.LayoutParams(full, dp(64))
         })
 
-        override fun onViewAttachedToWindow(holder: FunctionHolder) {
+        override fun onViewAttachedToWindow(holder: OptionHolder) {
             super.onViewAttachedToWindow(holder)
             holder.itemView.setOnClickListener {
                 data.getOrNull(holder.adapterPosition)?.let {
-                    (activity as? FragmentNavigator)?.navigateToFunction(it)
+                    (activity as? FragmentNavigator)?.navigateToOption(it)
                 }
             }
         }
 
         override fun getItemCount() = data.size
 
-        override fun onBindViewHolder(p0: FunctionHolder, p1: Int) {
+        override fun onBindViewHolder(p0: OptionHolder, p1: Int) {
             p0.bindFunction(data[p1])
         }
     }
 
-    inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: uz.islom.model.Function) {
+    inner class OptionHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bindFunction(function: Option) {
             (itemView as? MenuButton)?.imageRes = function.imageRes
             (itemView as? MenuButton)?.textRes = function.nameRes
         }

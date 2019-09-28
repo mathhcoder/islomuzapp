@@ -37,8 +37,6 @@ android {
         versionCode v.first
         versionName v.second
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
 
@@ -86,6 +84,9 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'com.google.android.material:material:1.1.0-alpha10'
+
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     //custom views
     implementation 'me.yokeyword:swipebackfragment:0.4.0'

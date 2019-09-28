@@ -25,6 +25,7 @@ import uz.islom.model.Salat
 import uz.islom.ui.AppTheme
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.custom.BigImageButton
 import uz.islom.util.*
@@ -41,7 +42,7 @@ class FunctionsFragment : BaseFragment() {
 
     private val functionsAdapter by lazy {
         return@lazy FunctionsAdapter().apply {
-            data = uz.islom.model.Function.values().toMutableList().filter { it.type == 0 }
+            data = uz.islom.model.Function.values().toMutableList()
         }
     }
 
@@ -181,9 +182,10 @@ class FunctionsFragment : BaseFragment() {
                                     setTextColor(appTheme.secondaryColor)
                                 }, LinearLayout.LayoutParams(wrap, wrap))
 
-                                addView(AppCompatImageView(context).apply {
-
-                                }, LinearLayout.LayoutParams(dp(48), dp(48)))
+                                addView(BaseImageButton(context).apply {
+                                    id = R.id.imageView
+                                    setButtonPadding(dp(8))
+                                }, LinearLayout.LayoutParams(dp(40), dp(40)))
 
                             }, LinearLayout.LayoutParams(full, 0, 1f))
 
@@ -215,6 +217,11 @@ class FunctionsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindPrayTimeState(view, PrayTimeState(Salat.ISHA, Salat.FAJR))
+        view.findViewById<BaseImageButton>(R.id.imageView)?.apply {
+            setImageResources(R.drawable.ic_volume_high, colour(R.color.white))
+            background = drawable(R.drawable.ic_circle, appTheme.mainIconsDarkColor)
+        }
+
     }
 
     private fun bindPrayTimeState(view: View, prayTimeState: PrayTimeState) {

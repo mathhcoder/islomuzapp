@@ -8,6 +8,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 
 fun View.colour(@ColorRes res: Int): Int {
@@ -33,6 +34,21 @@ fun Fragment.drawable(@DrawableRes res: Int): Drawable? {
 fun Context.drawable(@DrawableRes res: Int): Drawable? {
     return AppCompatResources.getDrawable(this, res)
 }
+
+fun Fragment.drawable(@DrawableRes res: Int, tintColor: Int): Drawable {
+    return requireContext().drawable(res, tintColor)
+}
+
+fun View.drawable(@DrawableRes res: Int, tintColor: Int): Drawable {
+    return context.drawable(res, tintColor)
+}
+
+fun Context.drawable(@DrawableRes res: Int, tintColor: Int): Drawable {
+    val drawable = DrawableCompat.wrap(AppCompatResources.getDrawable(this, res)!!)
+    DrawableCompat.setTint(drawable, tintColor)
+    return drawable
+}
+
 
 fun View.string(@StringRes res: Int): String? {
     return context.string(res)

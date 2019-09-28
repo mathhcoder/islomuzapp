@@ -4,6 +4,8 @@
     <item name="viewPager" type="id" />
     <item name="bottomNavigationView" type="id" />
     <item name="titleView" type="id" />
+    <item name="backButton" type="id"/>
+
 
     <item name="nextSalatReservedTimeView" type="id" />
     <item name="currentSalatView" type="id" />
@@ -11,5 +13,8 @@
 
     <item name="imageView" type="id"/>
     <item name="textView" type="id"/>
+
+    <item name="container" type="id"/>
+
 
 </resources>
