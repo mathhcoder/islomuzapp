@@ -12,9 +12,11 @@
     <item name="nextSalatView" type="id" />
 
     <item name="imageView" type="id"/>
+    <item name="imageView2" type="id"/>
     <item name="textView" type="id"/>
 
     <item name="container" type="id"/>
+    <item name="mapView" type="id"/>
 
 
 </resources>

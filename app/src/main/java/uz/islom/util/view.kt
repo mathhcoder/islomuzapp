@@ -3,13 +3,18 @@ package uz.islom.util
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Point
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import uz.islom.ui.base.BaseTextView
+import kotlin.math.min
+import android.util.DisplayMetrics
+
+
+
 
 const val wrap = ViewGroup.LayoutParams.WRAP_CONTENT
 const val full = ViewGroup.LayoutParams.MATCH_PARENT
@@ -45,5 +50,15 @@ fun Resources.dp(value: Int): Int {
 
 fun TextView.setTextSizeSp(value: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_SP, value.toFloat())
+}
+
+fun Activity.getMinScreenSize() : Int {
+
+    val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+    val height = displayMetrics.heightPixels
+    val width = displayMetrics.widthPixels
+
+    return min(width, height)
 }
 
