@@ -13,6 +13,7 @@ import uz.islom.ui.fragments.MainFragment
 import uz.islom.ui.fragments.SiteFragment
 import uz.islom.ui.fragments.functions.KiblaFragment
 import uz.islom.ui.fragments.functions.MosquesFragment
+import uz.islom.ui.fragments.functions.RadioFragment
 import uz.islom.ui.fragments.functions.TasbihFragment
 
 
@@ -42,6 +43,10 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
             Function.MOSQUE -> {
                 MosquesFragment.newInstance()
+            }
+
+            Function.RADIO -> {
+                RadioFragment.newInstance()
             }
 
             else -> {
