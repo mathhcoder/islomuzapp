@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import uz.islom.R
-import uz.islom.fiqh.calculateQibla
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
@@ -75,7 +74,6 @@ class MosquesFragment : BaseFragment() {
             getMapAsync {
                 map = it
                 map?.uiSettings?.isMyLocationButtonEnabled = true
-                map?.isMyLocationEnabled = true
                 map?.setMinZoomPreference(11f)
             }
         }
