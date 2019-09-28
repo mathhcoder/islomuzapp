@@ -6,11 +6,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import uz.islom.R
 import uz.islom.model.Function
+import uz.islom.model.Option
 import uz.islom.model.Site
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.fragments.MainFragment
 import uz.islom.ui.fragments.SiteFragment
 import uz.islom.ui.fragments.functions.KiblaFragment
+import uz.islom.ui.fragments.functions.MosquesFragment
 import uz.islom.ui.fragments.functions.TasbihFragment
 
 
@@ -38,12 +40,60 @@ class MainActivity : BaseActivity(), FragmentNavigator {
                 TasbihFragment.newInstance()
             }
 
+            Function.MOSQUE -> {
+                MosquesFragment.newInstance()
+            }
+
             else -> {
                 KiblaFragment.newInstance()
             }
         }
 
         addFragment(fragment = fragment, tag = function.name, withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToOption(option: Option) {
+
+        val fragment = when (option) {
+
+            Option.SETTINGS -> {
+                KiblaFragment.newInstance()
+            }
+
+            Option.FEEDBACK -> {
+                TasbihFragment.newInstance()
+            }
+
+            Option.OFFER -> {
+                MosquesFragment.newInstance()
+            }
+
+            Option.ABOUT -> {
+                MosquesFragment.newInstance()
+            }
+
+            else -> null
+
+        }
+
+        if (fragment != null) {
+
+            addFragment(fragment = fragment, tag = option.name, withBackStack = true, withAnimation = true)
+
+        } else when (option) {
+
+            Option.SHARE -> {
+                KiblaFragment.newInstance()
+            }
+
+            Option.LOGOUT -> {
+                KiblaFragment.newInstance()
+            }
+
+            else -> {
+
+            }
+        }
     }
 
     override fun navigateToSite(site: Site) {

@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments.functions
+package uz.islom.ui.fragments.options
 
 import android.os.Bundle
 import android.view.Gravity
@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.google.android.gms.maps.MapView
 import uz.islom.R
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
 import uz.islom.util.*
 
-class KiblaFragment : SwipeAbleFragment() {
+class SettingsFragment : SwipeAbleFragment() {
 
     companion object {
-        fun newInstance() = KiblaFragment()
+        fun newInstance() = SettingsFragment()
     }
 
     override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +31,7 @@ class KiblaFragment : SwipeAbleFragment() {
                 addView(BaseTextView(context).apply {
                     id = R.id.titleView
                     gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.kibla)
+                    text = string(R.string.settings)
                     setTextSizeSp(18)
                 }, FrameLayout.LayoutParams(full, full).apply {
                     leftMargin = dp(72)
@@ -64,5 +63,4 @@ class KiblaFragment : SwipeAbleFragment() {
         }
 
     }
-
 }
