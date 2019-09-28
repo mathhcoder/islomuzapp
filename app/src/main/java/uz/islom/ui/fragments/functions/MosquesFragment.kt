@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import uz.islom.R
+import uz.islom.fiqh.calculateQibla
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
@@ -49,9 +50,9 @@ class MosquesFragment : BaseFragment() {
 
             }, ViewGroup.LayoutParams(full, dp(56)))
 
-            addView(MapView(context).apply {
-                id = R.id.container
-            }, FrameLayout.LayoutParams(full, full).apply {
+            mapView = MapView(context)
+
+            addView(mapView, FrameLayout.LayoutParams(full, full).apply {
                 topMargin = dp(56)
             })
 
@@ -69,7 +70,7 @@ class MosquesFragment : BaseFragment() {
             }
         }
 
-        view.findViewById<MapView>(R.id.container).apply {
+        mapView?.apply {
             onCreate(savedInstanceState)
             getMapAsync {
                 map = it
