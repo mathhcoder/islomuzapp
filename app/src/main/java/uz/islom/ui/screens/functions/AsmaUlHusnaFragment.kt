@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments.options
+package uz.islom.ui.screens.functions
 
 import android.os.Bundle
 import android.view.Gravity
@@ -12,10 +12,10 @@ import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
 import uz.islom.util.*
 
-class SettingsFragment : SwipeAbleFragment() {
+class AsmaUlHusnaFragment : SwipeAbleFragment() {
 
     companion object {
-        fun newInstance() = SettingsFragment()
+        fun newInstance() = AsmaUlHusnaFragment()
     }
 
     override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,7 +31,7 @@ class SettingsFragment : SwipeAbleFragment() {
                 addView(BaseTextView(context).apply {
                     id = R.id.titleView
                     gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.settings)
+                    text = string(R.string.asmaul_husna)
                     setTextSizeSp(18)
                 }, FrameLayout.LayoutParams(full, full).apply {
                     leftMargin = dp(72)

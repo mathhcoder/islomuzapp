@@ -10,6 +10,7 @@
     <item name="nextSalatReservedTimeView" type="id" />
     <item name="currentSalatView" type="id" />
     <item name="nextSalatView" type="id" />
+    <item name="salatsView" type="id" />
 
     <item name="imageView" type="id" />
     <item name="imageView2" type="id" />

@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments
+package uz.islom.ui.screens.pager
 
 import android.os.Bundle
 import android.view.Gravity
@@ -39,9 +39,12 @@ class ProfileFragment : BaseFragment() {
     private var appTheme = AppTheme.GREEN
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return NestedScrollView(inflater.context).apply {
+
             addView(LinearLayout(context).apply {
 
+                descendantFocusability = LinearLayout.FOCUS_BLOCK_DESCENDANTS
                 orientation = LinearLayout.VERTICAL
 
                 addView(AppCompatImageView(context).apply {

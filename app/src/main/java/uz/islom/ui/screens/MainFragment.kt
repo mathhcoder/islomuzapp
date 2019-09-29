@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments
+package uz.islom.ui.screens
 
 import android.os.Bundle
 import android.view.Gravity
@@ -11,6 +11,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.islom.R
 import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.screens.pager.FunctionsFragment
+import uz.islom.ui.screens.pager.ProfileFragment
+import uz.islom.ui.screens.pager.SitesFragment
 
 class MainFragment : BaseFragment() {
 
@@ -52,7 +55,7 @@ class MainFragment : BaseFragment() {
                 override fun getItem(position: Int): BaseFragment {
                     return when (position) {
                         0 -> FunctionsFragment.newInstance()
-                        1 -> SiteListFragment.newInstance()
+                        1 -> SitesFragment.newInstance()
                         else -> ProfileFragment.newInstance()
                     }
                 }

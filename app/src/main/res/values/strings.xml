@@ -22,6 +22,8 @@
     <string name="share">Ulashish</string>
     <string name="logout">Chiqish</string>
 
+    <string name="pray_times">Namoz vaqtlari</string>
+
     <string name="fajr">Bomdod</string>
     <string name="dhuhr">Peshin</string>
     <string name="asr">Asr</string>

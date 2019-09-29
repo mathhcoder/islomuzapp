@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments
+package uz.islom.ui.screens.pager
 
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextClock
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
@@ -42,7 +41,7 @@ class FunctionsFragment : BaseFragment() {
 
     private val functionsAdapter by lazy {
         return@lazy FunctionsAdapter().apply {
-            data = uz.islom.model.Function.values().toMutableList()
+            data = uz.islom.model.Functions.values().toMutableList()
         }
     }
 
@@ -57,12 +56,16 @@ class FunctionsFragment : BaseFragment() {
 
             addView(LinearLayout(context).apply {
 
+                descendantFocusability = LinearLayout.FOCUS_BLOCK_DESCENDANTS
+
                 orientation = LinearLayout.VERTICAL
 
                 addView(MaterialCardView(context).apply {
 
+                    id = R.id.salatsView
+
                     isClickable = true
-                    radius = dp(12).toFloat()
+                  //  radius = dp(12).toFloat()
 
                     addView(FrameLayout(context).apply {
 
@@ -196,8 +199,8 @@ class FunctionsFragment : BaseFragment() {
                     }, FrameLayout.LayoutParams(full, full))
 
                 }, LinearLayout.LayoutParams(full, progressSize).apply {
-                    leftMargin = dp(16)
-                    rightMargin = dp(16)
+//                    leftMargin = dp(16)
+//                    rightMargin = dp(16)
                 })
 
                 addView(RecyclerView(requireContext()).apply {
@@ -222,6 +225,12 @@ class FunctionsFragment : BaseFragment() {
             background = drawable(R.drawable.ic_circle, appTheme.mainIconsDarkColor)
         }
 
+        view.findViewById<View>(R.id.salatsView)?.apply {
+            setOnClickListener {
+                (activity as? FragmentNavigator)?.navigateToSalats()
+            }
+        }
+
     }
 
     private fun bindPrayTimeState(view: View, prayTimeState: PrayTimeState) {
@@ -231,7 +240,7 @@ class FunctionsFragment : BaseFragment() {
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
 
-        var data: List<uz.islom.model.Function> = ArrayList()
+        var data: List<uz.islom.model.Functions> = ArrayList()
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -256,7 +265,7 @@ class FunctionsFragment : BaseFragment() {
     }
 
     inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: uz.islom.model.Function) {
+        fun bindFunction(function: uz.islom.model.Functions) {
             (itemView as? BigImageButton)?.imageRes = function.imageRes
             (itemView as? BigImageButton)?.textRes = function.nameRes
         }

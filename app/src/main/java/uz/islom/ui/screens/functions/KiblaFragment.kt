@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments.functions
+package uz.islom.ui.screens.functions
 
 import android.os.Bundle
 import android.view.Gravity

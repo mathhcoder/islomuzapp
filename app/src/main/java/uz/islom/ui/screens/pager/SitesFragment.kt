@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments
+package uz.islom.ui.screens.pager
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import uz.islom.ui.base.BaseFragment
 import uz.islom.util.full
 
-class SiteListFragment : BaseFragment() {
+class SitesFragment : BaseFragment() {
 
     companion object {
-        fun newInstance() = SiteListFragment().apply {}
+        fun newInstance() = SitesFragment().apply {}
     }
 
 
