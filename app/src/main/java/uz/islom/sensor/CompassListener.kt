@@ -9,9 +9,9 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
 
     private val listeners = ArrayList<CompassAssistantListener>()
 
-    private val sensorManager: SensorManager
-    private val accelerometer: Sensor
-    private val magnetometer: Sensor
+    private val sensorManager: SensorManager?
+    private val accelerometer: Sensor?
+    private val magnetometer: Sensor?
 
     private val rotationMatrix = FloatArray(9)
     private val orientation = FloatArray(3)
@@ -33,9 +33,10 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
 
         declination = geomagneticField.declination
 
-        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+        accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        magnetometer = sensorManager?.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -77,16 +78,16 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
     }
 
     fun start() {
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI)
+        sensorManager?.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
+        sensorManager?.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI)
         for (listener in listeners) {
             listener.onCompassStarted()
         }
     }
 
     fun stop() {
-        this.sensorManager.unregisterListener(this, this.accelerometer)
-        this.sensorManager.unregisterListener(this, this.magnetometer)
+        this.sensorManager?.unregisterListener(this, this.accelerometer)
+        this.sensorManager?.unregisterListener(this, this.magnetometer)
         this.lastAccelerometer = FloatArray(3)
         this.lastMagnetometer = FloatArray(3)
         this.lastAccelerometerSet = false

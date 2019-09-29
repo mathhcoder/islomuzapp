@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments.functions
+package uz.islom.ui.screens.other
 
 import android.os.Bundle
 import android.view.Gravity
@@ -6,29 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import uz.islom.R
-import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
+import uz.islom.ui.base.SwipeAbleFragment
 import uz.islom.util.*
 
-
-class MosquesFragment : BaseFragment() {
+class PrayTimesFragment : SwipeAbleFragment() {
 
     companion object {
-        fun newInstance() = MosquesFragment()
+        fun newInstance() = PrayTimesFragment()
     }
 
-    var mapView: MapView? = null
-    var map: GoogleMap? = null
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return FrameLayout(inflater.context).apply {
-
-            setBackgroundColor(colour(R.color.white))
 
             addView(FrameLayout(context).apply {
 
@@ -40,7 +31,7 @@ class MosquesFragment : BaseFragment() {
                 addView(BaseTextView(context).apply {
                     id = R.id.titleView
                     gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.mosque)
+                    text = string(R.string.pray_times)
                     setTextSizeSp(18)
                 }, FrameLayout.LayoutParams(full, full).apply {
                     leftMargin = dp(72)
@@ -49,13 +40,15 @@ class MosquesFragment : BaseFragment() {
 
             }, ViewGroup.LayoutParams(full, dp(56)))
 
-            mapView = MapView(context)
+            addView(FrameLayout(context).apply {
 
-            addView(mapView, FrameLayout.LayoutParams(full, full).apply {
+            }, FrameLayout.LayoutParams(full, full).apply {
                 topMargin = dp(56)
             })
 
+
             layoutParams = ViewGroup.LayoutParams(full, full)
+
         }
     }
 
@@ -69,37 +62,5 @@ class MosquesFragment : BaseFragment() {
             }
         }
 
-        mapView?.apply {
-            onCreate(savedInstanceState)
-            getMapAsync {
-                map = it
-                map?.uiSettings?.isMyLocationButtonEnabled = true
-                map?.setMinZoomPreference(11f)
-            }
-        }
-
     }
-
-
-    override fun onResume() {
-        mapView?.onResume()
-        super.onResume()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        mapView?.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView?.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView?.onLowMemory()
-    }
-
 }

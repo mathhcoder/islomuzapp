@@ -2,7 +2,7 @@ package uz.islom.model
 
 import uz.islom.R
 
-enum class Function(val nameRes: Int, val imageRes: Int) {
+enum class Functions(val nameRes: Int, val imageRes: Int) {
     NOTIFICATION(R.string.notification, R.drawable.ic_notification),
     KURAN(R.string.kuran, R.drawable.ic_quran),
     MOSQUE(R.string.mosque, R.drawable.ic_mosque),

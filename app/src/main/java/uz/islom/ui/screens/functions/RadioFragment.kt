@@ -1,4 +1,4 @@
-package uz.islom.ui.fragments.functions
+package uz.islom.ui.screens.functions
 
 import android.os.Bundle
 import android.view.Gravity
@@ -12,7 +12,6 @@ import com.google.android.material.button.MaterialButton
 import uz.islom.R
 import uz.islom.model.Option
 import uz.islom.ui.FragmentNavigator
-import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment

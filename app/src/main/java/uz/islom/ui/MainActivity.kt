@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import uz.islom.R
-import uz.islom.model.Function
+import uz.islom.model.Functions
 import uz.islom.model.Option
 import uz.islom.model.Site
 import uz.islom.ui.base.BaseActivity
-import uz.islom.ui.fragments.MainFragment
-import uz.islom.ui.fragments.SiteFragment
-import uz.islom.ui.fragments.functions.KiblaFragment
-import uz.islom.ui.fragments.functions.MosquesFragment
-import uz.islom.ui.fragments.functions.RadioFragment
-import uz.islom.ui.fragments.functions.TasbihFragment
+import uz.islom.ui.screens.MainFragment
+import uz.islom.ui.screens.other.SiteFragment
+import uz.islom.ui.screens.functions.*
+import uz.islom.ui.screens.options.AboutFragment
+import uz.islom.ui.screens.options.FeedbackFragment
+import uz.islom.ui.screens.options.OfferFragment
+import uz.islom.ui.screens.options.SettingsFragment
+import uz.islom.ui.screens.other.PrayTimesFragment
 
 
 class MainActivity : BaseActivity(), FragmentNavigator {
@@ -30,28 +32,34 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
     }
 
-    override fun navigateToFunction(function: Function) {
+    override fun navigateToFunction(function: Functions) {
         val fragment = when (function) {
 
-            Function.KIBLA -> {
-                KiblaFragment.newInstance()
-            }
+            Functions.NOTIFICATION -> NotificationFragment.newInstance()
 
-            Function.TASBIH -> {
-                TasbihFragment.newInstance()
-            }
+            Functions.KURAN -> KuranFragment.newInstance()
 
-            Function.MOSQUE -> {
-                MosquesFragment.newInstance()
-            }
+            Functions.MOSQUE -> MosquesFragment.newInstance()
 
-            Function.RADIO -> {
-                RadioFragment.newInstance()
-            }
+            Functions.KIBLA -> KiblaFragment.newInstance()
 
-            else -> {
-                KiblaFragment.newInstance()
-            }
+            Functions.RADIO -> RadioFragment.newInstance()
+
+
+            Functions.CALENDAR ->  CalendarFragment.newInstance()
+
+            Functions.MEDIA ->  MediaFragment.newInstance()
+
+            Functions.DUA -> DuaFragment.newInstance()
+
+            Functions.ASMAUL_HUSNA -> AsmaUlHusnaFragment.newInstance()
+
+            Functions.TASBIH -> TasbihFragment.newInstance()
+
+            Functions.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
+
+            Functions.FAVOURITE -> FavouriteFragment.newInstance()
+
         }
 
         addFragment(fragment = fragment, tag = function.name, withBackStack = true, withAnimation = true)
@@ -62,19 +70,19 @@ class MainActivity : BaseActivity(), FragmentNavigator {
         val fragment = when (option) {
 
             Option.SETTINGS -> {
-                KiblaFragment.newInstance()
+                SettingsFragment.newInstance()
             }
 
             Option.FEEDBACK -> {
-                TasbihFragment.newInstance()
+                FeedbackFragment.newInstance()
             }
 
             Option.OFFER -> {
-                MosquesFragment.newInstance()
+                OfferFragment.newInstance()
             }
 
             Option.ABOUT -> {
-                MosquesFragment.newInstance()
+                AboutFragment.newInstance()
             }
 
             else -> null
@@ -88,11 +96,11 @@ class MainActivity : BaseActivity(), FragmentNavigator {
         } else when (option) {
 
             Option.SHARE -> {
-                KiblaFragment.newInstance()
+
             }
 
             Option.LOGOUT -> {
-                KiblaFragment.newInstance()
+
             }
 
             else -> {
@@ -103,6 +111,10 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
     override fun navigateToSite(site: Site) {
         addFragment(fragment = SiteFragment.newInstance(site), tag = "site:${site.id}", withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToSalats() {
+        addFragment(fragment = PrayTimesFragment.newInstance(), tag = "salats", withBackStack = true, withAnimation = true)
     }
 
 
