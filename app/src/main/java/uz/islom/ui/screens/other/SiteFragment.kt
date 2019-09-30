@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import uz.islom.model.Site
+import uz.islom.model.db.Site
 import uz.islom.ui.base.SwipeAbleFragment
 
 class SiteFragment : SwipeAbleFragment() {

@@ -1,4 +1,4 @@
-package uz.islom.model
+package uz.islom.model.db
 
 import java.io.Serializable
 

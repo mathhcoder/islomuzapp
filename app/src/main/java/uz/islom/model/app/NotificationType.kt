@@ -1,4 +1,4 @@
-package uz.islom.model
+package uz.islom.model.app
 
 import uz.islom.R
 

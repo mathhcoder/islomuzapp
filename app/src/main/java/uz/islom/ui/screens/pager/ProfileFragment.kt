@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import uz.islom.model.media.CircleTransform
 import uz.islom.R
-import uz.islom.model.Option
-import uz.islom.model.User
+import uz.islom.model.app.OptionType
+import uz.islom.model.db.User
 import uz.islom.ui.util.AppTheme
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
@@ -32,7 +32,7 @@ class ProfileFragment : BaseFragment() {
 
     private val functionsAdapter by lazy {
         return@lazy OptionsAdapter().apply {
-            data = Option.values().toMutableList()
+            data = OptionType.values().toMutableList()
         }
     }
 
@@ -93,7 +93,7 @@ class ProfileFragment : BaseFragment() {
 
     inner class OptionsAdapter : RecyclerView.Adapter<OptionHolder>() {
 
-        var data: List<Option> = ArrayList()
+        var data: List<OptionType> = ArrayList()
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -120,7 +120,7 @@ class ProfileFragment : BaseFragment() {
     }
 
     inner class OptionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: Option) {
+        fun bindFunction(function: OptionType) {
             (itemView as? MenuButton)?.imageRes = function.imageRes
             (itemView as? MenuButton)?.textRes = function.nameRes
         }

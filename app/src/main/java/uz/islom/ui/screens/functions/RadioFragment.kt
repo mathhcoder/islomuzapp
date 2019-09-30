@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import uz.islom.R
-import uz.islom.model.Option
+import uz.islom.model.app.OptionType
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
@@ -106,7 +106,7 @@ class RadioFragment : SwipeAbleFragment() {
 
     inner class PlayListAdapter : RecyclerView.Adapter<PlayListHolder>() {
 
-        var data: List<Option> = ArrayList()
+        var data: List<OptionType> = ArrayList()
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -133,7 +133,7 @@ class RadioFragment : SwipeAbleFragment() {
     }
 
     inner class PlayListHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: Option) {
+        fun bindFunction(function: OptionType) {
             (itemView as? MenuButton)?.imageRes = function.imageRes
             (itemView as? MenuButton)?.textRes = function.nameRes
         }

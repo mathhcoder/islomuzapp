@@ -1,8 +1,8 @@
-package uz.islom.model
+package uz.islom.model.app
 
 import uz.islom.R
 
-enum class Functions(val nameRes: Int, val imageRes: Int) {
+enum class FunctionType(val nameRes: Int, val imageRes: Int) {
     NOTIFICATION(R.string.notification, R.drawable.ic_notification),
     KURAN(R.string.kuran, R.drawable.ic_quran),
     MOSQUE(R.string.mosque, R.drawable.ic_mosque),

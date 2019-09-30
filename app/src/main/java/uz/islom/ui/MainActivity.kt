@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import uz.islom.R
-import uz.islom.model.Functions
-import uz.islom.model.Option
-import uz.islom.model.Site
+import uz.islom.model.app.FunctionType
+import uz.islom.model.app.OptionType
+import uz.islom.model.db.Site
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.screens.MainFragment
 import uz.islom.ui.screens.auth.AuthorizationFragment
@@ -49,56 +49,56 @@ class MainActivity : BaseActivity(), FragmentNavigator {
         addFragment(fragment = MainFragment(), tag = "main", withBackStack = false, withAnimation = false)
     }
 
-    override fun navigateToFunction(function: Functions) {
+    override fun navigateToFunction(function: FunctionType) {
         val fragment = when (function) {
 
-            Functions.NOTIFICATION -> NotificationFragment.newInstance()
+            FunctionType.NOTIFICATION -> NotificationFragment.newInstance()
 
-            Functions.KURAN -> KuranFragment.newInstance()
+            FunctionType.KURAN -> KuranFragment.newInstance()
 
-            Functions.MOSQUE -> MosquesFragment.newInstance()
+            FunctionType.MOSQUE -> MosquesFragment.newInstance()
 
-            Functions.KIBLA -> KiblaFragment.newInstance()
+            FunctionType.KIBLA -> KiblaFragment.newInstance()
 
-            Functions.RADIO -> RadioFragment.newInstance()
+            FunctionType.RADIO -> RadioFragment.newInstance()
 
 
-            Functions.CALENDAR -> CalendarFragment.newInstance()
+            FunctionType.CALENDAR -> CalendarFragment.newInstance()
 
-            Functions.MEDIA -> MediaFragment.newInstance()
+            FunctionType.MEDIA -> MediaFragment.newInstance()
 
-            Functions.DUA -> DuaFragment.newInstance()
+            FunctionType.DUA -> DuaFragment.newInstance()
 
-            Functions.ASMAUL_HUSNA -> AsmaUlHusnaFragment.newInstance()
+            FunctionType.ASMAUL_HUSNA -> AsmaUlHusnaFragment.newInstance()
 
-            Functions.TASBIH -> TasbihFragment.newInstance()
+            FunctionType.TASBIH -> TasbihFragment.newInstance()
 
-            Functions.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
+            FunctionType.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
 
-            Functions.FAVOURITE -> FavouriteFragment.newInstance()
+            FunctionType.FAVOURITE -> FavouriteFragment.newInstance()
 
         }
 
         addFragment(fragment = fragment, tag = function.name, withBackStack = true, withAnimation = true)
     }
 
-    override fun navigateToOption(option: Option) {
+    override fun navigateToOption(optionType: OptionType) {
 
-        val fragment = when (option) {
+        val fragment = when (optionType) {
 
-            Option.SETTINGS -> {
+            OptionType.SETTINGS -> {
                 SettingsFragment.newInstance()
             }
 
-            Option.FEEDBACK -> {
+            OptionType.FEEDBACK -> {
                 FeedbackFragment.newInstance()
             }
 
-            Option.OFFER -> {
+            OptionType.OFFER -> {
                 OfferFragment.newInstance()
             }
 
-            Option.ABOUT -> {
+            OptionType.ABOUT -> {
                 AboutFragment.newInstance()
             }
 
@@ -108,15 +108,15 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
         if (fragment != null) {
 
-            addFragment(fragment = fragment, tag = option.name, withBackStack = true, withAnimation = true)
+            addFragment(fragment = fragment, tag = optionType.name, withBackStack = true, withAnimation = true)
 
-        } else when (option) {
+        } else when (optionType) {
 
-            Option.SHARE -> {
+            OptionType.SHARE -> {
 
             }
 
-            Option.LOGOUT -> {
+            OptionType.LOGOUT -> {
 
             }
 
