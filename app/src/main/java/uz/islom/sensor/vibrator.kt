@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 fun Fragment.zing() {
     context?.zing()
 }
-
+//TODO use not deprecated methods
 fun Context.zing() {
     (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).run {
         vibrate(200)

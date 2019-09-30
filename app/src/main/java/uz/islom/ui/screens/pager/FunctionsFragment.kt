@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
-import uz.islom.model.PrayTimeState
-import uz.islom.model.Salat
+import uz.islom.model.app.PrayTimeState
+import uz.islom.model.app.SalatType
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
@@ -29,6 +29,7 @@ import uz.islom.android.colour
 import uz.islom.ui.custom.BigImageButton
 import uz.islom.android.drawable
 import uz.islom.android.string
+import uz.islom.model.app.FunctionType
 import uz.islom.ui.util.*
 
 class FunctionsFragment : BaseFragment() {
@@ -43,7 +44,7 @@ class FunctionsFragment : BaseFragment() {
 
     private val functionsAdapter by lazy {
         return@lazy FunctionsAdapter().apply {
-            data = uz.islom.model.Functions.values().toMutableList()
+            data = FunctionType.values().toMutableList()
         }
     }
 
@@ -221,7 +222,7 @@ class FunctionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindPrayTimeState(view, PrayTimeState(Salat.ISHA, Salat.FAJR))
+        bindPrayTimeState(view, PrayTimeState(SalatType.ISHA, SalatType.FAJR))
         view.findViewById<BaseImageButton>(R.id.imageView)?.apply {
             setImageResources(R.drawable.ic_volume_high, colour(R.color.white))
             background = drawable(R.drawable.ic_circle, appTheme.mainIconsDarkColor)
@@ -236,13 +237,13 @@ class FunctionsFragment : BaseFragment() {
     }
 
     private fun bindPrayTimeState(view: View, prayTimeState: PrayTimeState) {
-        view.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalat.title)
-        view.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalat.title)
+        view.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalatType.title)
+        view.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalatType.title)
     }
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
 
-        var data: List<uz.islom.model.Functions> = ArrayList()
+        var data: List<FunctionType> = ArrayList()
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -267,7 +268,7 @@ class FunctionsFragment : BaseFragment() {
     }
 
     inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: uz.islom.model.Functions) {
+        fun bindFunction(function: FunctionType) {
             (itemView as? BigImageButton)?.imageRes = function.imageRes
             (itemView as? BigImageButton)?.textRes = function.nameRes
         }

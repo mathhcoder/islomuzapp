@@ -1,8 +1,8 @@
-package uz.islom.model
+package uz.islom.model.app
 
 import uz.islom.R
 
-enum class Option(val nameRes: Int, val imageRes: Int) {
+enum class OptionType(val nameRes: Int, val imageRes: Int) {
     SETTINGS(R.string.settings, R.drawable.ic_settings),
     FEEDBACK(R.string.feedback, R.drawable.ic_email),
     ABOUT(R.string.about, R.drawable.ic_information),

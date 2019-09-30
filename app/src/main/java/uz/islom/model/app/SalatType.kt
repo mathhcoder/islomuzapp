@@ -1,9 +1,9 @@
-package uz.islom.model
+package uz.islom.model.app
 
 import androidx.annotation.StringRes
 import uz.islom.R
 
-enum class Salat(@StringRes val title: Int) {
+enum class SalatType(@StringRes val title: Int) {
     LAST_ISHA(R.string.isha),
     LAST_QIYAM(R.string.isha),
     FAJR(R.string.fajr),
