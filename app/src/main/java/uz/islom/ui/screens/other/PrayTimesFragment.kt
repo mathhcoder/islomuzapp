@@ -10,7 +10,11 @@ import uz.islom.R
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
-import uz.islom.util.*
+import uz.islom.android.colour
+import uz.islom.android.string
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 class PrayTimesFragment : SwipeAbleFragment() {
 

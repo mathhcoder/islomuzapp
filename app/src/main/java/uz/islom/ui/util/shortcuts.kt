@@ -1,4 +1,4 @@
-package uz.islom.util
+package uz.islom.ui.util
 
 import android.app.LauncherActivity
 import android.content.Context
@@ -10,6 +10,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import timber.log.Timber
 import uz.islom.R
+import uz.islom.android.string
 
 
 fun isShortcutCreated(context: Context): Boolean {

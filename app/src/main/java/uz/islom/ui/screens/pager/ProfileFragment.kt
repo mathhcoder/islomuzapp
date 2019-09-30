@@ -16,13 +16,13 @@ import uz.islom.model.media.CircleTransform
 import uz.islom.R
 import uz.islom.model.Option
 import uz.islom.model.User
-import uz.islom.ui.AppTheme
+import uz.islom.ui.util.AppTheme
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.custom.MenuButton
-import uz.islom.util.dp
-import uz.islom.util.full
-import uz.islom.util.setTextSizeSp
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 class ProfileFragment : BaseFragment() {
 

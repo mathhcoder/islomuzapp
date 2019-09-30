@@ -9,13 +9,17 @@ import android.widget.FrameLayout
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import uz.islom.R
-import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
-import uz.islom.util.*
+import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.android.colour
+import uz.islom.android.string
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 
-class MosquesFragment : BaseFragment() {
+class MosquesFragment : SwipeAbleFragment() {
 
     companion object {
         fun newInstance() = MosquesFragment()
@@ -25,7 +29,7 @@ class MosquesFragment : BaseFragment() {
     var map: GoogleMap? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return FrameLayout(inflater.context).apply {
 
             setBackgroundColor(colour(R.color.white))
@@ -40,7 +44,7 @@ class MosquesFragment : BaseFragment() {
                 addView(BaseTextView(context).apply {
                     id = R.id.titleView
                     gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.media)
+                    text = string(R.string.mosque)
                     setTextSizeSp(18)
                 }, FrameLayout.LayoutParams(full, full).apply {
                     leftMargin = dp(72)

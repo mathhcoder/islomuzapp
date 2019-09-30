@@ -16,7 +16,7 @@ abstract class SwipeAbleFragment : SwipeBackFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeBackLayout.setEdgeOrientation(SwipeBackLayout.EDGE_LEFT)
-        setEdgeLevel(SwipeBackLayout.EdgeLevel.MED)
+        setEdgeLevel(SwipeBackLayout.EdgeLevel.MIN)
     }
 
 }

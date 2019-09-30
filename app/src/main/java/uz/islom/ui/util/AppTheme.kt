@@ -1,4 +1,4 @@
-package uz.islom.ui
+package uz.islom.ui.util
 
 import android.graphics.Color
 

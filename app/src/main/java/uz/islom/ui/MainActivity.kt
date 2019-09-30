@@ -10,6 +10,8 @@ import uz.islom.model.Option
 import uz.islom.model.Site
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.screens.MainFragment
+import uz.islom.ui.screens.auth.AuthorizationFragment
+import uz.islom.ui.screens.auth.RegistrationFragment
 import uz.islom.ui.screens.other.SiteFragment
 import uz.islom.ui.screens.functions.*
 import uz.islom.ui.screens.options.AboutFragment
@@ -17,6 +19,7 @@ import uz.islom.ui.screens.options.FeedbackFragment
 import uz.islom.ui.screens.options.OfferFragment
 import uz.islom.ui.screens.options.SettingsFragment
 import uz.islom.ui.screens.other.PrayTimesFragment
+import uz.islom.util.getUserToken
 
 
 class MainActivity : BaseActivity(), FragmentNavigator {
@@ -28,8 +31,22 @@ class MainActivity : BaseActivity(), FragmentNavigator {
         if (Build.VERSION.SDK_INT >= 23)
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
-        addFragment(fragment = MainFragment(), tag = "main", withBackStack = false, withAnimation = false)
+        if (getUserToken().isNotEmpty())
+            navigateToMain()
+        else navigateToAuthorization()
 
+    }
+
+    override fun navigateToAuthorization() {
+        addFragment(fragment = AuthorizationFragment.newInstance(), tag = "authorization", withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToRegistration() {
+        addFragment(fragment = RegistrationFragment.newInstance(), tag = "registration", withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToMain() {
+        addFragment(fragment = MainFragment(), tag = "main", withBackStack = false, withAnimation = false)
     }
 
     override fun navigateToFunction(function: Functions) {
@@ -46,9 +63,9 @@ class MainActivity : BaseActivity(), FragmentNavigator {
             Functions.RADIO -> RadioFragment.newInstance()
 
 
-            Functions.CALENDAR ->  CalendarFragment.newInstance()
+            Functions.CALENDAR -> CalendarFragment.newInstance()
 
-            Functions.MEDIA ->  MediaFragment.newInstance()
+            Functions.MEDIA -> MediaFragment.newInstance()
 
             Functions.DUA -> DuaFragment.newInstance()
 

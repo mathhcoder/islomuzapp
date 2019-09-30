@@ -21,13 +21,15 @@ import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
 import uz.islom.model.PrayTimeState
 import uz.islom.model.Salat
-import uz.islom.ui.AppTheme
 import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
+import uz.islom.android.colour
 import uz.islom.ui.custom.BigImageButton
-import uz.islom.util.*
+import uz.islom.android.drawable
+import uz.islom.android.string
+import uz.islom.ui.util.*
 
 class FunctionsFragment : BaseFragment() {
 
