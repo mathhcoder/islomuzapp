@@ -10,7 +10,11 @@ import uz.islom.R
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
-import uz.islom.util.*
+import uz.islom.android.colour
+import uz.islom.android.string
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 class TasbihFragment : SwipeAbleFragment() {
 
@@ -31,7 +35,7 @@ class TasbihFragment : SwipeAbleFragment() {
                 addView(BaseTextView(context).apply {
                     id = R.id.titleView
                     gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.zakat_calculator)
+                    text = string(R.string.tasbih)
                     setTextSizeSp(18)
                 }, FrameLayout.LayoutParams(full, full).apply {
                     leftMargin = dp(72)
@@ -45,7 +49,6 @@ class TasbihFragment : SwipeAbleFragment() {
             }, FrameLayout.LayoutParams(full, full).apply {
                 topMargin = dp(56)
             })
-
 
             layoutParams = ViewGroup.LayoutParams(full, full)
 

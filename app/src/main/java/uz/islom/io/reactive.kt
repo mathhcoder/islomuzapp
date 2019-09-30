@@ -1,4 +1,4 @@
-package uz.islom.util
+package uz.islom.io
 
 import io.reactivex.Flowable
 import io.reactivex.Observable

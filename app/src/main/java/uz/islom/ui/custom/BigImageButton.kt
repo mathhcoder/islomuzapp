@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
-import uz.islom.ui.AppTheme
+import uz.islom.ui.util.AppTheme
 import uz.islom.ui.base.BaseTextView
-import uz.islom.util.dp
-import uz.islom.util.setTextSizeSp
-import uz.islom.util.wrap
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.setTextSizeSp
+import uz.islom.ui.util.wrap
 
 class BigImageButton @JvmOverloads constructor(
         context: Context,

@@ -6,9 +6,12 @@ import android.view.Gravity
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
 import uz.islom.R
-import uz.islom.ui.AppTheme
+import uz.islom.ui.util.AppTheme
 import uz.islom.ui.base.BaseTextView
-import uz.islom.util.*
+import uz.islom.android.drawable
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 class MenuButton @JvmOverloads constructor(
         context: Context,

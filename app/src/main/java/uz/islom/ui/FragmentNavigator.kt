@@ -5,6 +5,9 @@ import uz.islom.model.Option
 import uz.islom.model.Site
 
 interface FragmentNavigator {
+    fun navigateToAuthorization()
+    fun navigateToRegistration()
+    fun navigateToMain()
     fun navigateToFunction(function: Functions)
     fun navigateToOption(option: Option)
     fun navigateToSalats()
