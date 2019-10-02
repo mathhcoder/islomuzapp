@@ -12,8 +12,13 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import uz.islom.model.media.CircleTransform
 import uz.islom.R
+import uz.islom.update.UpdateCenter
+import uz.islom.update.UpdatePath
+import uz.islom.io.subscribeKt
 import uz.islom.model.app.OptionType
 import uz.islom.model.db.User
 import uz.islom.ui.util.AppTheme
@@ -75,8 +80,15 @@ class ProfileFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         bindUser(view, User(0, "Javohirxon Qodiriy", "https://picsum.photos/200"))
 
+        UpdateCenter
+                .subscribeTo(UpdatePath.Users())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeKt(Consumer {
+                    bindUser(view, it)
+                })
     }
 
 
