@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import uz.islom.R
 import uz.islom.model.app.FunctionType
 import uz.islom.model.app.OptionType
+import uz.islom.model.db.Mosque
 import uz.islom.model.db.Site
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.screens.MainFragment
@@ -14,6 +15,7 @@ import uz.islom.ui.screens.auth.AuthorizationFragment
 import uz.islom.ui.screens.auth.RegistrationFragment
 import uz.islom.ui.screens.other.SiteFragment
 import uz.islom.ui.screens.functions.*
+import uz.islom.ui.screens.info.MosqueInfoFragment
 import uz.islom.ui.screens.options.AboutFragment
 import uz.islom.ui.screens.options.FeedbackFragment
 import uz.islom.ui.screens.options.OfferFragment
@@ -132,6 +134,10 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
     override fun navigateToSalats() {
         addFragment(fragment = PrayTimesFragment.newInstance(), tag = "salats", withBackStack = true, withAnimation = true)
+    }
+
+    override fun navigateToMosqueInfo(mosque: Mosque) {
+        addFragment(fragment = MosqueInfoFragment.newInstance(mosque), tag = "mosque:${mosque.id}", withBackStack = true, withAnimation = true)
     }
 
 
