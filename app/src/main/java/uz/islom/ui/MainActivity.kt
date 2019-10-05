@@ -56,7 +56,7 @@ class MainActivity : BaseActivity(), FragmentNavigator {
 
             FunctionType.KURAN -> KuranFragment.newInstance()
 
-            FunctionType.MOSQUE -> MosquesFragment.newInstance()
+            FunctionType.MOSQUE -> NearMosquesFragment.newInstance()
 
             FunctionType.KIBLA -> KiblaFragment.newInstance()
 
