@@ -1,7 +1,5 @@
 package uz.islom.model.app
 
-import uz.islom.R
-
 enum class NotificationType(val id: Int, val image: Int) {
     //NONE(0, R.drawable.ic_off),
    // SILENT(1, R.drawable.ic_vibrate),

@@ -2,7 +2,6 @@ package uz.islom.fiqh
 
 import java.lang.Math.toDegrees
 import java.lang.Math.toRadians
-import java.util.*
 import kotlin.math.*
 
 
@@ -15,31 +14,30 @@ fun calculateSalatTimes(year: Int,
                         timeZoneDifference: Double,
                         fajrAngle: Double,
                         asrShadowRatio: Double,
-                        ishaAngle: Double) {
+                        ishaAngle: Double): Array<Double> {
 
     val jd = gregorian2Julian(year, month + 1, day)
-    val d = jd - 2451545.0
-    val g = fixAngle(357.529 + 0.98560028 * d)
-    val q = fixAngle(280.459 + 0.98564736 * d)
+    val january2000 = jd - 2451545.0
+    val g = fixAngle(357.529 + 0.98560028 * january2000)
+    val q = fixAngle(280.459 + 0.98564736 * january2000)
     val l = fixAngle(q + 1.915 * sin(toRadians(g)) + 0.020 * sin(toRadians(2 * g)))
-    val e = 23.439 - 0.00000036 * d
+    val e = fixHour(23.439 - 0.00000036 * january2000)
     val ra = fixHour(toDegrees(atan2(cos(toRadians(e)) * sin(toRadians(l)), cos(toRadians(l)))) / 15)
-    val D = toDegrees(asin(sin(toRadians(e)) * sin(toRadians(l))))
+    val d = toDegrees(asin(sin(toRadians(e)) * sin(toRadians(l))))
     val eqt = q / 15 - ra
 
 
-}
+    val midday = fixHour(12 + timeZoneDifference - longitude / 15 - eqt)
+    val fajr = fixHour(midday - toDegrees(acos((-sin(toRadians(fajrAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val sunset = fixHour(midday + toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val asr = fixHour(midday + toDegrees(acos((sin(atan(1 / (asrShadowRatio + tan(toRadians(latitude - d))))) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val sunrise = fixHour(midday - toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val isha = fixHour(midday + toDegrees(acos((-sin(toRadians(ishaAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
 
-fun calculateSalatTimes(date: Calendar,
-                        latitude: Double,
-                        longitude: Double,
-                        altitude: Double,
-                        timeZoneDifference: Double,
-                        fajrAngle: Double,
-                        asrShadowRatio: Double,
-                        ishaMinutesAfterMagrib: Int) {
+    return arrayOf(fajr, sunrise, midday, asr, sunset, isha)
 
 }
+
 
 private fun gregorian2Julian(year: Int, month: Int, day: Int): Double {
     var y = year
@@ -62,7 +60,7 @@ private fun fixAngle(a: Double): Double {
     return b
 }
 
-private fun fixHour(h: Double): Double {
+fun fixHour(h: Double): Double {
     var a = h
     a -= 24.0 * floor(a / 24.0)
     a = if (a < 0) a + 24 else a
