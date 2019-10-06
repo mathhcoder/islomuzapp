@@ -56,7 +56,7 @@ class ProfileFragment : BaseFragment() {
                     id = R.id.imageView
                 }, LinearLayout.LayoutParams(dp(96), dp(96)).apply {
                     gravity = Gravity.CENTER_HORIZONTAL
-                    topMargin = dp(56)
+                    topMargin = dp(32)
                 })
 
                 addView(AppCompatTextView(context).apply {
@@ -84,7 +84,7 @@ class ProfileFragment : BaseFragment() {
         bindUser(view, User(0, "Javohirxon Qodiriy", "https://picsum.photos/200"))
 
         UpdateCenter
-                .subscribeTo(UpdatePath.Users())
+                .subscribeTo(UpdatePath.Users)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
                     bindUser(view, it)

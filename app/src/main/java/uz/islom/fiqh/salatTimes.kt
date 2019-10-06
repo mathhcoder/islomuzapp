@@ -11,7 +11,6 @@ fun calculateSalatTimes(year: Int,
                         latitude: Double,
                         longitude: Double,
                         altitude: Double,
-                        timeZoneDifference: Double,
                         fajrAngle: Double,
                         asrShadowRatio: Double,
                         ishaAngle: Double): Array<Double> {
@@ -27,7 +26,7 @@ fun calculateSalatTimes(year: Int,
     val eqt = q / 15 - ra
 
 
-    val midday = fixHour(12 + timeZoneDifference - longitude / 15 - eqt)
+    val midday = 12  - longitude / 15 - eqt
     val fajr = fixHour(midday - toDegrees(acos((-sin(toRadians(fajrAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val sunset = fixHour(midday + toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val asr = fixHour(midday + toDegrees(acos((sin(atan(1 / (asrShadowRatio + tan(toRadians(latitude - d))))) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)

@@ -6,11 +6,15 @@ sealed class UpdatePath<T> {
 
     open fun key(): String? = null
 
-    class Users : UpdatePath<User>() {
+    class SalatTimes : UpdatePath<uz.islom.model.app.DailySalatTimes>() {
+        override fun key(): String? = "dailySalatTimes"
+    }
+
+    object Users : UpdatePath<User>() {
         override fun key(): String? = "users"
     }
 
-    class Resources() : UpdatePath<android.content.res.Resources>() {
+    object Resources : UpdatePath<android.content.res.Resources>() {
         override fun key(): String? = "resources"
     }
 }

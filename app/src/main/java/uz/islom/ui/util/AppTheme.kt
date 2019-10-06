@@ -22,7 +22,7 @@ enum class AppTheme(
             Color.parseColor("#40803A"),
             Color.parseColor("#ffffff"),
             Color.parseColor("#000000"),
-            Color.parseColor("#ffffff"),
+            Color.parseColor("#123B15"),
             Color.parseColor("#3A8549"),
             Color.parseColor("#103B09"),
             Color.parseColor("#DEF28E"),

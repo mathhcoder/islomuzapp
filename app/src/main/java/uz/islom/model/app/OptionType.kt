@@ -8,5 +8,5 @@ enum class OptionType(val nameRes: Int, val imageRes: Int) {
     ABOUT(R.string.about, R.drawable.ic_information),
     OFFER(R.string.offer, R.drawable.ic_offer),
     SHARE(R.string.share, R.drawable.ic_share),
-    LOGOUT(R.string.logout, R.drawable.ic_logout),
+    LOGOUT(R.string.logout, R.drawable.ic_logout)
 }

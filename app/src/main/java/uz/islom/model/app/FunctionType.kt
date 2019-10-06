@@ -3,7 +3,6 @@ package uz.islom.model.app
 import uz.islom.R
 
 enum class FunctionType(val nameRes: Int, val imageRes: Int) {
-    NOTIFICATION(R.string.notification, R.drawable.ic_notification),
     KURAN(R.string.kuran, R.drawable.ic_quran),
     MOSQUE(R.string.mosque, R.drawable.ic_mosque),
     KIBLA(R.string.kibla, R.drawable.ic_kibla),
@@ -14,5 +13,6 @@ enum class FunctionType(val nameRes: Int, val imageRes: Int) {
     ASMAUL_HUSNA(R.string.asmaul_husna, R.drawable.ic_asmaul_husna),
     TASBIH(R.string.tasbih, R.drawable.ic_tasbih),
     ZAKAT_CALCULATOR(R.string.zakat_calculator, R.drawable.ic_zakat_calculator),
+    NOTIFICATION(R.string.notification, R.drawable.ic_notification),
     FAVOURITE(R.string.favourite, R.drawable.ic_favourite),
 }
