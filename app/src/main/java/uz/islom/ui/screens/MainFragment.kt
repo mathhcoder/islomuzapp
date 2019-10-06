@@ -22,22 +22,13 @@ class MainFragment : BaseFragment() {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.BOTTOM
 
-//            addView(BaseTextView(context).apply {
-//                id = R.id.titleView
-//                gravity = Gravity.CENTER
-//                maxLines = 1
-//                setTextColor(AppTheme.GREEN.primaryColor)
-//                setTextSizeSp(20)
-//                text = string(R.string.app_name)
-//            }, LinearLayout.LayoutParams(full, dp(56)))
-
             addView(ViewPager(context).apply {
                 id = R.id.viewPager
             }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
 
             addView(BottomNavigationView(context).apply {
                 id = R.id.bottomNavigationView
-                menu.add(0, 0, 1, "Asosiy").setIcon(R.drawable.ic_offer)
+                menu.add(0, 0, 1, "Asosiy").setIcon(R.drawable.ic_menu)
                 menu.add(0, 1, 1, "Sitelar").setIcon(R.drawable.ic_web)
                 menu.add(0, 2, 1, "Sozlamalar").setIcon(R.drawable.ic_settings)
 
@@ -49,6 +40,8 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewPager = view.findViewById<ViewPager>(R.id.viewPager)?.apply {
+
+            offscreenPageLimit = 5
 
             adapter = object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 

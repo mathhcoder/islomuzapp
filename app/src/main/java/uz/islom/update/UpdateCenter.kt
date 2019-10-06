@@ -25,7 +25,8 @@ object UpdateCenter {
     }
 
 
-    fun <T : Any> BaseViewModel.post(value: T, path: UpdatePath<T>) {
+    @AnyThread
+    fun <T : Any> post(value: T, path: UpdatePath<T>) {
         executor.execute {
             Timber.i("Posting notification: ${path::class.simpleName}, value: ${value::class.simpleName}")
 

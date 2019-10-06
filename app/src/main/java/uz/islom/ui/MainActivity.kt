@@ -30,8 +30,8 @@ class MainActivity : BaseActivity(), FragmentNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= 23)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//        if (Build.VERSION.SDK_INT >= 23)
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         if (getUserToken().isNotEmpty())
             navigateToMain()

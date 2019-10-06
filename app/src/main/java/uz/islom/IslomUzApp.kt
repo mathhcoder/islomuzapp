@@ -1,6 +1,7 @@
 package uz.islom
 
 import android.app.Application
+import timber.log.Timber
 
 /**
  * key store pass : 1111111
@@ -12,11 +13,15 @@ import android.app.Application
  * github -> github.com/qodiriy
  */
 
-class IslomUzApp : Application(){
+class IslomUzApp : Application() {
 
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
     }
 
     override fun onTerminate() {

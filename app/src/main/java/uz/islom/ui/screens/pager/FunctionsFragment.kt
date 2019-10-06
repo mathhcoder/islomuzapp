@@ -3,6 +3,7 @@ package uz.islom.ui.screens.pager
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +15,14 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Consumer
 import me.tankery.lib.circularseekbar.CircularSeekBar
+import timber.log.Timber
 import uz.islom.R
 import uz.islom.model.app.PrayTimeState
 import uz.islom.model.app.SalatType
@@ -29,8 +34,15 @@ import uz.islom.android.colour
 import uz.islom.ui.custom.BigImageButton
 import uz.islom.android.drawable
 import uz.islom.android.string
+import uz.islom.io.subscribeKt
 import uz.islom.model.app.FunctionType
 import uz.islom.ui.util.*
+import uz.islom.update.UpdateCenter
+import uz.islom.update.UpdatePath
+import uz.islom.vm.SalatTimeViewModel
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FunctionsFragment : BaseFragment() {
 
@@ -52,6 +64,10 @@ class FunctionsFragment : BaseFragment() {
         return@lazy dp(168)
     }
 
+    private val prayTimeViewModel by lazy {
+        ViewModelProviders.of(this).get(SalatTimeViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return NestedScrollView(inflater.context).apply {
 
@@ -63,20 +79,25 @@ class FunctionsFragment : BaseFragment() {
 
                 orientation = LinearLayout.VERTICAL
 
+                addView(BaseTextView(context).apply {
+                    id = R.id.titleView
+                    gravity = Gravity.CENTER
+                    maxLines = 1
+                    text = string(R.string.app_name)
+                    setTextColor(appTheme.secondaryColor)
+                    setBackgroundColor(appTheme.statusBarColor)
+                    setTextSizeSp(20)
+                }, LinearLayout.LayoutParams(full, dp(56)))
+
                 addView(MaterialCardView(context).apply {
 
                     id = R.id.salatsView
 
                     isClickable = true
-                  //  radius = dp(12).toFloat()
 
                     addView(FrameLayout(context).apply {
 
-                        val colors = IntArray(2)
-                        colors[0] = appTheme.mainGradientStartColor
-                        colors[1] = appTheme.mainGradientEndColor
-
-                        background = (GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors))
+                        background = (GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, intArrayOf(appTheme.mainGradientStartColor, appTheme.mainGradientEndColor)))
 
                         addView(FrameLayout(context).apply {
 
@@ -201,10 +222,7 @@ class FunctionsFragment : BaseFragment() {
 
                     }, FrameLayout.LayoutParams(full, full))
 
-                }, LinearLayout.LayoutParams(full, progressSize).apply {
-//                    leftMargin = dp(16)
-//                    rightMargin = dp(16)
-                })
+                }, LinearLayout.LayoutParams(full, progressSize))
 
                 addView(RecyclerView(requireContext()).apply {
                     layoutManager = GridLayoutManager(requireContext(), 3)
@@ -222,7 +240,7 @@ class FunctionsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindPrayTimeState(view, PrayTimeState(SalatType.ISHA, SalatType.FAJR))
+
         view.findViewById<BaseImageButton>(R.id.imageView)?.apply {
             setImageResources(R.drawable.ic_volume_high, colour(R.color.white))
             background = drawable(R.drawable.ic_circle, appTheme.mainIconsDarkColor)
@@ -234,11 +252,21 @@ class FunctionsFragment : BaseFragment() {
             }
         }
 
+        Timber.d("Bomdod :${SimpleDateFormat("YYYY:MM:dd HH:mm").format(Date(prayTimeViewModel.getSalatTimes().fajr))}")
+
+        bindPrayTimeState( PrayTimeState.with(System.currentTimeMillis(), prayTimeViewModel.getSalatTimes()))
+
+        UpdateCenter.subscribeTo(UpdatePath.SalatTimes())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeKt(Consumer {
+                    bindPrayTimeState( PrayTimeState.with(System.currentTimeMillis(), it))
+                })
+
     }
 
-    private fun bindPrayTimeState(view: View, prayTimeState: PrayTimeState) {
-        view.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalatType.title)
-        view.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalatType.title)
+    private fun bindPrayTimeState( prayTimeState: PrayTimeState) {
+        view?.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalatType.title)
+        view?.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalatType.title)
     }
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
