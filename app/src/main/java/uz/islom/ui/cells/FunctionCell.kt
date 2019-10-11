@@ -1,4 +1,4 @@
-package uz.islom.ui.custom
+package uz.islom.ui.cells
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,7 +11,7 @@ import uz.islom.ui.util.dp
 import uz.islom.ui.util.setTextSizeSp
 import uz.islom.ui.util.wrap
 
-class BigImageButton @JvmOverloads constructor(
+class FunctionCell @JvmOverloads constructor(
         context: Context,
         attributes: AttributeSet? = null,
         defStyle: Int = 0

@@ -1,17 +1,17 @@
 package uz.islom.model.app
 
 data class Adjustments(
-        val fajr: Double,
-        val sunrise: Double,
-        val ishroq: Double,
-        val dhuhr: Double,
-        val asr: Double,
-        val sunset: Double,
-        val isha: Double,
-        val qiyam: Double) {
+        val fajr: Long,
+        val sunrise: Long,
+        val ishroq: Long,
+        val dhuhr: Long,
+        val asr: Long,
+        val sunset: Long,
+        val isha: Long,
+        val qiyam: Long) {
 
 
-    fun getAdjustment(salatType: SalatType): Double {
+    fun getAdjustment(salatType: SalatType): Long {
         return when (salatType) {
             SalatType.LAST_ISHA -> isha
             SalatType.FAJR -> fajr

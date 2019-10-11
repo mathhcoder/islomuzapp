@@ -3,7 +3,6 @@ package uz.islom.ui.screens.pager
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,22 +23,21 @@ import io.reactivex.functions.Consumer
 import me.tankery.lib.circularseekbar.CircularSeekBar
 import timber.log.Timber
 import uz.islom.R
-import uz.islom.model.app.PrayTimeState
-import uz.islom.model.app.SalatType
-import uz.islom.ui.FragmentNavigator
-import uz.islom.ui.base.BaseFragment
-import uz.islom.ui.base.BaseImageButton
-import uz.islom.ui.base.BaseTextView
 import uz.islom.android.colour
-import uz.islom.ui.custom.BigImageButton
 import uz.islom.android.drawable
 import uz.islom.android.string
 import uz.islom.io.subscribeKt
 import uz.islom.model.app.FunctionType
+import uz.islom.model.app.PrayTimeState
+import uz.islom.ui.base.BaseActivity
+import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.base.BaseImageButton
+import uz.islom.ui.base.BaseTextView
+import uz.islom.ui.cells.FunctionCell
 import uz.islom.ui.util.*
 import uz.islom.update.UpdateCenter
 import uz.islom.update.UpdatePath
-import uz.islom.vm.SalatTimeViewModel
+import uz.islom.vm.SalatViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,7 +63,7 @@ class FunctionsFragment : BaseFragment() {
     }
 
     private val prayTimeViewModel by lazy {
-        ViewModelProviders.of(this).get(SalatTimeViewModel::class.java)
+        ViewModelProviders.of(this).get(SalatViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -85,7 +83,7 @@ class FunctionsFragment : BaseFragment() {
                     maxLines = 1
                     text = string(R.string.app_name)
                     setTextColor(appTheme.secondaryColor)
-                    setBackgroundColor(appTheme.statusBarColor)
+                    setBackgroundColor(appTheme.toolBarColor)
                     setTextSizeSp(20)
                 }, LinearLayout.LayoutParams(full, dp(56)))
 
@@ -248,23 +246,22 @@ class FunctionsFragment : BaseFragment() {
 
         view.findViewById<View>(R.id.salatsView)?.apply {
             setOnClickListener {
-                (activity as? FragmentNavigator)?.navigateToSalats()
+                (activity as? BaseActivity)?.navigationManager?.navigateToSalats()
             }
         }
 
-        Timber.d("Bomdod :${SimpleDateFormat("YYYY:MM:dd HH:mm").format(Date(prayTimeViewModel.getSalatTimes().fajr))}")
 
-        bindPrayTimeState( PrayTimeState.with(System.currentTimeMillis(), prayTimeViewModel.getSalatTimes()))
+        bindPrayTimeState(PrayTimeState.with(System.currentTimeMillis(), prayTimeViewModel.getCurrentSalatTimes()))
 
         UpdateCenter.subscribeTo(UpdatePath.SalatTimes())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
-                    bindPrayTimeState( PrayTimeState.with(System.currentTimeMillis(), it))
+                    bindPrayTimeState(PrayTimeState.with(System.currentTimeMillis(), it))
                 })
 
     }
 
-    private fun bindPrayTimeState( prayTimeState: PrayTimeState) {
+    private fun bindPrayTimeState(prayTimeState: PrayTimeState) {
         view?.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(prayTimeState.currentSalatType.title)
         view?.findViewById<BaseTextView>(R.id.nextSalatView)?.text = string(prayTimeState.nextSalatType.title)
     }
@@ -277,13 +274,13 @@ class FunctionsFragment : BaseFragment() {
                 notifyDataSetChanged()
             }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FunctionHolder = FunctionHolder(BigImageButton(p0.context))
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FunctionHolder = FunctionHolder(FunctionCell(p0.context))
 
         override fun onViewAttachedToWindow(holder: FunctionHolder) {
             super.onViewAttachedToWindow(holder)
             holder.itemView.setOnClickListener {
                 data.getOrNull(holder.adapterPosition)?.let {
-                    (activity as? FragmentNavigator)?.navigateToFunction(it)
+                    (activity as? BaseActivity)?.navigationManager?.navigateToFunction(it)
                 }
             }
         }
@@ -297,8 +294,8 @@ class FunctionsFragment : BaseFragment() {
 
     inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindFunction(function: FunctionType) {
-            (itemView as? BigImageButton)?.imageRes = function.imageRes
-            (itemView as? BigImageButton)?.textRes = function.nameRes
+            (itemView as? FunctionCell)?.imageRes = function.imageRes
+            (itemView as? FunctionCell)?.textRes = function.nameRes
         }
     }
 

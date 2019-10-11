@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import uz.islom.R
 import uz.islom.android.colour
 import uz.islom.android.string
-import uz.islom.ui.FragmentNavigator
+import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
@@ -101,7 +101,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
                     setMinZoomPreference(11f)
                     setOnMarkerClickListener { marker ->
                         mosquesViewModel.mosques.value?.find { mosque -> mosque.id == marker.snippet.toLong() }?.let { mosque ->
-                            (activity as? FragmentNavigator)?.navigateToMosqueInfo(mosque)
+                            (activity as? BaseActivity)?.navigationManager?.navigateToMosqueInfo(mosque)
                         }
                         true
                     }
@@ -115,7 +115,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
                     fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                         location?.let { l ->
                             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(l.latitude, l.longitude), 14f))
-                            mosquesViewModel.getMosques(l, 10000)
+                            mosquesViewModel.getMosques(l, 3)
                         }
                     }
 
@@ -125,7 +125,9 @@ class NearMosquesFragment : SwipeAbleFragment() {
 
                 mosquesViewModel.mosques.observe(this@NearMosquesFragment, Observer { mosques ->
                     mosques.forEach { mosque ->
-                        it.addMarker(MarkerOptions().title(mosque.name).position(LatLng(mosque.lat, mosque.lng)).snippet(mosque.id.toString()))
+                        it.addMarker(MarkerOptions().title(mosque.name).position(LatLng(mosque.lat, mosque.lng)).snippet(mosque.id.toString())
+                                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mosque_marker))
+                        )
                     }
                 })
             }

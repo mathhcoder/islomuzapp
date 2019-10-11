@@ -1,12 +1,13 @@
 package uz.islom.update
 
+import uz.islom.model.app.Salat
 import uz.islom.model.db.User
 
 sealed class UpdatePath<T> {
 
     open fun key(): String? = null
 
-    class SalatTimes : UpdatePath<uz.islom.model.app.DailySalatTimes>() {
+    class SalatTimes : UpdatePath<ArrayList<Salat>>() {
         override fun key(): String? = "dailySalatTimes"
     }
 

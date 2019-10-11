@@ -17,7 +17,6 @@ class SitesFragment : BaseFragment() {
         fun newInstance() = SitesFragment().apply {}
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return NestedScrollView(inflater.context).apply {
 

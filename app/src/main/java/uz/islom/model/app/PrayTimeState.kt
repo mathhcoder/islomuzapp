@@ -3,33 +3,19 @@ package uz.islom.model.app
 data class PrayTimeState(
         val currentSalatType: SalatType,
         val nextSalatType: SalatType,
-        val dailySalatTimes: DailySalatTimes
+        val salats: ArrayList<Salat>
 ) {
 
     companion object {
-        fun with(time: Long, dailySalatTimes: DailySalatTimes): PrayTimeState {
+        fun with(time: Long, salats: ArrayList<Salat>): PrayTimeState {
 
-            val currentSalatType = when {
-                time < dailySalatTimes.fajr -> SalatType.LAST_ISHA
-                time < dailySalatTimes.sunrise -> SalatType.FAJR
-                time < dailySalatTimes.dhuhr -> SalatType.SUNRISE
-                time < dailySalatTimes.asr -> SalatType.DHUHR
-                time < dailySalatTimes.maghrib -> SalatType.ASR
-                time < dailySalatTimes.isha -> SalatType.MAGHRIB
-                else -> SalatType.ISHA
-            }
+            val nextSalatType = salats.sortedBy { it.time }.find { it.time > time }?.type
+                    ?: SalatType.NEXT_FAJR
 
-            val nextSalatType = when {
-                time >= dailySalatTimes.isha -> SalatType.NEXT_FAJR
-                time >= dailySalatTimes.maghrib -> SalatType.ISHA
-                time >= dailySalatTimes.asr -> SalatType.MAGHRIB
-                time >= dailySalatTimes.dhuhr -> SalatType.ASR
-                time >= dailySalatTimes.sunrise -> SalatType.DHUHR
-                time >= dailySalatTimes.fajr -> SalatType.SUNRISE
-                else -> SalatType.FAJR
-            }
+            val currentSalatType = salats.sortedByDescending { it.time }.find { it.time <= time }?.type
+                    ?: SalatType.LAST_ISHA
 
-            return PrayTimeState(currentSalatType, nextSalatType, dailySalatTimes)
+            return PrayTimeState(currentSalatType, nextSalatType, salats)
         }
     }
 
