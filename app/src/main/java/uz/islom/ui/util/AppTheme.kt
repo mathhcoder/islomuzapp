@@ -3,10 +3,10 @@ package uz.islom.ui.util
 import android.graphics.Color
 
 enum class AppTheme(
-        val primaryColor: Int,
-        val secondaryColor: Int,
-        val tertiaryColor: Int,
-        val statusBarColor: Int,
+        val primaryColor: Int,//primary color, icon,
+        val secondaryColor: Int, // secondary color, textcolor on primary color
+        val tertiaryColor: Int, // textcolor on secondary color
+        val toolBarColor: Int,
         val mainGradientStartColor: Int,
         val mainGradientEndColor: Int,
         val mainIconsLightColor: Int,

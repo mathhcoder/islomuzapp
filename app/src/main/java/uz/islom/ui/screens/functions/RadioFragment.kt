@@ -10,14 +10,15 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import uz.islom.R
+import uz.islom.android.colour
+import uz.islom.android.drawable
+import uz.islom.android.string
 import uz.islom.model.app.OptionType
-import uz.islom.ui.FragmentNavigator
+import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
-import uz.islom.android.colour
-import uz.islom.ui.custom.MenuButton
-import uz.islom.android.string
+import uz.islom.ui.cells.OptionCell
 import uz.islom.ui.util.dp
 import uz.islom.ui.util.full
 import uz.islom.ui.util.setTextSizeSp
@@ -112,7 +113,7 @@ class RadioFragment : SwipeAbleFragment() {
                 notifyDataSetChanged()
             }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PlayListHolder = PlayListHolder(MenuButton(p0.context).apply {
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PlayListHolder = PlayListHolder(OptionCell(p0.context).apply {
             layoutParams = ViewGroup.LayoutParams(full, dp(64))
         })
 
@@ -120,7 +121,7 @@ class RadioFragment : SwipeAbleFragment() {
             super.onViewAttachedToWindow(holder)
             holder.itemView.setOnClickListener {
                 data.getOrNull(holder.adapterPosition)?.let {
-                    (activity as? FragmentNavigator)?.navigateToOption(it)
+                    (activity as? BaseActivity)?.navigationManager?.navigateToOption(it)
                 }
             }
         }
@@ -134,8 +135,8 @@ class RadioFragment : SwipeAbleFragment() {
 
     inner class PlayListHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindFunction(function: OptionType) {
-            (itemView as? MenuButton)?.imageRes = function.imageRes
-            (itemView as? MenuButton)?.textRes = function.nameRes
+            (itemView as? OptionCell)?.optionImage = drawable(function.imageRes)
+            (itemView as? OptionCell)?.optionName = string(function.nameRes) ?: ""
         }
     }
 

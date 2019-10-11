@@ -25,9 +25,13 @@
     <string name="pray_times">Namoz vaqtlari</string>
 
     <string name="fajr">Bomdod</string>
+    <string name="sunrise">Quyosh</string>
     <string name="dhuhr">Peshin</string>
     <string name="asr">Asr</string>
     <string name="maghrib">Shom</string>
     <string name="isha">Xufton</string>
+
+    <string name="salat">Namoz</string>
+    <string name="fasting">Ro\'za</string>
 
 </resources>

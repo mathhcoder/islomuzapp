@@ -50,7 +50,6 @@ class FeedbackFragment : SwipeAbleFragment() {
                 topMargin = dp(56)
             })
 
-
             layoutParams = ViewGroup.LayoutParams(full, full)
 
         }

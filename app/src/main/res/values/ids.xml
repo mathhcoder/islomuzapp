@@ -11,6 +11,8 @@
     <item name="currentSalatView" type="id" />
     <item name="nextSalatView" type="id" />
     <item name="salatsView" type="id" />
+    <item name="recyclerView" type="id" />
+    <item name="calendarView" type="id" />
 
     <item name="imageView" type="id" />
     <item name="imageView2" type="id" />

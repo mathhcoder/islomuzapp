@@ -16,10 +16,10 @@ import uz.islom.ui.util.dp
 import uz.islom.ui.util.full
 import uz.islom.ui.util.setTextSizeSp
 
-class MosqueInfoFragment : SwipeAbleFragment() {
+class MosqueFragment : SwipeAbleFragment() {
 
     companion object {
-        fun newInstance(mosque: Mosque) = MosqueInfoFragment().apply {
+        fun newInstance(mosque: Mosque) = MosqueFragment().apply {
             arguments = Bundle().apply {
                 putSerializable(Mosque::javaClass.name, mosque)
             }

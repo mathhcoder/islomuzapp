@@ -1,5 +1,6 @@
 package uz.islom.fiqh
 
+import timber.log.Timber
 import java.lang.Math.toDegrees
 import java.lang.Math.toRadians
 import kotlin.math.*
@@ -26,12 +27,14 @@ fun calculateSalatTimes(year: Int,
     val eqt = q / 15 - ra
 
 
-    val midday = 12  - longitude / 15 - eqt
+    val midday = fixHour(12 - longitude / 15 - eqt)
     val fajr = fixHour(midday - toDegrees(acos((-sin(toRadians(fajrAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
-    val sunset = fixHour(midday + toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
-    val asr = fixHour(midday + toDegrees(acos((sin(atan(1 / (asrShadowRatio + tan(toRadians(latitude - d))))) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val sunrise = fixHour(midday - toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val asr = fixHour(midday + toDegrees(acos((sin(atan(1 / (asrShadowRatio + tan(toRadians(latitude - d))))) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+    val sunset = fixHour(midday + toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val isha = fixHour(midday + toDegrees(acos((-sin(toRadians(ishaAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
+
+    Timber.d("fajr:$fajr sunrise:$sunrise dhuhr:$midday asr:$asr maghrib:$sunset isha:$isha")
 
     return arrayOf(fajr, sunrise, midday, asr, sunset, isha)
 

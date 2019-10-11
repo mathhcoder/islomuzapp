@@ -16,15 +16,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import uz.islom.model.media.CircleTransform
 import uz.islom.R
+import uz.islom.android.drawable
+import uz.islom.android.string
 import uz.islom.update.UpdateCenter
 import uz.islom.update.UpdatePath
 import uz.islom.io.subscribeKt
 import uz.islom.model.app.OptionType
 import uz.islom.model.db.User
+import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.util.AppTheme
-import uz.islom.ui.FragmentNavigator
 import uz.islom.ui.base.BaseFragment
-import uz.islom.ui.custom.MenuButton
+import uz.islom.ui.cells.OptionCell
 import uz.islom.ui.util.dp
 import uz.islom.ui.util.full
 import uz.islom.ui.util.setTextSizeSp
@@ -81,10 +83,9 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindUser(view, User(0, "Javohirxon Qodiriy", "https://picsum.photos/200"))
+      //  bindUser(view, User(0, "Javohirxon Qodiriy", "https://picsum.photos/200"))
 
-        UpdateCenter
-                .subscribeTo(UpdatePath.Users)
+        UpdateCenter.subscribeTo(UpdatePath.Users)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
                     bindUser(view, it)
@@ -111,7 +112,7 @@ class ProfileFragment : BaseFragment() {
                 notifyDataSetChanged()
             }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OptionHolder = OptionHolder(MenuButton(p0.context).apply {
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OptionHolder = OptionHolder(OptionCell(p0.context).apply {
             layoutParams = ViewGroup.LayoutParams(full, dp(64))
         })
 
@@ -119,7 +120,7 @@ class ProfileFragment : BaseFragment() {
             super.onViewAttachedToWindow(holder)
             holder.itemView.setOnClickListener {
                 data.getOrNull(holder.adapterPosition)?.let {
-                    (activity as? FragmentNavigator)?.navigateToOption(it)
+                    (activity as? BaseActivity)?.navigationManager?.navigateToOption(it)
                 }
             }
         }
@@ -127,14 +128,14 @@ class ProfileFragment : BaseFragment() {
         override fun getItemCount() = data.size
 
         override fun onBindViewHolder(p0: OptionHolder, p1: Int) {
-            p0.bindFunction(data[p1])
+            p0.bindOption(data[p1])
         }
     }
 
     inner class OptionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: OptionType) {
-            (itemView as? MenuButton)?.imageRes = function.imageRes
-            (itemView as? MenuButton)?.textRes = function.nameRes
+        fun bindOption(option: OptionType) {
+            (itemView as? OptionCell)?.optionImage = drawable(option.imageRes)
+            (itemView as? OptionCell)?.optionName = string(option.nameRes) ?: ""
         }
     }
 
