@@ -6,10 +6,10 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
-import uz.islom.ui.AppTheme
+import uz.islom.ui.util.AppTheme
 import uz.islom.ui.base.BaseTextView
-import uz.islom.util.dp
-import uz.islom.util.wrap
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.wrap
 
 class SmallImageButton @JvmOverloads constructor(
     context: Context,
