@@ -21,7 +21,7 @@ import uz.islom.android.string
 import uz.islom.update.UpdateCenter
 import uz.islom.update.UpdatePath
 import uz.islom.io.subscribeKt
-import uz.islom.model.app.OptionType
+import uz.islom.model.enums.OptionType
 import uz.islom.model.db.User
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.util.AppTheme

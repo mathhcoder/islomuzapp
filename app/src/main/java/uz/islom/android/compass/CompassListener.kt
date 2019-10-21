@@ -1,9 +1,8 @@
-package uz.islom.sensor
+package uz.islom.android.compass
 
 import android.content.Context
 import android.hardware.*
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class CompassListener(context: Context, latitude: Float, longitude: Float, altitude: Float) : SensorEventListener {
 
@@ -29,7 +28,7 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
     private var movingAverageList = MovingAverageList(10)
 
     init {
-        val geomagneticField = GeomagneticField(latitude, longitude, altitude, Date().time)
+        val geomagneticField = GeomagneticField(latitude, longitude, altitude, System.currentTimeMillis())
 
         declination = geomagneticField.declination
 
@@ -102,9 +101,8 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
     }
 
 
-
     private fun cleanDegrees(degree: Float): Float {
-        val difference = Math.abs(currentDegree - degree)
+        val difference = abs(currentDegree - degree)
         return if (difference > 180) {
             degree + if (currentDegree >= 0) 360 else -360
         } else {
@@ -121,44 +119,6 @@ class CompassListener(context: Context, latitude: Float, longitude: Float, altit
     private fun informListenersAboutNewSmoothedDegree(degree: Float) {
         for (l in this.listeners) {
             l.onNewSmoothedDegreesToNorth(-degree)
-        }
-    }
-
-    interface CompassAssistantListener {
-
-        fun onNewDegreesToNorth(degrees: Float)
-
-        fun onNewSmoothedDegreesToNorth(degrees: Float)
-
-        fun onCompassStopped()
-
-        fun onCompassStarted()
-
-    }
-
-    class MovingAverageList(private val max: Int = 10) : ArrayList<Float>() {
-
-        private val average: Float?
-            get() {
-                var sum = 0.0f
-                val it = this.iterator()
-                while (it.hasNext()) {
-                    val v = it.next()
-                    sum += v
-                }
-                return sum / this.size
-            }
-
-        override fun add(element: Float): Boolean {
-            if (this.size >= max) {
-                this.removeAt(0)
-            }
-            return super.add(element)
-        }
-
-        fun addAndGetAverage(element: Float): Float? {
-            this.add(element)
-            return this.average
         }
     }
 

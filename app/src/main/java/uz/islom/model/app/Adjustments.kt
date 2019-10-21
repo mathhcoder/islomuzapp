@@ -1,5 +1,7 @@
 package uz.islom.model.app
 
+import uz.islom.model.enums.SalatType
+
 data class Adjustments(
         val fajr: Long,
         val sunrise: Long,

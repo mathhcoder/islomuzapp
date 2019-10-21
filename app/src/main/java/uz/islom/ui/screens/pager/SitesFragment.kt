@@ -18,6 +18,7 @@ class SitesFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return NestedScrollView(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)

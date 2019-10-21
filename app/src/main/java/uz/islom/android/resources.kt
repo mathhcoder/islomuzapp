@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 
+/** Color */
+
 fun View.colour(@ColorRes res: Int): Int {
     return context.colour(res)
 }
@@ -22,6 +24,8 @@ fun Fragment.colour(@ColorRes res: Int): Int {
 fun Context.colour(@ColorRes res: Int): Int {
     return ContextCompat.getColor(this, res)
 }
+
+/** Drawable */
 
 fun View.drawable(@DrawableRes res: Int): Drawable? {
     return context.drawable(res)
@@ -49,6 +53,7 @@ fun Context.drawable(@DrawableRes res: Int, tintColor: Int): Drawable {
     return drawable
 }
 
+/** String */
 
 fun View.string(@StringRes res: Int): String? {
     return context.string(res)

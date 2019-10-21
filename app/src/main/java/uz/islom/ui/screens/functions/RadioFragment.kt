@@ -13,7 +13,7 @@ import uz.islom.R
 import uz.islom.android.colour
 import uz.islom.android.drawable
 import uz.islom.android.string
-import uz.islom.model.app.OptionType
+import uz.islom.model.enums.OptionType
 import uz.islom.ui.base.BaseActivity
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import uz.islom.android.setLocal
+import uz.islom.android.setNewLocale
 import uz.islom.ui.NavigationManager
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -19,12 +19,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base.setLocal())
+
+        super.attachBaseContext(base.setNewLocale(""))
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        setLocal()
     }
 
 }

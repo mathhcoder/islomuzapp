@@ -55,22 +55,19 @@ class SalatCell @JvmOverloads constructor(
     private val salatNameView = BaseTextView(context).apply {
         setTextColor(Color.BLACK)
         setTextSizeSp(16)
-        setPadding(dp(16),0,0,0)
         gravity = Gravity.CENTER_VERTICAL
     }
 
     private val salatTimeView = BaseTextView(context).apply {
-        //setTextColor(theme.tertiaryColor)
         setTextColor(Color.BLACK)
         setTextSizeSp(16)
-        setPadding(dp(16),0,dp(16),0)
+        setPadding(dp(16), 0, dp(16), 0)
         gravity = Gravity.CENTER_VERTICAL or Gravity.END
     }
 
     private val isReadView = MaterialCheckBox(context).apply {
-
+        gravity = Gravity.CENTER
     }
-
 
     init {
         isClickable = true
@@ -79,6 +76,7 @@ class SalatCell @JvmOverloads constructor(
         setCardBackgroundColor(theme.secondaryColor)
 
         addView(notificationIconView, LayoutParams(dp(56), dp(56), Gravity.END))
+        addView(isReadView, LinearLayout.LayoutParams(dp(56), dp(56)))
         addView(LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.END
@@ -86,10 +84,10 @@ class SalatCell @JvmOverloads constructor(
 
             addView(salatNameView, LinearLayout.LayoutParams(0, dp(56), 1f))
             addView(salatTimeView, LinearLayout.LayoutParams(wrap, dp(56)))
-            addView(isReadView, LinearLayout.LayoutParams(dp(56), dp(56)))
 
         }, LayoutParams(full, dp(56)).apply {
             rightMargin = dp(56)
+            leftMargin = dp(56)
         })
 
     }
