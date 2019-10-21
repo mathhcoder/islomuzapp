@@ -1,9 +1,8 @@
 package uz.islom.ui
 
 import android.os.Bundle
+import uz.islom.io.preference.getUserToken
 import uz.islom.ui.base.BaseActivity
-import uz.islom.util.getUserToken
-
 
 class MainActivity : BaseActivity() {
 
@@ -15,6 +14,8 @@ class MainActivity : BaseActivity() {
         } else {
             navigationManager.navigateToAuthorization()
         }
+
+
 
     }
 

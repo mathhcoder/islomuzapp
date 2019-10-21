@@ -3,27 +3,10 @@ package uz.islom.android
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
 import java.util.*
 
-fun Context.setLocal(): Context {
-    return setNewLocale(getLanguage())
-}
-
-fun Fragment.getLanguage() = context?.getLanguage()
-
-fun Context.getLanguage() = PreferenceManager
-        .getDefaultSharedPreferences(this).getString("currentLanguage", "uz") ?: "uz"
-
-
 fun Context.setNewLocale(language: String): Context {
-    setLanguage(language)
     return updateResources(language)
-}
-
-private fun Context.setLanguage(language: String) {
-    PreferenceManager.getDefaultSharedPreferences(this).edit().putString("currentLanguage", language).apply()
 }
 
 private fun Context.updateResources(language: String): Context {

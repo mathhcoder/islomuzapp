@@ -1,4 +1,4 @@
-package uz.islom.sensor
+package uz.islom.android
 
 import android.content.Context
 import android.os.Vibrator

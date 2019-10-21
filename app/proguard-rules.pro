@@ -32,7 +32,7 @@
 # Note that if you want to enable optimization, you cannot just
 # include optimization flags in your own project configuration file;
 # instead you will need to point to the
-# "proguard-android-optimize.txt" file instead of this one from your
+# "proguard-android-optimize.txt" file instead of this one with your
 # project.properties file.
 
 

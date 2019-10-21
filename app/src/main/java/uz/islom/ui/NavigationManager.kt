@@ -4,8 +4,8 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import uz.islom.R
-import uz.islom.model.app.FunctionType
-import uz.islom.model.app.OptionType
+import uz.islom.model.enums.FunctionType
+import uz.islom.model.enums.OptionType
 import uz.islom.model.db.Mosque
 import uz.islom.model.db.Site
 import uz.islom.ui.screens.MainFragment
@@ -98,9 +98,11 @@ class NavigationManager {
 
     fun navigateToFunction(function: FunctionType) {
 
+
+
         val fragment = when (function) {
 
-            FunctionType.NOTIFICATION -> NotificationFragment.newInstance()
+            //FunctionType.NOTIFICATION -> NotificationFragment.newInstance()
 
             FunctionType.KURAN -> KuranFragment.newInstance()
 
@@ -123,7 +125,7 @@ class NavigationManager {
 
             FunctionType.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
 
-            FunctionType.FAVOURITE -> FavouriteFragment.newInstance()
+          //  FunctionType.FAVOURITE -> FavouriteFragment.newInstance()
 
         }
 

@@ -1,4 +1,4 @@
-package uz.islom.model.app
+package uz.islom.model.enums
 
 import uz.islom.R
 

@@ -20,11 +20,12 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import uz.islom.R
 import uz.islom.fiqh.calculateQibla
-import uz.islom.sensor.CompassListener
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
 import uz.islom.android.colour
+import uz.islom.android.compass.CompassAssistantListener
+import uz.islom.android.compass.CompassListener
 import uz.islom.android.string
 import uz.islom.ui.util.dp
 import uz.islom.ui.util.full
@@ -136,7 +137,7 @@ class KiblaFragment : SwipeAbleFragment() {
                         }
 
                         listener = CompassListener(view.context, location.latitude.toFloat(), location.longitude.toFloat(), 0f)
-                        listener?.addListener(object : CompassListener.CompassAssistantListener {
+                        listener?.addListener(object : CompassAssistantListener {
                             override fun onNewDegreesToNorth(degrees: Float) {}
 
                             override fun onNewSmoothedDegreesToNorth(degrees: Float) {

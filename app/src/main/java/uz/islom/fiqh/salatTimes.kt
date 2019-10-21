@@ -9,6 +9,7 @@ import kotlin.math.*
 fun calculateSalatTimes(year: Int,
                         month: Int,
                         day: Int,
+                        timeZoneDiffInHour: Double,
                         latitude: Double,
                         longitude: Double,
                         altitude: Double,
@@ -17,7 +18,25 @@ fun calculateSalatTimes(year: Int,
                         ishaAngle: Double): Array<Double> {
 
     val jd = gregorian2Julian(year, month + 1, day)
-    val january2000 = jd - 2451545.0
+
+    val yesterday = calculateSalatTimes(jd - 1, timeZoneDiffInHour, latitude, longitude, altitude, fajrAngle, asrShadowRatio, ishaAngle)
+    val today = calculateSalatTimes(jd, timeZoneDiffInHour, latitude, longitude, altitude, fajrAngle, asrShadowRatio, ishaAngle)
+    val tomorrow = calculateSalatTimes(jd + 1, timeZoneDiffInHour, latitude, longitude, altitude, fajrAngle, asrShadowRatio, ishaAngle)
+
+    return arrayOf(yesterday[5], today[0], today[1], today[2], today[3], today[4], today[5], tomorrow[0])
+
+}
+
+private fun calculateSalatTimes(julianDate: Double,
+                                timeZoneDiffInHour: Double,
+                                latitude: Double,
+                                longitude: Double,
+                                altitude: Double,
+                                fajrAngle: Double,
+                                asrShadowRatio: Double,
+                                ishaAngle: Double): Array<Double> {
+
+    val january2000 = julianDate - 2451545.0
     val g = fixAngle(357.529 + 0.98560028 * january2000)
     val q = fixAngle(280.459 + 0.98564736 * january2000)
     val l = fixAngle(q + 1.915 * sin(toRadians(g)) + 0.020 * sin(toRadians(2 * g)))
@@ -27,17 +46,14 @@ fun calculateSalatTimes(year: Int,
     val eqt = q / 15 - ra
 
 
-    val midday = fixHour(12 - longitude / 15 - eqt)
+    val midday = fixHour(12 + timeZoneDiffInHour - longitude / 15 - eqt)
     val fajr = fixHour(midday - toDegrees(acos((-sin(toRadians(fajrAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val sunrise = fixHour(midday - toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val asr = fixHour(midday + toDegrees(acos((sin(atan(1 / (asrShadowRatio + tan(toRadians(latitude - d))))) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val sunset = fixHour(midday + toDegrees(acos((-sin(toRadians(0.833)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
     val isha = fixHour(midday + toDegrees(acos((-sin(toRadians(ishaAngle)) - sin(toRadians(latitude)) * sin(toRadians(d))) / (cos(toRadians(latitude)) * cos(toRadians(d))))) / 15)
 
-    Timber.d("fajr:$fajr sunrise:$sunrise dhuhr:$midday asr:$asr maghrib:$sunset isha:$isha")
-
     return arrayOf(fajr, sunrise, midday, asr, sunset, isha)
-
 }
 
 
