@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.islom.R
+import uz.islom.android.string
 import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.screens.pager.FunctionsFragment
 import uz.islom.ui.screens.pager.ProfileFragment
@@ -28,9 +29,9 @@ class MainFragment : BaseFragment() {
 
             addView(BottomNavigationView(context).apply {
                 id = R.id.bottomNavigationView
-                menu.add(0, 0, 1, "Asosiy").setIcon(R.drawable.ic_menu)
-                menu.add(0, 1, 1, "Sitelar").setIcon(R.drawable.ic_web)
-                menu.add(0, 2, 1, "Sozlamalar").setIcon(R.drawable.ic_settings)
+                menu.add(0, 0, 1, string(R.string.home)).setIcon(R.drawable.ic_menu)
+                menu.add(0, 1, 1, string(R.string.web)).setIcon(R.drawable.ic_web)
+                menu.add(0, 2, 1, string(R.string.settings)).setIcon(R.drawable.ic_settings)
 
             }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         }

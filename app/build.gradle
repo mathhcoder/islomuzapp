@@ -85,7 +85,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    //implementation 'joda-date:joda-date:2.10.4'
+    implementation 'joda-time:joda-time:2.10.4'
 
     // android jetpack
     implementation 'androidx.multidex:multidex:2.0.1'

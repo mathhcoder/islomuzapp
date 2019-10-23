@@ -49,6 +49,8 @@ class ProfileFragment : BaseFragment() {
 
         return NestedScrollView(inflater.context).apply {
 
+            layoutParams = ViewGroup.LayoutParams(full, full)
+
             addView(LinearLayout(context).apply {
 
                 descendantFocusability = LinearLayout.FOCUS_BLOCK_DESCENDANTS
