@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextClock
 import androidx.appcompat.widget.AppCompatImageView
@@ -24,15 +25,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import me.tankery.lib.circularseekbar.CircularSeekBar
-import timber.log.Timber
 import uz.islom.R
 import uz.islom.android.colour
 import uz.islom.android.drawable
 import uz.islom.android.screenWidth
 import uz.islom.android.string
+import uz.islom.ext.calendar2uzbekHijrTimeFormat
+import uz.islom.ext.calendar2uzbekTimeFormat
+import uz.islom.ext.getColorWithAlpha
 import uz.islom.ext.milliseconds2formattedTime
 import uz.islom.io.subscribeKt
-import uz.islom.model.app.Salat
+import uz.islom.model.app.HijriDateState
 import uz.islom.model.app.SalatTimeState
 import uz.islom.model.enums.FunctionType
 import uz.islom.ui.base.BaseActivity
@@ -74,7 +77,10 @@ class FunctionsFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         return NestedScrollView(inflater.context).apply {
+
+            layoutParams = ViewGroup.LayoutParams(full, full)
 
             setBackgroundColor(appTheme.mainListColor)
 
@@ -131,18 +137,22 @@ class FunctionsFragment : BaseFragment() {
                                 addView(BaseTextView(context).apply {
                                     id = R.id.currentSalatView
                                     gravity = Gravity.CENTER
+                                    setTextSizeSp(16)
+                                    setTypeface(typeface, Typeface.BOLD)
                                     setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
                                 addView(TextClock(context).apply {
                                     gravity = Gravity.CENTER
-                                    setTextSizeSp(24)
+                                    setTextSizeSp(32)
+                                    setTypeface(typeface, Typeface.BOLD)
                                     setTextColor(appTheme.mainSeekBarProgressColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
                                 addView(BaseTextView(context).apply {
                                     id = R.id.nextSalatReservedTimeView
                                     gravity = Gravity.CENTER
+                                    setTextSizeSp(14)
                                     setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
@@ -151,8 +161,24 @@ class FunctionsFragment : BaseFragment() {
                         }, FrameLayout.LayoutParams(progressSize, full, Gravity.END))
 
                         addView(View(context).apply {
+                            background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
+                        }, FrameLayout.LayoutParams(dp(2), dp(16)).apply {
+                            leftMargin = dp(19)
+                            topMargin = dp(16)
+                            bottomMargin = dp(16)
+                        })
+
+                        addView(View(context).apply {
                             setBackgroundColor(appTheme.mainLineColor)
                         }, FrameLayout.LayoutParams(dp(2), full).apply {
+                            leftMargin = dp(19)
+                            topMargin = dp(32)
+                            bottomMargin = dp(32)
+                        })
+
+                        addView(View(context).apply {
+                            background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
+                        }, FrameLayout.LayoutParams(dp(2), dp(16), Gravity.BOTTOM).apply {
                             leftMargin = dp(19)
                             topMargin = dp(16)
                             bottomMargin = dp(16)
@@ -178,17 +204,19 @@ class FunctionsFragment : BaseFragment() {
                                         orientation = LinearLayout.VERTICAL
 
                                         addView(BaseTextView(context).apply {
-                                            id = R.id.dateView
+                                            id = R.id.grigorianDateView
                                             setTextColor(appTheme.secondaryColor)
-                                            text = "19 rajab, 1440"
-                                        })
+                                            setTextSizeSp(14)
+                                        }, LinearLayout.LayoutParams(full, wrap))
 
                                         addView(BaseTextView(context).apply {
+                                            id = R.id.hijriDateView
                                             setTextColor(appTheme.secondaryColor)
-                                            text = "19 rajab, 1440"
-                                        })
+                                            alpha = 0.5f
+                                            setTextSizeSp(12)
+                                        }, LinearLayout.LayoutParams(full, wrap))
 
-                                    }, LinearLayout.LayoutParams(wrap, wrap).apply {
+                                    }, FrameLayout.LayoutParams(full, wrap).apply {
                                         leftMargin = dp(28)
                                     })
 
@@ -196,42 +224,28 @@ class FunctionsFragment : BaseFragment() {
 
                             }, LinearLayout.LayoutParams(wrap, 0, 1f))
 
-                            addView(LinearLayout(context).apply {
-
-                                orientation = LinearLayout.HORIZONTAL
-                                gravity = Gravity.CENTER_VERTICAL
+                            addView(FrameLayout(context).apply {
 
                                 addView(AppCompatImageView(context).apply {
                                     setImageResource(R.drawable.ic_circle_gradient)
-                                }, ViewGroup.LayoutParams(dp(24), dp(24)))
+                                }, FrameLayout.LayoutParams(dp(24), dp(24), Gravity.CENTER_VERTICAL))
 
                                 addView(CardView(context).apply {
 
-                                    radius = dp(16).toFloat()
+                                    radius = dp(20).toFloat()
                                     setCardBackgroundColor(appTheme.mainIconsDarkColor)
 
-                                    addView(LinearLayout(context).apply {
+                                    addView(BaseTextView(context).apply {
+                                        id = R.id.nextSalatNameView
+                                        setPadding(dp(16), dp(4), dp(16), dp(4))
+                                        setTextColor(appTheme.secondaryColor)
+                                        setTypeface(typeface, Typeface.BOLD)
+                                        setTextSizeSp(16)
+                                        gravity = Gravity.CENTER
+                                    }, FrameLayout.LayoutParams(wrap, wrap, Gravity.CENTER))
 
-                                        orientation = LinearLayout.HORIZONTAL
-
-                                        addView(BaseTextView(context).apply {
-                                            id = R.id.nextSalatNameView
-                                            setPadding(dp(16), dp(8), dp(4), dp(8))
-                                            setTextColor(appTheme.secondaryColor)
-                                            gravity = Gravity.CENTER
-                                        }, ViewGroup.LayoutParams(wrap, wrap))
-
-                                        addView(BaseTextView(context).apply {
-                                            id = R.id.nextSalatTimeView
-                                            setPadding(dp(4), dp(8), dp(16), dp(8))
-                                            setTextColor(appTheme.secondaryColor)
-                                            setTypeface(typeface, Typeface.BOLD)
-                                            gravity = Gravity.CENTER
-                                        }, ViewGroup.LayoutParams(wrap, wrap))
-                                    })
-
-                                }, LinearLayout.LayoutParams(wrap, wrap).apply {
-                                    leftMargin = dp(8)
+                                }, FrameLayout.LayoutParams(wrap, wrap, Gravity.CENTER_VERTICAL).apply {
+                                    leftMargin = dp(28)
                                 })
 
                             }, LinearLayout.LayoutParams(full, 0, 1f))
@@ -247,7 +261,7 @@ class FunctionsFragment : BaseFragment() {
                                 }, LinearLayout.LayoutParams(dp(24), dp(24)))
 
                                 addView(BaseTextView(context).apply {
-                                    text = "Eslatish"
+                                    text = string(R.string.notify)
                                     gravity = Gravity.CENTER_VERTICAL
                                     setTextColor(appTheme.secondaryColor)
                                 }, LinearLayout.LayoutParams(wrap, wrap).apply {
@@ -257,6 +271,7 @@ class FunctionsFragment : BaseFragment() {
                                 addView(BaseImageButton(context).apply {
                                     id = R.id.imageView
                                     setButtonPadding(dp(8))
+                                    setColorFilter(appTheme.mainSeekBarProgressColor)
                                 }, LinearLayout.LayoutParams(dp(40), dp(40)).apply {
                                     leftMargin = dp(8)
                                 })
@@ -301,36 +316,52 @@ class FunctionsFragment : BaseFragment() {
             }
         }
 
-        Single.fromCallable { prayTimeViewModel.getSalatTimes(Calendar.getInstance()) }
+
+        bindDate(HijriDateState.with(Calendar.getInstance(), 1))
+        bindSalats()
+
+        UpdateCenter.subscribeTo(UpdatePath.DateChanged())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeKt(Consumer {
+                    bindDate(HijriDateState.with(it, 1))
+                })
+
+
+    }
+
+    private fun bindSalats() {
+
+        val salatTimes = prayTimeViewModel.getSalatTimes(Calendar.getInstance())
+
+        Single.fromCallable { SalatTimeState.with(salatTimes) }
                 .subscribeOn(Schedulers.computation())
                 .delay(1000, TimeUnit.MILLISECONDS)
                 .repeat()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
-                    bindTimes(it)
+                    bindSalatTimeState(it)
                 })
-
-//        UpdateCenter.subscribeTo(UpdatePath.SalatTimes())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeKt(Consumer {
-//                    bindTimes(SalatTimeState.with(it))
-//                })
-
 
     }
 
-    private fun bindTimes(salats : ArrayList<Salat>) {
 
-        val salatTimeState = SalatTimeState.with(salats)
-
-        Timber.d("state : ${salatTimeState.left}")
+    private fun bindSalatTimeState(salatTimeState: SalatTimeState) {
 
         view?.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(salatTimeState.currentSalat.type.title)
-        view?.findViewById<BaseTextView>(R.id.nextSalatNameView)?.text = string(salatTimeState.nextSalat.type.title)
-        view?.findViewById<BaseTextView>(R.id.nextSalatTimeView)?.text = SimpleDateFormat("HH:mm", Locale.getDefault()).format(salatTimeState.nextSalat.date.time)
         view?.findViewById<CircularSeekBar>(R.id.progressView)?.progress = salatTimeState.progress
-        view?.findViewById<BaseTextView>(R.id.nextSalatReservedTimeView)?.text = "- ${milliseconds2formattedTime(salatTimeState.left)}"
+        view?.findViewById<ImageView>(R.id.imageView)?.setImageResource(salatTimeState.nextSalat.notificationType.image)
+        string(R.string.next_salat_format)?.let {
+            view?.findViewById<BaseTextView>(R.id.nextSalatNameView)?.text = String.format(it, string(salatTimeState.nextSalat.type.title), SimpleDateFormat("HH:mm", Locale.getDefault()).format(salatTimeState.nextSalat.date.time))
+        }
+        string(R.string.left_salat_format)?.let {
+            view?.findViewById<BaseTextView>(R.id.nextSalatReservedTimeView)?.text = String.format(it, salatTimeState.left.milliseconds2formattedTime())
+        }
 
+    }
+
+    private fun bindDate(dateState: HijriDateState) {
+        view?.findViewById<BaseTextView>(R.id.grigorianDateView)?.text = view?.context?.calendar2uzbekTimeFormat(dateState.grigorian)
+        view?.findViewById<BaseTextView>(R.id.hijriDateView)?.text = view?.context?.calendar2uzbekHijrTimeFormat(dateState.hijri)
     }
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
@@ -398,11 +429,11 @@ class FunctionsFragment : BaseFragment() {
                 } else {
                     outRect.right = gridSpacing / 2
                 }
-            } else if ((itemPosition + 2) % gridSize == 0) {
-                needLeftSpacing = false
-                outRect.left = gridSpacing / 2
-                outRect.right = gridSpacing - padding
-            } else {
+//            } else if ((itemPosition + 2) % gridSize == 0) {
+//                needLeftSpacing = false
+//                outRect.left = gridSpacing / 2
+//                outRect.right = gridSpacing - padding
+//            } else {
                 needLeftSpacing = false
                 outRect.left = gridSpacing / 2
                 outRect.right = gridSpacing / 2

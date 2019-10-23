@@ -1,7 +1,5 @@
 package uz.islom.model.app
 
-import timber.log.Timber
-
 data class SalatTimeState(
         val salats: ArrayList<Salat>,
         val currentSalat: Salat,
@@ -14,14 +12,12 @@ data class SalatTimeState(
         fun with(salats: ArrayList<Salat>): SalatTimeState {
 
             val currentTime = System.currentTimeMillis()
-            Timber.d("currentTime:$currentTime")
 
             val nextSalat = salats.sortedBy { it.date }.find { it.date.timeInMillis > currentTime }
                     ?: salats.maxBy { it.date }!!
 
             val currentSalat = salats.sortedByDescending { it.date }.find { it.date.timeInMillis <= currentTime }
                     ?: salats.minBy { it.date }!!
-
 
             val left = nextSalat.date.timeInMillis - currentTime
 

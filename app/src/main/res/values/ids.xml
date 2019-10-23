@@ -8,7 +8,8 @@
 
 
     <item name="nextSalatReservedTimeView" type="id" />
-    <item name="dateView" type="id" />
+    <item name="grigorianDateView" type="id" />
+    <item name="hijriDateView" type="id" />
     <item name="currentSalatView" type="id" />
     <item name="nextSalatNameView" type="id" />
     <item name="nextSalatTimeView" type="id" />
