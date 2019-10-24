@@ -85,9 +85,8 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      //  bindUser(view, User(0, "Javohirxon Qodiriy", "https://picsum.photos/200"))
 
-        UpdateCenter.subscribeTo(UpdatePath.Users)
+        UpdateCenter.subscribeTo(UpdatePath.UserUpdate)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
                     bindUser(view, it)

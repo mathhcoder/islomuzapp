@@ -1,8 +1,10 @@
 package uz.islom
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.multidex.MultiDex
 import timber.log.Timber
 
 /**
@@ -36,6 +38,11 @@ class IslomUzApp : Application(), ViewModelStoreOwner {
 
         appInstance = this
 
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(base)
     }
 
     override fun onTerminate() {

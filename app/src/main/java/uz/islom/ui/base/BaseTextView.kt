@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import com.google.android.material.textview.MaterialTextView
 
-class BaseTextView @JvmOverloads constructor(
+open class BaseTextView @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
         defStyleAttr: Int = 0

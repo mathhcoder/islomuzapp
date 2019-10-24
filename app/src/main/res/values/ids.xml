@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Common-->
+
     <item name="viewPager" type="id" />
     <item name="bottomNavigationView" type="id" />
     <item name="titleView" type="id" />
     <item name="backButton" type="id" />
-
-
-    <item name="nextSalatReservedTimeView" type="id" />
-    <item name="grigorianDateView" type="id" />
-    <item name="hijriDateView" type="id" />
-    <item name="currentSalatView" type="id" />
-    <item name="nextSalatNameView" type="id" />
-    <item name="nextSalatTimeView" type="id" />
-    <item name="salatsView" type="id" />
     <item name="recyclerView" type="id" />
     <item name="calendarView" type="id" />
-    <item name="progressView" type="id"/>
+    <item name="idFooterView" type="id"/>
+
+
+
+    <!-- Functions -->
+    <item name="idRootLayout" type="id" />
+    <item name="idSalatsClickableLayout" type="id" />
+    <item name="idSalatInfoLayout" type="id" />
+
+    <item name="idProgressView" type="id" />
+    <item name="idCurrentSalatNameView" type="id" />
+    <item name="idClockView" type="id" />
+    <item name="idNextSalatTimeView" type="id" />
+
+    <item name="idTopLineView" type="id" />
+    <item name="idMiddleLineView" type="id" />
+    <item name="idBottomLineView" type="id" />
+
+    <item name="idGrigorianView" type="id" />
+    <item name="idHijriDate" type="id" />
+    <item name="idNextSalatView" type="id" />
+    <item name="idNextSalatLayout" type="id" />
+    <item name="idNotificationView" type="id" />
+    <item name="idNotificationImageView" type="id" />
+
 
     <item name="imageView" type="id" />
     <item name="imageView2" type="id" />

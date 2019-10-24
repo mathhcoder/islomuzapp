@@ -4,13 +4,13 @@ import org.joda.time.DateTime
 import uz.islom.fiqh.grigorianToHijr
 import java.util.*
 
-data class HijriDateState(
+data class DateState(
         val hijri: DateTime,
         val grigorian: DateTime) {
 
     companion object {
 
-        fun with(calendar: Calendar, adjustment: Int): HijriDateState {
+        fun with(calendar: Calendar, adjustment: Int): DateState {
 
             val grigorian = DateTime(calendar[Calendar.YEAR],
                     calendar[Calendar.MONTH] + 1,
@@ -22,7 +22,7 @@ data class HijriDateState(
 
             val hijri = grigorianToHijr(calendar, adjustment)
 
-            return HijriDateState(hijri, grigorian)
+            return DateState(hijri, grigorian)
         }
     }
 }
