@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.resources.TextAppearance
 import uz.islom.R
 import uz.islom.android.string
 import uz.islom.ui.base.BaseFragment

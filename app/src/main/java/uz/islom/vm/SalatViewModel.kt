@@ -22,7 +22,7 @@ class SalatViewModel : BaseViewModel() {
 
         val salats = getSalatTimes(Calendar.getInstance())
 
-        UpdateCenter.post(salats, UpdatePath.SalatTimes())
+        UpdateCenter.post(salats, UpdatePath.SalatUpdate)
 
         return salats
     }
@@ -39,14 +39,14 @@ class SalatViewModel : BaseViewModel() {
 
         val salatTimes = calculatePrayTimes(date, timeZone, latLng, university, madhab, adjustments)
 
-        val lastIsha = Salat(0, SalatType.LAST_ISHA, salatTimes[0], false, 0, NotificationType.ADAN)
-        val fajr = Salat(0, SalatType.FAJR, salatTimes[1], false, 0, NotificationType.ADAN)
+        val lastIsha = Salat(0, SalatType.LAST_ISHA, salatTimes[0], false, 0, NotificationType.DEFAULT)
+        val fajr = Salat(0, SalatType.FAJR, salatTimes[1], false, 0, NotificationType.DEFAULT)
         val sunrise = Salat(0, SalatType.SUNRISE, salatTimes[2], false, 0, NotificationType.NONE)
         val dhuhr = Salat(0, SalatType.DHUHR, salatTimes[3], false, 0, NotificationType.SILENT)
         val asr = Salat(0, SalatType.ASR, salatTimes[4], false, 0, NotificationType.SILENT)
         val maghrib = Salat(0, SalatType.MAGHRIB, salatTimes[5], false, 0, NotificationType.DEFAULT)
-        val isha = Salat(0, SalatType.ISHA, salatTimes[6], false, 0, NotificationType.ADAN)
-        val nextFajr = Salat(0, SalatType.NEXT_FAJR, salatTimes[7], false, 0, NotificationType.ADAN)
+        val isha = Salat(0, SalatType.ISHA, salatTimes[6], false, 0, NotificationType.DEFAULT)
+        val nextFajr = Salat(0, SalatType.NEXT_FAJR, salatTimes[7], false, 0, NotificationType.DEFAULT)
 
         return arrayListOf(lastIsha, fajr, sunrise, dhuhr, asr, maghrib, isha, nextFajr)
     }

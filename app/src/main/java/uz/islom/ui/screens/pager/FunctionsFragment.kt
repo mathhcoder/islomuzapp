@@ -1,17 +1,16 @@
 package uz.islom.ui.screens.pager
 
+import android.content.res.ColorStateList
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.media.Image
+import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextClock
+import android.text.SpannableStringBuilder
+import android.text.TextUtils
+import android.view.*
+import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
@@ -25,17 +24,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import me.tankery.lib.circularseekbar.CircularSeekBar
+import uz.islom.BuildConfig
 import uz.islom.R
 import uz.islom.android.colour
 import uz.islom.android.drawable
 import uz.islom.android.screenWidth
 import uz.islom.android.string
-import uz.islom.ext.calendar2uzbekHijrTimeFormat
-import uz.islom.ext.calendar2uzbekTimeFormat
-import uz.islom.ext.getColorWithAlpha
-import uz.islom.ext.milliseconds2formattedTime
+import uz.islom.ext.*
 import uz.islom.io.subscribeKt
-import uz.islom.model.app.HijriDateState
+import uz.islom.model.app.DateState
+import uz.islom.model.app.Salat
 import uz.islom.model.app.SalatTimeState
 import uz.islom.model.enums.FunctionType
 import uz.islom.ui.base.BaseActivity
@@ -43,6 +41,7 @@ import uz.islom.ui.base.BaseFragment
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.cells.FunctionCell
+import uz.islom.ui.custom.TrimmedTextView
 import uz.islom.ui.util.*
 import uz.islom.update.UpdateCenter
 import uz.islom.update.UpdatePath
@@ -58,10 +57,6 @@ class FunctionsFragment : BaseFragment() {
         fun newInstance() = FunctionsFragment().apply {}
     }
 
-    private val appTheme by lazy {
-        return@lazy AppTheme.GREEN
-    }
-
     private val functionsAdapter by lazy {
         return@lazy FunctionsAdapter().apply {
             data = FunctionType.values().toMutableList()
@@ -69,7 +64,7 @@ class FunctionsFragment : BaseFragment() {
     }
 
     private val progressSize by lazy {
-        return@lazy (context?.screenWidth() ?: 0) / 2
+        return@lazy (context?.screenWidth() ?: 0) / 2 - dp(16)
     }
 
     private val prayTimeViewModel by lazy {
@@ -80,9 +75,9 @@ class FunctionsFragment : BaseFragment() {
 
         return NestedScrollView(inflater.context).apply {
 
-            layoutParams = ViewGroup.LayoutParams(full, full)
+            id = R.id.idRootLayout
 
-            setBackgroundColor(appTheme.mainListColor)
+            layoutParams = ViewGroup.LayoutParams(full, full)
 
             addView(LinearLayout(context).apply {
 
@@ -95,36 +90,53 @@ class FunctionsFragment : BaseFragment() {
                     gravity = Gravity.CENTER
                     maxLines = 1
                     text = string(R.string.app_name)
-                    setTextColor(appTheme.secondaryColor)
-                    setBackgroundColor(appTheme.toolBarColor)
+                    setTextColor(AppTheme.GREEN.secondaryColor)
+                    setBackgroundColor(AppTheme.GREEN.toolBarColor)
                     setTextSizeSp(20)
                 }, LinearLayout.LayoutParams(full, dp(56)))
 
                 addView(MaterialCardView(context).apply {
 
-                    id = R.id.salatsView
-
+                    id = R.id.idSalatsClickableLayout
                     isClickable = true
 
                     addView(FrameLayout(context).apply {
 
-                        background = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(appTheme.mainGradientStartColor, appTheme.mainGradientMiddleColor, appTheme.mainGradientEndColor)).apply {
-                            gradientRadius = -20f
-                        }
-
+                        id = R.id.idSalatInfoLayout
                         radius = 0f
+
+                        addView(View(context).apply {
+                            id = R.id.idTopLineView
+                        }, FrameLayout.LayoutParams(dp(2), dp(16)).apply {
+                            leftMargin = dp(19)
+                            topMargin = dp(16)
+                            bottomMargin = dp(16)
+                        })
+
+                        addView(View(context).apply {
+                            id = R.id.idMiddleLineView
+                        }, FrameLayout.LayoutParams(dp(2), full).apply {
+                            leftMargin = dp(19)
+                            topMargin = dp(32)
+                            bottomMargin = dp(32)
+                        })
+
+                        addView(View(context).apply {
+                            id = R.id.idBottomLineView
+                        }, FrameLayout.LayoutParams(dp(2), dp(16), Gravity.BOTTOM).apply {
+                            leftMargin = dp(19)
+                            topMargin = dp(16)
+                            bottomMargin = dp(16)
+                        })
 
                         addView(FrameLayout(context).apply {
 
-                            setPadding(dp(16), dp(16), dp(16), dp(16))
+                            setPadding(dp(8), dp(8), dp(8), dp(8))
 
                             addView(CircularSeekBar(context).apply {
-                                id = R.id.progressView
-                                circleProgressColor = appTheme.mainSeekBarProgressColor
-                                pointerColor = appTheme.mainSeekBarProgressColor
+                                id = R.id.idProgressView
                                 circleStrokeWidth = dp(4).toFloat()
                                 isEnabled = false
-                                circleColor = appTheme.mainSeekBarColor
                                 max = 1f
 
                             }, ViewGroup.LayoutParams(full, full))
@@ -135,54 +147,38 @@ class FunctionsFragment : BaseFragment() {
                                 gravity = Gravity.CENTER
 
                                 addView(BaseTextView(context).apply {
-                                    id = R.id.currentSalatView
+                                    id = R.id.idCurrentSalatNameView
                                     gravity = Gravity.CENTER
                                     setTextSizeSp(16)
                                     setTypeface(typeface, Typeface.BOLD)
-                                    setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
-                                addView(TextClock(context).apply {
-                                    gravity = Gravity.CENTER
-                                    setTextSizeSp(32)
-                                    setTypeface(typeface, Typeface.BOLD)
-                                    setTextColor(appTheme.mainSeekBarProgressColor)
-                                }, FrameLayout.LayoutParams(full, wrap))
+                                if(Build.VERSION.SDK_INT>=17) {
+                                    addView(TextClock(context).apply {
+                                        id = R.id.idClockView
+                                        gravity = Gravity.CENTER
+                                        setTextSizeSp(32)
+                                        typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+                                        format12Hour = null
+                                    }, FrameLayout.LayoutParams(full, wrap))
+                                }else{
+                                    addView(DigitalClock(context).apply {
+                                        id = R.id.idClockView
+                                        gravity = Gravity.CENTER
+                                        setTextSizeSp(32)
+                                        setTypeface(typeface, Typeface.BOLD)
+                                    }, FrameLayout.LayoutParams(full, wrap))
+                                }
 
                                 addView(BaseTextView(context).apply {
-                                    id = R.id.nextSalatReservedTimeView
+                                    id = R.id.idNextSalatTimeView
                                     gravity = Gravity.CENTER
                                     setTextSizeSp(14)
-                                    setTextColor(appTheme.secondaryColor)
                                 }, FrameLayout.LayoutParams(full, wrap))
 
                             }, ViewGroup.LayoutParams(full, full))
 
                         }, FrameLayout.LayoutParams(progressSize, full, Gravity.END))
-
-                        addView(View(context).apply {
-                            background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
-                        }, FrameLayout.LayoutParams(dp(2), dp(16)).apply {
-                            leftMargin = dp(19)
-                            topMargin = dp(16)
-                            bottomMargin = dp(16)
-                        })
-
-                        addView(View(context).apply {
-                            setBackgroundColor(appTheme.mainLineColor)
-                        }, FrameLayout.LayoutParams(dp(2), full).apply {
-                            leftMargin = dp(19)
-                            topMargin = dp(32)
-                            bottomMargin = dp(32)
-                        })
-
-                        addView(View(context).apply {
-                            background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
-                        }, FrameLayout.LayoutParams(dp(2), dp(16), Gravity.BOTTOM).apply {
-                            leftMargin = dp(19)
-                            topMargin = dp(16)
-                            bottomMargin = dp(16)
-                        })
 
                         addView(LinearLayout(context).apply {
 
@@ -204,15 +200,17 @@ class FunctionsFragment : BaseFragment() {
                                         orientation = LinearLayout.VERTICAL
 
                                         addView(BaseTextView(context).apply {
-                                            id = R.id.grigorianDateView
-                                            setTextColor(appTheme.secondaryColor)
+                                            id = R.id.idGrigorianView
                                             setTextSizeSp(14)
+                                            maxLines = 1
+                                            ellipsize = TextUtils.TruncateAt.END
                                         }, LinearLayout.LayoutParams(full, wrap))
 
                                         addView(BaseTextView(context).apply {
-                                            id = R.id.hijriDateView
-                                            setTextColor(appTheme.secondaryColor)
+                                            id = R.id.idHijriDate
                                             alpha = 0.5f
+                                            maxLines = 1
+                                            ellipsize = TextUtils.TruncateAt.END
                                             setTextSizeSp(12)
                                         }, LinearLayout.LayoutParams(full, wrap))
 
@@ -232,17 +230,24 @@ class FunctionsFragment : BaseFragment() {
 
                                 addView(CardView(context).apply {
 
-                                    radius = dp(20).toFloat()
-                                    setCardBackgroundColor(appTheme.mainIconsDarkColor)
+                                    id = R.id.idNextSalatLayout
 
-                                    addView(BaseTextView(context).apply {
-                                        id = R.id.nextSalatNameView
+                                    addView(TrimmedTextView(context).apply {
+                                        id = R.id.idNextSalatView
                                         setPadding(dp(16), dp(4), dp(16), dp(4))
-                                        setTextColor(appTheme.secondaryColor)
                                         setTypeface(typeface, Typeface.BOLD)
-                                        setTextSizeSp(16)
+                                        maxLines = 1
+                                        ellipsize = TextUtils.TruncateAt.END
+                                        setTextSizeSp(14)
                                         gravity = Gravity.CENTER
                                     }, FrameLayout.LayoutParams(wrap, wrap, Gravity.CENTER))
+
+                                    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                                        override fun onGlobalLayout() {
+                                            viewTreeObserver.removeOnGlobalLayoutListener(this)
+                                            radius = measuredHeight.toFloat() / 2
+                                        }
+                                    })
 
                                 }, FrameLayout.LayoutParams(wrap, wrap, Gravity.CENTER_VERTICAL).apply {
                                     leftMargin = dp(28)
@@ -261,17 +266,18 @@ class FunctionsFragment : BaseFragment() {
                                 }, LinearLayout.LayoutParams(dp(24), dp(24)))
 
                                 addView(BaseTextView(context).apply {
+                                    id = R.id.idNotificationView
                                     text = string(R.string.notify)
                                     gravity = Gravity.CENTER_VERTICAL
-                                    setTextColor(appTheme.secondaryColor)
+                                    maxLines = 1
+                                    ellipsize = TextUtils.TruncateAt.END
                                 }, LinearLayout.LayoutParams(wrap, wrap).apply {
                                     leftMargin = dp(4)
                                 })
 
                                 addView(BaseImageButton(context).apply {
-                                    id = R.id.imageView
+                                    id = R.id.idNotificationImageView
                                     setButtonPadding(dp(8))
-                                    setColorFilter(appTheme.mainSeekBarProgressColor)
                                 }, LinearLayout.LayoutParams(dp(40), dp(40)).apply {
                                     leftMargin = dp(8)
                                 })
@@ -286,17 +292,28 @@ class FunctionsFragment : BaseFragment() {
 
                 }, LinearLayout.LayoutParams(full, progressSize))
 
-                addView(RecyclerView(context).apply {
-                    layoutManager = GridLayoutManager(context, 3)
-                    adapter = functionsAdapter
-                    addItemDecoration(FunctionItemDecoration(dp(16), 3))
-                    setPadding(dp(16), 0, dp(16), 0)
-                    isNestedScrollingEnabled = true
-                    overScrollMode = View.OVER_SCROLL_NEVER
-                }, LinearLayout.LayoutParams(full, wrap).apply {
-                    bottomMargin = dp(16)
-                    topMargin = dp(16)
-                })
+                addView(FrameLayout(context).apply {
+
+                    addView(AppCompatImageView(context).apply {
+                        id = R.id.idFooterView
+                        scaleType = ImageView.ScaleType.FIT_XY
+
+                    }, FrameLayout.LayoutParams(full, dp(96), Gravity.BOTTOM))
+
+                    addView(RecyclerView(context).apply {
+                        id = R.id.recyclerView
+                        layoutManager = GridLayoutManager(context, 3)
+                        adapter = functionsAdapter
+                        addItemDecoration(FunctionItemDecoration(dp(16), 3))
+                        setPadding(dp(16), 0, dp(16), 0)
+                        isNestedScrollingEnabled = true
+                        overScrollMode = View.OVER_SCROLL_NEVER
+                    }, LinearLayout.LayoutParams(full, wrap).apply {
+                        bottomMargin = dp(16)
+                        topMargin = dp(16)
+                    })
+
+                }, FrameLayout.LayoutParams(full, wrap))
 
             }, ViewGroup.LayoutParams(full, wrap))
         }
@@ -305,35 +322,91 @@ class FunctionsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<BaseImageButton>(R.id.imageView)?.apply {
-            setImageResources(R.drawable.ic_volume_high, colour(R.color.white))
-            background = drawable(R.drawable.ic_circle, appTheme.mainIconsDarkColor)
-        }
-
-        view.findViewById<View>(R.id.salatsView)?.apply {
+        view.findViewById<View>(R.id.idSalatsClickableLayout)?.apply {
             setOnClickListener {
                 (activity as? BaseActivity)?.navigationManager?.navigateToSalats()
             }
         }
 
+        view.findViewById<ImageButton>(R.id.idNotificationImageView)?.apply {
+            setBackgroundResource(R.drawable.ic_circle)
+            setOnClickListener {
 
-        bindDate(HijriDateState.with(Calendar.getInstance(), 1))
-        bindSalats()
+            }
+        }
 
-        UpdateCenter.subscribeTo(UpdatePath.DateChanged())
+        view.findViewById<ImageView>(R.id.idFooterView)?.apply {
+            setImageResource(R.drawable.img_footer)
+        }
+
+        bindTheme(AppTheme.GREEN)
+        bindDate(DateState.with(Calendar.getInstance(), 1))
+        bindSalats(prayTimeViewModel.getSalatTimes(Calendar.getInstance()))
+
+        listenUpdates()
+    }
+
+
+    private fun listenUpdates() {
+
+        UpdateCenter.subscribeTo(UpdatePath.DateUpdate)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {
-                    bindDate(HijriDateState.with(it, 1))
+                    bindDate(DateState.with(it, 1))
                 })
 
+        UpdateCenter.subscribeTo(UpdatePath.SalatUpdate)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeKt(Consumer {
+                    bindSalats(it)
+                })
+
+        UpdateCenter.subscribeTo(UpdatePath.ThemeUpdate)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeKt(Consumer {
+                    bindTheme(it)
+                })
+    }
+
+    private fun bindTheme(appTheme: AppTheme) {
+        view?.findViewById<View>(R.id.idRootLayout)?.setBackgroundColor(appTheme.mainListColor)
+        view?.findViewById<View>(R.id.idSalatInfoLayout)?.background = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(appTheme.mainGradientStartColor, appTheme.mainGradientMiddleColor, appTheme.mainGradientEndColor)).apply {
+            gradientRadius = -20f
+        }
+
+        view?.findViewById<View>(R.id.idTopLineView)?.background = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
+        view?.findViewById<View>(R.id.idMiddleLineView)?.setBackgroundColor(appTheme.mainLineColor)
+        view?.findViewById<View>(R.id.idBottomLineView)?.background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(appTheme.mainLineColor, appTheme.mainLineColor.getColorWithAlpha(0.2f)))
+
+        view?.findViewById<BaseTextView>(R.id.idGrigorianView)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<BaseTextView>(R.id.idHijriDate)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<CardView>(R.id.idNextSalatLayout)?.setCardBackgroundColor(appTheme.mainIconsDarkColor)
+        view?.findViewById<TextView>(R.id.idNextSalatView)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<TextView>(R.id.idNotificationView)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<BaseImageButton>(R.id.idNotificationImageView)?.setColorFilter(appTheme.mainSeekBarProgressColor)
+        view?.findViewById<BaseImageButton>(R.id.idNotificationImageView)?.supportBackgroundTintList = ColorStateList.valueOf(appTheme.mainIconsDarkColor)
+
+        view?.findViewById<TextView>(R.id.idCurrentSalatNameView)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<TextClock>(R.id.idClockView)?.setTextColor(appTheme.mainSeekBarProgressColor)
+        view?.findViewById<TextView>(R.id.idNextSalatTimeView)?.setTextColor(appTheme.secondaryColor)
+        view?.findViewById<CircularSeekBar>(R.id.idProgressView)?.apply {
+            circleProgressColor = appTheme.mainSeekBarProgressColor
+            pointerColor = appTheme.mainSeekBarDotColor
+            circleColor = appTheme.mainSeekBarFillColor
+        }
+
+        functionsAdapter.theme = appTheme
 
     }
 
-    private fun bindSalats() {
+    private fun bindDate(dateState: DateState) {
+        view?.findViewById<TextView>(R.id.idGrigorianView)?.text = view?.context?.calendar2uzbekTimeFormat(dateState.grigorian)
+        view?.findViewById<TextView>(R.id.idHijriDate)?.text = view?.context?.calendar2uzbekHijrTimeFormat(dateState.hijri)
+    }
 
-        val salatTimes = prayTimeViewModel.getSalatTimes(Calendar.getInstance())
+    private fun bindSalats(salats: ArrayList<Salat>) {
 
-        Single.fromCallable { SalatTimeState.with(salatTimes) }
+        Single.fromCallable { SalatTimeState.with(salats) }
                 .subscribeOn(Schedulers.computation())
                 .delay(1000, TimeUnit.MILLISECONDS)
                 .repeat()
@@ -347,24 +420,28 @@ class FunctionsFragment : BaseFragment() {
 
     private fun bindSalatTimeState(salatTimeState: SalatTimeState) {
 
-        view?.findViewById<BaseTextView>(R.id.currentSalatView)?.text = string(salatTimeState.currentSalat.type.title)
-        view?.findViewById<CircularSeekBar>(R.id.progressView)?.progress = salatTimeState.progress
-        view?.findViewById<ImageView>(R.id.imageView)?.setImageResource(salatTimeState.nextSalat.notificationType.image)
-        string(R.string.next_salat_format)?.let {
-            view?.findViewById<BaseTextView>(R.id.nextSalatNameView)?.text = String.format(it, string(salatTimeState.nextSalat.type.title), SimpleDateFormat("HH:mm", Locale.getDefault()).format(salatTimeState.nextSalat.date.time))
+        view?.findViewById<BaseTextView>(R.id.idCurrentSalatNameView)?.text = string(salatTimeState.currentSalat.type.title)
+        view?.findViewById<CircularSeekBar>(R.id.idProgressView)?.progress = salatTimeState.progress
+        view?.findViewById<ImageView>(R.id.idNotificationImageView)?.setImageResource(salatTimeState.nextSalat.notificationType.image)
+        view?.findViewById<BaseTextView>(R.id.idNextSalatView)?.text = SpannableStringBuilder().apply {
+            append(string(salatTimeState.nextSalat.type.title)?.ellipsize())
+            append(SimpleDateFormat(" HH:mm", Locale.getDefault()).format(salatTimeState.nextSalat.date.time))
         }
+
         string(R.string.left_salat_format)?.let {
-            view?.findViewById<BaseTextView>(R.id.nextSalatReservedTimeView)?.text = String.format(it, salatTimeState.left.milliseconds2formattedTime())
+            view?.findViewById<BaseTextView>(R.id.idNextSalatTimeView)?.text = String.format(it, salatTimeState.left.milliseconds2formattedTime())
         }
 
     }
 
-    private fun bindDate(dateState: HijriDateState) {
-        view?.findViewById<BaseTextView>(R.id.grigorianDateView)?.text = view?.context?.calendar2uzbekTimeFormat(dateState.grigorian)
-        view?.findViewById<BaseTextView>(R.id.hijriDateView)?.text = view?.context?.calendar2uzbekHijrTimeFormat(dateState.hijri)
-    }
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
+
+        var theme = AppTheme.DARK
+            set(value) {
+                field = value
+                notifyDataSetChanged()
+            }
 
         var data: List<FunctionType> = ArrayList()
             set(value) {
@@ -386,14 +463,16 @@ class FunctionsFragment : BaseFragment() {
         override fun getItemCount() = data.size
 
         override fun onBindViewHolder(p0: FunctionHolder, p1: Int) {
-            p0.bindFunction(data[p1])
+            p0.bindFunction(data[p1], theme)
         }
     }
 
     inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: FunctionType) {
+        fun bindFunction(function: FunctionType, theme: AppTheme) {
             (itemView as? FunctionCell)?.imageRes = function.imageRes
             (itemView as? FunctionCell)?.textRes = function.nameRes
+            (itemView as? FunctionCell)?.theme = theme
+
         }
     }
 
@@ -403,8 +482,8 @@ class FunctionsFragment : BaseFragment() {
         private var needLeftSpacing = false
 
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val frameWidth = ((parent.width - gridSpacing.toFloat() * (gridSize - 1)) / gridSize).toInt()
-            val padding = parent.width / gridSize - frameWidth
+            val frameWidth = ((parent.width - parent.paddingLeft - parent.paddingRight - gridSpacing.toFloat() * (gridSize - 1)) / gridSize).toInt()
+            val padding = (parent.width - parent.paddingLeft - parent.paddingRight) / gridSize - frameWidth
             val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
 
             if (itemPosition < gridSize) {
@@ -414,12 +493,12 @@ class FunctionsFragment : BaseFragment() {
             }
 
             if (itemPosition % gridSize == 0) {
-                outRect.left = gridSpacing
+                outRect.left = dp(2)
                 outRect.right = padding
                 needLeftSpacing = true
             } else if ((itemPosition + 1) % gridSize == 0) {
                 needLeftSpacing = false
-                outRect.right = gridSpacing
+                outRect.right = dp(2)
                 outRect.left = padding
             } else if (needLeftSpacing) {
                 needLeftSpacing = false
@@ -429,11 +508,11 @@ class FunctionsFragment : BaseFragment() {
                 } else {
                     outRect.right = gridSpacing / 2
                 }
-//            } else if ((itemPosition + 2) % gridSize == 0) {
-//                needLeftSpacing = false
-//                outRect.left = gridSpacing / 2
-//                outRect.right = gridSpacing - padding
-//            } else {
+            } else if ((itemPosition + 2) % gridSize == 0) {
+                needLeftSpacing = false
+                outRect.left = gridSpacing / 2
+                outRect.right = gridSpacing - padding
+            } else {
                 needLeftSpacing = false
                 outRect.left = gridSpacing / 2
                 outRect.right = gridSpacing / 2

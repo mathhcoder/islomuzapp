@@ -30,7 +30,7 @@ android {
         def v = getAppVersion(false)
 
         applicationId "uz.islom"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 29
 
 
@@ -102,7 +102,7 @@ dependencies {
     //custom views
     implementation 'me.yokeyword:swipebackfragment:0.4.0'
     implementation 'me.tankery.lib:circularSeekBar:1.1.7'
-    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+  //  implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 
 
     //log, crashlytics
@@ -110,8 +110,8 @@ dependencies {
 
 
     //fireBase
-    implementation 'com.google.firebase:firebase-auth:19.0.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+   // implementation 'com.google.firebase:firebase-auth:19.0.0'
+   // implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
     //exoPlayer
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.4'

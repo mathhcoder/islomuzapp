@@ -14,8 +14,9 @@ enum class AppTheme(
         val mainIconsDarkColor: Int,
         val mainLineColor: Int,
         val mainFunctionsColor: Int,
-        val mainSeekBarColor: Int,
+        val mainSeekBarDotColor: Int,
         val mainSeekBarProgressColor: Int,
+        val mainSeekBarFillColor: Int,
         val mainListColor: Int
 ) {
 
@@ -31,8 +32,9 @@ enum class AppTheme(
             Color.parseColor("#6A9E65"),
             Color.parseColor("#457544"),
             Color.parseColor("#40803A"),
-            Color.parseColor("#497951"),
-            Color.parseColor("#E8F695"),
+            Color.parseColor("#DEF28E"),
+            Color.parseColor("#DEF28E"),
+            Color.parseColor("#4A9642"),
             Color.WHITE
     ),
 
@@ -50,6 +52,7 @@ enum class AppTheme(
             Color.parseColor("#465460"),
             Color.parseColor("#498CC7"),
             Color.parseColor("#465460"),
+            Color.parseColor("#7DBFFA"),
             Color.parseColor("#7DBFFA"),
             Color.parseColor("#242423")
     )
