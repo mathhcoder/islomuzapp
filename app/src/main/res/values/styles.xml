@@ -11,4 +11,9 @@
 
     </style>
 
+    <style name="BottomNavigationViewTheme" parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
 </resources>

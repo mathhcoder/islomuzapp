@@ -10,14 +10,14 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import uz.islom.R
 import uz.islom.fiqh.calculateQibla
 import uz.islom.ui.base.BaseImageButton
@@ -27,6 +27,8 @@ import uz.islom.android.colour
 import uz.islom.android.compass.CompassAssistantListener
 import uz.islom.android.compass.CompassListener
 import uz.islom.android.string
+import uz.islom.fiqh.makkahLat
+import uz.islom.fiqh.makkahLng
 import uz.islom.ui.util.dp
 import uz.islom.ui.util.full
 import uz.islom.ui.util.getMinScreenSize
@@ -51,50 +53,50 @@ class KiblaFragment : SwipeAbleFragment() {
 
         val imageSize = (activity?.getMinScreenSize() ?: dp(360)) / 4 * 3
 
-        return FrameLayout(inflater.context).apply {
+        return ScrollView(inflater.context).apply {
 
-            addView(FrameLayout(context).apply {
+            addView(LinearLayout(context).apply {
 
-                addView(BaseImageButton(context).apply {
-                    id = R.id.backButton
-                    setButtonPadding(dp(16))
-                }, ViewGroup.LayoutParams(dp(56), dp(56)))
+                orientation = LinearLayout.VERTICAL
+                mapView = MapView(context)
 
-                addView(BaseTextView(context).apply {
-                    id = R.id.titleView
-                    gravity = Gravity.CENTER_VERTICAL
-                    text = string(R.string.kibla)
-                    setTextSizeSp(18)
-                }, FrameLayout.LayoutParams(full, full).apply {
-                    leftMargin = dp(72)
-                    rightMargin = dp(16)
-                })
+                addView(FrameLayout(context).apply {
 
-            }, ViewGroup.LayoutParams(full, dp(56)))
+                    addView(BaseImageButton(context).apply {
+                        id = R.id.backButton
+                        setButtonPadding(dp(16))
+                    }, ViewGroup.LayoutParams(dp(56), dp(56)))
 
-            mapView = MapView(context)
+                    addView(BaseTextView(context).apply {
+                        id = R.id.titleView
+                        gravity = Gravity.CENTER_VERTICAL
+                        text = string(R.string.kibla)
+                        setTextSizeSp(18)
+                    }, FrameLayout.LayoutParams(full, full).apply {
+                        leftMargin = dp(72)
+                        rightMargin = dp(16)
+                    })
 
-            addView(mapView, FrameLayout.LayoutParams(full, dp(196)).apply {
-                topMargin = dp(56)
-            })
+                }, ViewGroup.LayoutParams(full, dp(56)))
 
-            addView(FrameLayout(context).apply {
+                addView(mapView, FrameLayout.LayoutParams(full, dp(196)))
 
-                id = R.id.container
+                addView(FrameLayout(context).apply {
 
-                addView(AppCompatImageView(context).apply {
-                    id = R.id.imageView
+                    id = R.id.container
+
+                    addView(AppCompatImageView(context).apply {
+                        id = R.id.imageView
+                    }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER_HORIZONTAL))
+
+                    addView(AppCompatImageView(context).apply {
+                        id = R.id.imageView2
+                    }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER_HORIZONTAL))
+
+
                 }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER_HORIZONTAL))
 
-                addView(AppCompatImageView(context).apply {
-                    id = R.id.imageView2
-                }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER_HORIZONTAL))
-
-
-            }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER_HORIZONTAL).apply {
-                topMargin = dp(308)
             })
-
 
             layoutParams = ViewGroup.LayoutParams(full, full)
 
@@ -106,7 +108,6 @@ class KiblaFragment : SwipeAbleFragment() {
 
         val padding = (activity?.getMinScreenSize() ?: dp(360)) / 100 * 8
 
-
         view.findViewById<BaseImageButton>(R.id.backButton).apply {
             setImageResources(R.drawable.ic_arrow_left, colour(R.color.black))
             setOnClickListener {
@@ -114,9 +115,9 @@ class KiblaFragment : SwipeAbleFragment() {
             }
         }
 
-        val makkah = LatLng(21.42250833, 39.82616111)
-        var curDegree = 0f
+        val makkah = LatLng(makkahLat, makkahLng)
 
+        var curDegree = 0f
 
         mapView?.apply {
             onCreate(savedInstanceState)
@@ -128,7 +129,9 @@ class KiblaFragment : SwipeAbleFragment() {
 
                         val qiblaDegree = calculateQibla(location.latitude, location.longitude)
 
-                        map?.addPolyline(PolylineOptions().clickable(true).addAll(listOf(makkah, LatLng(location.latitude, location.longitude))))
+                        val pattern = arrayListOf(Dash(dp(16).toFloat()), Gap(dp(4).toFloat()))
+
+                        map?.addPolyline(PolylineOptions().clickable(true).addAll(listOf(makkah, LatLng(location.latitude, location.longitude))).pattern(pattern).geodesic(true))
                         map?.moveCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds(makkah, LatLng(location.latitude, location.longitude)), padding))
 
                         view.findViewById<ImageView>(R.id.imageView2).apply {

@@ -7,10 +7,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
+const val makkahLat = 21.42250833
+const val makkahLng = 39.82616111
 
 fun calculateQibla(lat: Double, lng : Double): Double {
-    val lngA = 39.82616111
-    val latA = 21.42250833
-    val deg = toDegrees(atan2(sin(toRadians(lngA - lng)), cos(toRadians(lat)) * tan(toRadians(latA)) - sin(toRadians(lat)) * cos(toRadians(lngA - lng))))
+    val deg = toDegrees(atan2(sin(toRadians(makkahLng - lng)), cos(toRadians(lat)) * tan(toRadians(makkahLat)) - sin(toRadians(lat)) * cos(toRadians(makkahLng - lng))))
     return if (deg >= 0) deg else deg + 360
 }
