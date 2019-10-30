@@ -85,16 +85,6 @@ class FunctionsFragment : BaseFragment() {
 
                 orientation = LinearLayout.VERTICAL
 
-                addView(BaseTextView(context).apply {
-                    id = R.id.titleView
-                    gravity = Gravity.CENTER
-                    maxLines = 1
-                    text = string(R.string.app_name)
-                    setTextColor(AppTheme.GREEN.secondaryColor)
-                    setBackgroundColor(AppTheme.GREEN.toolBarColor)
-                    setTextSizeSp(20)
-                }, LinearLayout.LayoutParams(full, dp(56)))
-
                 addView(MaterialCardView(context).apply {
 
                     id = R.id.idSalatsClickableLayout

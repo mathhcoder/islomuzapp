@@ -1,14 +1,17 @@
 package uz.islom.ui.screens.functions
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -20,9 +23,11 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import uz.islom.R
+import uz.islom.android.bitmapDescriptorFromVector
 import uz.islom.android.colour
+import uz.islom.android.drawable
 import uz.islom.android.string
-import uz.islom.ui.base.BaseActivity
+import uz.islom.model.db.Mosque
 import uz.islom.ui.base.BaseImageButton
 import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.base.SwipeAbleFragment
@@ -101,9 +106,12 @@ class NearMosquesFragment : SwipeAbleFragment() {
                     setMinZoomPreference(11f)
                     setOnMarkerClickListener { marker ->
                         mosquesViewModel.mosques.value?.find { mosque -> mosque.id == marker.snippet.toLong() }?.let { mosque ->
-                            (activity as? BaseActivity)?.navigationManager?.navigateToMosqueInfo(mosque)
+                            goMosque(mosque)
                         }
                         true
+                    }
+                    setOnCameraIdleListener {
+                        mosquesViewModel.getMosques(cameraPosition.target)
                     }
                 }
 
@@ -115,7 +123,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
                     fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                         location?.let { l ->
                             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(l.latitude, l.longitude), 14f))
-                            mosquesViewModel.getMosques(l, 3)
+                            mosquesViewModel.getMosques(LatLng(l.latitude, l.longitude))
                         }
                     }
 
@@ -124,10 +132,13 @@ class NearMosquesFragment : SwipeAbleFragment() {
                 }
 
                 mosquesViewModel.mosques.observe(this@NearMosquesFragment, Observer { mosques ->
+                    val vectorDrawable = drawable(R.drawable.ic_mosque_marker)
+                    vectorDrawable?.setBounds(40, 20, vectorDrawable.intrinsicWidth + 40, vectorDrawable.intrinsicHeight + 20)
+
+
                     mosques.forEach { mosque ->
-                        it.addMarker(MarkerOptions().title(mosque.name).position(LatLng(mosque.lat, mosque.lng)).snippet(mosque.id.toString())
-                                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mosque_marker))
-                        )
+                        it.addMarker(MarkerOptions().title(mosque.name).position(LatLng(mosque.latitude, mosque.longitude)).snippet(mosque.id.toString())
+                                .icon(bitmapDescriptorFromVector(context, R.drawable.ic_mosque_marker)))
                     }
                 })
             }
@@ -142,6 +153,23 @@ class NearMosquesFragment : SwipeAbleFragment() {
             } else {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
             }
+        }
+    }
+
+    private fun goMosque(mosque: Mosque) {
+        context?.let {
+            AlertDialog.Builder(it)
+                    .setTitle(mosque.name)
+                    .setPositiveButton(R.string.yes) { a, _ ->
+                        a.dismiss()
+                        startActivity(Intent(Intent.ACTION_VIEW,
+                                Uri.parse("http://maps.google.com/maps?daddr=${mosque.latitude},${mosque.longitude}"))
+                        )
+                    }
+                    .setNegativeButton(R.string.no) { a, _ ->
+                        a.dismiss()
+                    }
+                    .show()
         }
     }
 

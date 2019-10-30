@@ -43,15 +43,19 @@
     <string name="salat">Namoz</string>
     <string name="fasting">Ro\'za</string>
 
+    <string name="yes">Ha</string>
+    <string name="no">Yo\'q</string>
+
 
     <string-array name="week_days_gregorian">
-        <item>Якшанба</item>
+        <item></item>
         <item>Душанба</item>
         <item>Сешанба</item>
         <item>Чоршанба</item>
         <item>Пайшанба</item>
         <item>Жума</item>
         <item>Шанба</item>
+        <item>Якшанба</item>
     </string-array>
 
     <string-array name="year_months_hijri">

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,9 +14,14 @@ import com.google.android.material.resources.TextAppearance
 import uz.islom.R
 import uz.islom.android.string
 import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.base.BaseTextView
 import uz.islom.ui.screens.pager.FunctionsFragment
 import uz.islom.ui.screens.pager.ProfileFragment
 import uz.islom.ui.screens.pager.SitesFragment
+import uz.islom.ui.util.AppTheme
+import uz.islom.ui.util.dp
+import uz.islom.ui.util.full
+import uz.islom.ui.util.setTextSizeSp
 
 class MainFragment : BaseFragment() {
 
@@ -24,11 +30,20 @@ class MainFragment : BaseFragment() {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.BOTTOM
 
+            addView(BaseTextView(context).apply {
+                id = R.id.titleView
+                gravity = Gravity.CENTER
+                maxLines = 1
+                text = string(R.string.app_name)
+                setTextSizeSp(20)
+            }, LinearLayout.LayoutParams(full, dp(56)))
+
             addView(ViewPager(context).apply {
                 id = R.id.viewPager
             }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
 
-            addView(BottomNavigationView(context).apply {
+            addView(BottomNavigationView(context,null,R.style.BottomNavigationViewTheme).apply {
+
                 id = R.id.bottomNavigationView
                 menu.add(0, 0, 1, string(R.string.home)).setIcon(R.drawable.ic_menu)
                 menu.add(0, 1, 1, string(R.string.web)).setIcon(R.drawable.ic_web)
@@ -79,5 +94,18 @@ class MainFragment : BaseFragment() {
 
         })
 
+        bindTheme(AppTheme.GREEN)
+
+    }
+
+    private fun bindTheme(appTheme: AppTheme){
+        view?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.apply {
+            setBackgroundColor(appTheme.secondaryColor)
+        }
+
+        view?.findViewById<TextView>(R.id.titleView)?.apply {
+            setTextColor(appTheme.secondaryColor)
+            setBackgroundColor(appTheme.toolBarColor)
+        }
     }
 }
