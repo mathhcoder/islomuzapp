@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import uz.islom.R
-import uz.islom.android.colour
-import uz.islom.android.drawable
+import uz.islom.ext.colour
+import uz.islom.ext.drawable
 
 
 class BaseImageButton @JvmOverloads constructor(

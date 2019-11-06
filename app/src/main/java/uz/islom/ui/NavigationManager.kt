@@ -8,17 +8,17 @@ import uz.islom.model.enums.FunctionType
 import uz.islom.model.enums.OptionType
 import uz.islom.model.db.Mosque
 import uz.islom.model.db.Site
-import uz.islom.ui.screens.MainFragment
-import uz.islom.ui.screens.auth.AuthorizationFragment
-import uz.islom.ui.screens.auth.RegistrationFragment
-import uz.islom.ui.screens.functions.*
-import uz.islom.ui.screens.info.SalatFragment
-import uz.islom.ui.screens.info.MosqueFragment
-import uz.islom.ui.screens.options.AboutFragment
-import uz.islom.ui.screens.options.FeedbackFragment
-import uz.islom.ui.screens.options.OfferFragment
-import uz.islom.ui.screens.options.SettingsFragment
-import uz.islom.ui.screens.other.SiteFragment
+import uz.islom.ui.fragment.MainFragment
+import uz.islom.ui.fragment.auth.AuthorizationFragment
+import uz.islom.ui.fragment.auth.RegistrationFragment
+import uz.islom.ui.fragment.functions.*
+import uz.islom.ui.fragment.info.SalatFragment
+import uz.islom.ui.fragment.info.MosqueFragment
+import uz.islom.ui.fragment.options.AboutFragment
+import uz.islom.ui.fragment.options.FeedbackFragment
+import uz.islom.ui.fragment.options.OfferFragment
+import uz.islom.ui.fragment.options.SettingsFragment
+import uz.islom.ui.fragment.other.SiteFragment
 
 
 class NavigationManager {
@@ -108,7 +108,7 @@ class NavigationManager {
 
             FunctionType.MOSQUE -> NearMosquesFragment.newInstance()
 
-            FunctionType.KIBLA -> KiblaFragment.newInstance()
+            FunctionType.KIBLA -> QiblaFragment.newInstance()
 
             FunctionType.RADIO -> RadioFragment.newInstance()
 

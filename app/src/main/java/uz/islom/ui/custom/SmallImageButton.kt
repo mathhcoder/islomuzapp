@@ -6,10 +6,10 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
-import uz.islom.ui.util.AppTheme
+import uz.islom.model.enums.ThemeType
 import uz.islom.ui.base.BaseTextView
-import uz.islom.ui.util.dp
-import uz.islom.ui.util.wrap
+import uz.islom.ext.dp
+import uz.islom.ext.wrap
 
 class SmallImageButton @JvmOverloads constructor(
     context: Context,
@@ -29,7 +29,7 @@ class SmallImageButton @JvmOverloads constructor(
             textView.text = value
         }
 
-    var theme: AppTheme = AppTheme.GREEN
+    var theme: ThemeType = ThemeType.GREEN
         set(value) {
             field = value
             textView.setTextColor(Color.WHITE)

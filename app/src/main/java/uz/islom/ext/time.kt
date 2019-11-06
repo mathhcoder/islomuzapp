@@ -3,8 +3,6 @@ package uz.islom.ext
 import android.content.Context
 import org.joda.time.DateTime
 import uz.islom.R
-import uz.islom.android.string
-import java.util.*
 
 fun Long.milliseconds2formattedTime(): String {
     val d = this / 86400000
