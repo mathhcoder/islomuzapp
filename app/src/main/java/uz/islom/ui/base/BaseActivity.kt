@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import uz.islom.android.setNewLocale
+import uz.islom.ext.setNewLocale
 import uz.islom.ui.NavigationManager
 
 abstract class BaseActivity : AppCompatActivity() {

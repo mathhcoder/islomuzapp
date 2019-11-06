@@ -5,18 +5,23 @@
 
     <item name="viewPager" type="id" />
     <item name="bottomNavigationView" type="id" />
-    <item name="titleView" type="id" />
-    <item name="backButton" type="id" />
-    <item name="recyclerView" type="id" />
     <item name="calendarView" type="id" />
-    <item name="idFooterView" type="id"/>
+
+    <item name="idBackButton" type="id" />
+    <item name="idTitleTextView" type="id" />
+
+    <item name="idRecyclerView" type="id" />
+
+    <item name="idHeaderLayout" type="id" />
+    <item name="idFooterLayout" type="id" />
+
+    <item name="idTextView" type="id" />
+    <item name="idImageView" type="id" />
 
 
-
-    <!-- Functions -->
+    <!-- SalatState -->
     <item name="idRootLayout" type="id" />
-    <item name="idSalatsClickableLayout" type="id" />
-    <item name="idSalatInfoLayout" type="id" />
+    <item name="idSalatStateLayout" type="id" />
 
     <item name="idProgressView" type="id" />
     <item name="idCurrentSalatNameView" type="id" />
@@ -35,7 +40,6 @@
     <item name="idNotificationImageView" type="id" />
 
 
-    <item name="imageView" type="id" />
     <item name="imageView2" type="id" />
     <item name="textView" type="id" />
 
@@ -43,6 +47,12 @@
     <item name="mapView" type="id" />
     <item name="playButton" type="id" />
     <item name="liveButton" type="id" />
+
+
+    <item name="idNameView" type="id" />
+    <item name="idNavigationView" type="id" />
+    <item name="idInfoView" type="id" />
+    <item name="idDistanceView" type="id" />
 
 
 </resources>

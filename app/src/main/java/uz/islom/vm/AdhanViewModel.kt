@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.AlarmManagerCompat
 import uz.islom.model.app.Salat
-import uz.islom.android.receiver.CommandListener
+import uz.islom.service.CommandListener
 import uz.islom.ui.MainActivity
 
 class AdhanViewModel : BaseViewModel() {

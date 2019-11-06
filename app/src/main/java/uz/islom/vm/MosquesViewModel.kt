@@ -5,10 +5,10 @@ import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import uz.islom.io.net.ApiFactory
-import uz.islom.io.preference.getMosqueUrl
-import uz.islom.io.preference.setMosqueUrl
-import uz.islom.io.subscribeKt
+import uz.islom.model.ApiFactory
+import uz.islom.model.preference.getMosqueUrl
+import uz.islom.model.preference.setMosqueUrl
+import uz.islom.ext.subscribeKt
 import uz.islom.model.db.Mosque
 
 class MosquesViewModel : BaseViewModel() {

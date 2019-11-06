@@ -5,7 +5,7 @@ import androidx.core.app.NotificationCompat
 import uz.islom.R
 import uz.islom.model.app.Salat
 import uz.islom.ui.MainActivity
-import uz.islom.android.makeNotification
+import uz.islom.ext.makeNotification
 import java.text.SimpleDateFormat
 import java.util.*
 

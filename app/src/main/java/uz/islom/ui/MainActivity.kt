@@ -1,7 +1,7 @@
 package uz.islom.ui
 
 import android.os.Bundle
-import uz.islom.io.preference.getUserToken
+import uz.islom.model.preference.getUserToken
 import uz.islom.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {
