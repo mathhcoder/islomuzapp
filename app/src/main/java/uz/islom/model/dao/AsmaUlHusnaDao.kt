@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Single
-import uz.islom.model.`object`.AsmaUlHusna
+import uz.islom.model.entity.AsmaUlHusna
 
 @Dao
 interface AsmaUlHusnaDao : BaseDao {

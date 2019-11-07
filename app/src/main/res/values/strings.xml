@@ -7,6 +7,7 @@
     <string name="left_salat_format">- %s</string>
     <string name="grigorian_date_format">%s. %d %s, %d</string>
     <string name="hijri_date_format">%d %s, %d</string>
+    <string name="asma_ul_husna_format">%d. %s</string>
 
     <string name="home">Асосий</string>
     <string name="web">Вебсаҳифа</string>

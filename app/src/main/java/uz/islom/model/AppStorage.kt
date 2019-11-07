@@ -5,14 +5,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import uz.islom.IslomUzApp
-import uz.islom.model.`object`.AsmaUlHusna
+import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.convertor.ContentConvertor
 import uz.islom.model.dao.AsmaUlHusnaDao
-import uz.islom.model.db.Content
+import uz.islom.model.entity.Content
 import java.util.concurrent.atomic.AtomicReference
 
 
-@Database(entities = [AsmaUlHusna::class,Content::class],
+@Database(entities = [AsmaUlHusna::class, Content::class],
         exportSchema = false,
         version = 1)
 

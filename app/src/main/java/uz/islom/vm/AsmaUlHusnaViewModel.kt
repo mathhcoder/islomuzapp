@@ -5,7 +5,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import uz.islom.ext.subscribeKt
-import uz.islom.model.`object`.AsmaUlHusna
+import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.api.AsmaUlHusnaApi
 import uz.islom.model.repository.AsmaUlHusnaRepository
 
