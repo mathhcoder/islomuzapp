@@ -1,7 +1,7 @@
 package uz.islom.update
 
-import uz.islom.model.app.Salat
-import uz.islom.model.db.User
+import uz.islom.model.dm.Salat
+import uz.islom.model.entity.User
 import uz.islom.model.enums.ThemeType
 import java.util.*
 import kotlin.collections.ArrayList

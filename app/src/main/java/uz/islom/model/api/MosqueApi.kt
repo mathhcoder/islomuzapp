@@ -4,9 +4,9 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
-import uz.islom.model.db.Mosque
+import uz.islom.model.entity.Mosque
 
-interface MosqueApi : BaseApi {
+interface MosqueApi  {
 
     @GET
     fun getMosques(

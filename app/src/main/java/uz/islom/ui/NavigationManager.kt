@@ -4,21 +4,30 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import uz.islom.R
+import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.enums.FunctionType
 import uz.islom.model.enums.OptionType
-import uz.islom.model.db.Mosque
-import uz.islom.model.db.Site
-import uz.islom.ui.fragment.MainFragment
+import uz.islom.model.entity.Site
+import uz.islom.ui.fragment.asma.AsmaUlHusnaFragment
+import uz.islom.ui.fragment.main.MainFragment
 import uz.islom.ui.fragment.auth.AuthorizationFragment
 import uz.islom.ui.fragment.auth.RegistrationFragment
-import uz.islom.ui.fragment.functions.*
+import uz.islom.ui.fragment.tasbih.*
 import uz.islom.ui.fragment.info.SalatFragment
-import uz.islom.ui.fragment.info.MosqueFragment
-import uz.islom.ui.fragment.options.AboutFragment
-import uz.islom.ui.fragment.options.FeedbackFragment
-import uz.islom.ui.fragment.options.OfferFragment
-import uz.islom.ui.fragment.options.SettingsFragment
-import uz.islom.ui.fragment.other.SiteFragment
+import uz.islom.ui.fragment.profile.AboutFragment
+import uz.islom.ui.fragment.profile.FeedbackFragment
+import uz.islom.ui.fragment.profile.OfferFragment
+import uz.islom.ui.fragment.profile.SettingsFragment
+import uz.islom.ui.fragment.article.SiteFragment
+import uz.islom.ui.fragment.asma.AsmaUlHusnaDescriptionFragment
+import uz.islom.ui.fragment.calendar.CalendarFragment
+import uz.islom.ui.fragment.dua.DuaFragment
+import uz.islom.ui.fragment.media.MediaFragment
+import uz.islom.ui.fragment.mosque.NearMosquesFragment
+import uz.islom.ui.fragment.qibla.QiblaFragment
+import uz.islom.ui.fragment.quran.QuranFragment
+import uz.islom.ui.fragment.radio.RadioFragment
+import uz.islom.ui.fragment.zakat.ZakatCalculatorFragment
 
 
 class NavigationManager {
@@ -104,7 +113,7 @@ class NavigationManager {
 
             //FunctionType.NOTIFICATION -> NotificationFragment.newInstance()
 
-            FunctionType.KURAN -> KuranFragment.newInstance()
+            FunctionType.KURAN -> QuranFragment.newInstance()
 
             FunctionType.MOSQUE -> NearMosquesFragment.newInstance()
 
@@ -180,11 +189,11 @@ class NavigationManager {
     }
 
     fun navigateToSite(site: Site) {
-        addFragment(fragment = SiteFragment.newInstance(site), tag = "site:${site.id}", withBackStack = true, withAnimation = true)
+        addFragment(fragment = SiteFragment.newInstance(site), tag = "${site.javaClass.name}:${site.id}", withBackStack = true, withAnimation = true)
     }
 
-    fun navigateToMosqueInfo(mosque: Mosque) {
-        addFragment(fragment = MosqueFragment.newInstance(mosque), tag = "mosque:${mosque.id}", withBackStack = true, withAnimation = true)
+    fun navigateToAsmaUlHusna(asmaUlHusna: AsmaUlHusna) {
+        addFragment(fragment = AsmaUlHusnaDescriptionFragment.newInstance(asmaUlHusna), tag = "${asmaUlHusna.javaClass.name}:${asmaUlHusna.id}", withBackStack = true, withAnimation = true)
     }
 
     private fun addFragment(fragment: Fragment, tag: String, withBackStack: Boolean, withAnimation: Boolean) {

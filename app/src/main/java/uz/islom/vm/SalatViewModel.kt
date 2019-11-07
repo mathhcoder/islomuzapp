@@ -3,10 +3,10 @@ package uz.islom.vm
 import com.google.android.gms.maps.model.LatLng
 import timber.log.Timber
 import uz.islom.fiqh.calculateSalatTimes
-import uz.islom.model.app.*
-import uz.islom.model.db.Content
-import uz.islom.model.db.University
-import uz.islom.model.app.Adjustments
+import uz.islom.model.dm.*
+import uz.islom.model.entity.Content
+import uz.islom.model.entity.University
+import uz.islom.model.dm.Adjustments
 import uz.islom.model.enums.MadhabType
 import uz.islom.model.enums.NotificationType
 import uz.islom.model.enums.SalatType

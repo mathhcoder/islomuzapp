@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import uz.islom.R
 import uz.islom.ext.*
-import uz.islom.model.app.Salat
+import uz.islom.model.dm.Salat
 import uz.islom.model.enums.ThemeType
 import uz.islom.model.enums.SalatType
 import uz.islom.ui.base.BaseImageButton
