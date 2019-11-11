@@ -7,20 +7,25 @@
     <string name="left_salat_format">- %s</string>
     <string name="grigorian_date_format">%s. %d %s, %d</string>
     <string name="hijri_date_format">%d %s, %d</string>
-    <string name="asma_ul_husna_format">%d. %s</string>
+    <string name="mosque_distance_format">%.1f км</string>
 
     <string name="home">Асосий</string>
     <string name="web">Вебсаҳифа</string>
     <string name="settings">Созламалар</string>
 
-    <string name="kuran">Қуръон</string>
+    <string name="quran">Қуръон</string>
+    <string name="surah">Сура</string>
+    <string name="juz">Жуз</string>
+    <string name="bookmark">Хатчуп</string>
+
     <string name="radio">Радио</string>
     <string name="mosque">Масжидлар</string>
-    <string name="kibla">Қибла</string>
+    <string name="qibla">Қибла</string>
     <string name="calendar">Тақвим</string>
     <string name="media">Медиа</string>
     <string name="dua">Дуо</string>
-    <string name="asma_ul_husna">Исмлар</string>
+    <string name="names">Исмлар</string>
+    <string name="asma_ul_husna">Асма Ул-Ҳусна</string>
     <string name="tasbih">Тасбеҳ</string>
     <string name="zakat_calculator">Закот ҳисоблагич</string>
 

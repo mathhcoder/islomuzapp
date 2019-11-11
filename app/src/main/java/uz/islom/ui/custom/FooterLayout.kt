@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import uz.islom.R
-import uz.islom.model.enums.ThemeType
+import uz.islom.model.dm.Theme
 import uz.islom.ext.full
 
 class FooterLayout @JvmOverloads constructor(
@@ -16,7 +16,7 @@ class FooterLayout @JvmOverloads constructor(
         defStyle: Int = 0
 ) : FrameLayout(context, attributes, defStyle) {
 
-    var theme = ThemeType.GREEN
+    var theme = Theme.GREEN
         set(value) {
             field = value
             findViewById<AppCompatImageView>(R.id.idImageView)?.setColorFilter(value.footerColor)

@@ -13,9 +13,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.islom.R
 import uz.islom.ext.string
-import uz.islom.ui.base.BaseFragment
-import uz.islom.ui.base.BaseTextView
-import uz.islom.model.enums.ThemeType
+import uz.islom.ui.fragment.BaseFragment
+import uz.islom.ui.custom.BaseTextView
+import uz.islom.model.dm.Theme
 import uz.islom.ext.dp
 import uz.islom.ext.full
 import uz.islom.ext.setTextSizeSp
@@ -23,7 +23,7 @@ import uz.islom.ext.setTextSizeSp
 
 class MainFragment : BaseFragment() {
 
-    private val appTheme = ThemeType.GREEN
+    private val appTheme = Theme.GREEN
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return LinearLayout(inflater.context).apply {
@@ -39,10 +39,8 @@ class MainFragment : BaseFragment() {
             }, LinearLayout.LayoutParams(full, dp(56)))
 
             addView(ViewPager(context).apply {
-                id = R.id.viewPager
+                id = R.id.idViewPager
             }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
-
-
 
             addView(BottomNavigationView(context, null, R.style.BottomNavigationViewTheme).apply {
 
@@ -64,7 +62,7 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewPager = view.findViewById<ViewPager>(R.id.viewPager)?.apply {
+        val viewPager = view.findViewById<ViewPager>(R.id.idViewPager)?.apply {
 
             offscreenPageLimit = 5
 
@@ -102,11 +100,11 @@ class MainFragment : BaseFragment() {
 
         })
 
-        bindTheme(ThemeType.GREEN)
+        bindTheme(Theme.GREEN)
 
     }
 
-    private fun bindTheme(appTheme: ThemeType) {
+    private fun bindTheme(appTheme: Theme) {
         view?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.apply {
             setBackgroundColor(appTheme.secondaryColor)
         }

@@ -9,12 +9,13 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.checkbox.MaterialCheckBox
+import uz.islom.R
 import uz.islom.ext.dp
 import uz.islom.ext.full
 import uz.islom.ext.setTextSizeSp
 import uz.islom.ext.wrap
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseTextView
+import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.BaseTextView
 
 class SalatCell @JvmOverloads constructor(
         context: Context,
@@ -40,23 +41,26 @@ class SalatCell @JvmOverloads constructor(
             notificationIconView.setImageDrawable(value)
         }
 
-    var theme: ThemeType = ThemeType.GREEN
+    var theme: Theme? = null
         set(value) {
             field = value
-            salatNameView.setTextColor(theme.tertiaryColor)
-            salatTimeView.setTextColor(theme.tertiaryColor)
-            notificationIconView.setColorFilter(theme.tertiaryColor)
-            setCardBackgroundColor(theme.secondaryColor)
+            if(value!=null){
+                salatNameView.setTextColor(value.tertiaryColor)
+                salatTimeView.setTextColor(value.tertiaryColor)
+                notificationIconView.setColorFilter(value.tertiaryColor)
+                setCardBackgroundColor(value.secondaryColor)
+            }
         }
 
     var isRead: Boolean = false
 
     private val notificationIconView = AppCompatImageView(context).apply {
+        id = R.id.idImageView
         setPadding(dp(16), dp(16), dp(16), dp(16))
-        setColorFilter(theme.tertiaryColor)
     }
 
     private val salatNameView = BaseTextView(context).apply {
+        id = R.id.idTitleTextView
         setTextColor(Color.BLACK)
         setTextSizeSp(16)
         gravity = Gravity.CENTER_VERTICAL
@@ -76,8 +80,6 @@ class SalatCell @JvmOverloads constructor(
     init {
         isClickable = true
         cardElevation = 1f
-
-        setCardBackgroundColor(theme.secondaryColor)
 
         addView(notificationIconView, LayoutParams(dp(56), dp(56), Gravity.END))
         addView(isReadView, LinearLayout.LayoutParams(dp(56), dp(56)))

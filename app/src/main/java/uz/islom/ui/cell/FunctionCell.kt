@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseTextView
+import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.BaseTextView
 import uz.islom.ext.dp
 import uz.islom.ext.setTextSizeSp
 import uz.islom.ext.wrap
@@ -29,24 +29,23 @@ class FunctionCell @JvmOverloads constructor(
             textView.setText(value)
         }
 
-    var theme: ThemeType = ThemeType.GREEN
+    var theme: Theme? = null
         set(value) {
+            if(value!=null) {
+                imageView.setColorFilter(value.primaryColor)
+                textView.setTextColor(value.tertiaryColor)
+                setCardBackgroundColor(value.secondaryColor)
+            }
             field = value
-            imageView.setColorFilter(theme.primaryColor)
-            textView.setTextColor(theme.tertiaryColor)
-            setCardBackgroundColor(theme.secondaryColor)
         }
 
     private val imageView by lazy {
-        return@lazy AppCompatImageView(context).apply {
-            setColorFilter(theme.primaryColor)
-        }
+        return@lazy AppCompatImageView(context)
     }
 
     private val textView by lazy {
         return@lazy BaseTextView(context).apply {
             gravity = Gravity.CENTER_HORIZONTAL
-            setTextColor(theme.tertiaryColor)
             setTextSizeSp(12)
         }
     }
@@ -54,8 +53,6 @@ class FunctionCell @JvmOverloads constructor(
     init {
         isClickable = true
         radius = dp(6).toFloat()
-
-        setCardBackgroundColor(theme.secondaryColor)
 
         addView(imageView, LayoutParams(dp(48), dp(48), Gravity.CENTER_HORIZONTAL).apply {
             topMargin = dp(16)

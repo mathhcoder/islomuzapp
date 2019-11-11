@@ -1,10 +1,10 @@
-package uz.islom.model.convertor
+package uz.islom.model.converter
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import uz.islom.model.entity.Content
 
-class ContentConvertor{
+class ContentConverter{
 
     @TypeConverter
     fun fromString(value: String): Content {

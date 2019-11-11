@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.fragment.BaseFragment
 import uz.islom.ext.full
 
 class RegistrationFragment : BaseFragment() {

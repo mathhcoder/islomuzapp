@@ -10,14 +10,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import uz.islom.R
-import uz.islom.ext.*
+import uz.islom.ext.recycler.ItemDivider
+import uz.islom.ext.dp
+import uz.islom.ext.full
+import uz.islom.ext.string
+import uz.islom.model.dm.Theme
 import uz.islom.model.entity.AsmaUlHusna
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseActivity
-import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.ui.BaseActivity
 import uz.islom.ui.cell.AsmaUlHusnaCell
+import uz.islom.ui.cell.LoadingCell
 import uz.islom.ui.custom.HeaderLayout
+import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.vm.AsmaUlHusnaViewModel
+
 
 class AsmaUlHusnaFragment : SwipeAbleFragment() {
 
@@ -30,7 +35,15 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         ViewModelProviders.of(this).get(AsmaUlHusnaViewModel::class.java)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: ThemeType): View? {
+    private var loading = false
+    private val pageSize = 12
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        asmaUlHusnaViewModel.loadMore(pageSize, 0)
+    }
+
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
         return FrameLayout(inflater.context).apply {
 
             addView(HeaderLayout(context).apply {
@@ -45,6 +58,7 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
                     id = R.id.idRecyclerView
                     layoutManager = LinearLayoutManager(context)
                     overScrollMode = View.OVER_SCROLL_NEVER
+                    addItemDecoration(ItemDivider(context, appTheme, 0))
                 }, FrameLayout.LayoutParams(full, full))
 
             }, FrameLayout.LayoutParams(full, full).apply {
@@ -57,9 +71,7 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
         view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
             onBackListener = object : HeaderLayout.OnBackClickListener {
                 override fun onBackClicked() {
@@ -69,46 +81,99 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         }
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
-            adapter = asmaUlHusnaAdapter
+            adapter = asmaUlHusnaAdapter.apply {
+                setItems(asmaUlHusnaViewModel.newItemsUpdate.value ?: ArrayList())
+            }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                    val visibleItemCount = layoutManager?.childCount ?: 0
+                    val totalItemCount = layoutManager?.itemCount ?: 0
+                    val lastVisibleItemPosition = ((layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition() ?: 0)
+
+                    if (!asmaUlHusnaViewModel.isFullyLoaded()
+                            && !loading
+                            && (visibleItemCount + lastVisibleItemPosition) >= totalItemCount
+                            && lastVisibleItemPosition >= 0) {
+
+                        asmaUlHusnaViewModel.loadMore(pageSize, asmaUlHusnaAdapter.itemCount)
+                        loading = true
+                    }
+                }
+            })
         }
 
-        asmaUlHusnaViewModel.data.observe(this, Observer {
-            asmaUlHusnaAdapter.data = it
+        asmaUlHusnaViewModel.newItemsUpdate.observe(this, Observer {
+            asmaUlHusnaAdapter.addItems(it)
+            asmaUlHusnaAdapter.isLoading(asmaUlHusnaViewModel.isFullyLoaded())
+            loading = false
         })
-
     }
 
-    inner class AsmaUlHusnaAdapter : RecyclerView.Adapter<AsmaUlHusnaHolder>() {
+    inner class AsmaUlHusnaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        var data: List<AsmaUlHusna> = ArrayList()
-            set(value) {
-                field = value
-                notifyDataSetChanged()
+        private var data = ArrayList<AsmaUlHusna>()
+        private var isLoading = false
+
+        fun setItems(items: List<AsmaUlHusna>) {
+            data.clear()
+            data.addAll(items)
+            notifyDataSetChanged()
+        }
+
+        fun addItems(items: List<AsmaUlHusna>) {
+            data.addAll(items)
+            notifyDataSetChanged()
+        }
+
+        fun isLoading(isLoading: Boolean) {
+            this.isLoading = isLoading
+            if (isLoading) {
+                data.add(AsmaUlHusna())
+                notifyItemInserted(data.size - 1)
+            } else {
+                val position = data.size - 1
+                val item = data.getOrNull(position)
+                if (item != null) {
+                    data.removeAt(position)
+                    notifyItemRemoved(position)
+                }
             }
+        }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): AsmaUlHusnaHolder = AsmaUlHusnaHolder(AsmaUlHusnaCell(p0.context).apply {
-            layoutParams = ViewGroup.LayoutParams(full, dp(72))
-        })
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder =
+                if (p1 == 0) AsmaUlHusnaHolder(AsmaUlHusnaCell(p0.context).apply {
+                    layoutParams = ViewGroup.LayoutParams(full, dp(72))
+                }) else LoadingHolder(LoadingCell(p0.context).apply {
+                    layoutParams = ViewGroup.LayoutParams(full, dp(72))
+                })
 
         override fun getItemCount() = data.size
 
-        override fun onBindViewHolder(p0: AsmaUlHusnaHolder, p1: Int) {
-            data.getOrNull(p1)?.let {
-                p0.bindOption(it)
-            }
+        override fun getItemViewType(position: Int): Int {
+            return if (isLoading && data.size - 1 == position) 1 else 0
+        }
 
+        override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
+            data.getOrNull(p1)?.let {
+                (p0 as? AsmaUlHusnaHolder)?.bindOption(it)
+            }
         }
     }
 
     inner class AsmaUlHusnaHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindOption(asmaUlHusna: AsmaUlHusna) {
             (itemView as? AsmaUlHusnaCell)?.apply {
+                order = asmaUlHusna.id
                 nameArabic = asmaUlHusna.name?.ar
-                nameLocal = String.format(string(R.string.asma_ul_husna_format)?:"",asmaUlHusna.id,asmaUlHusna.name?.uz)
+                nameLocal = asmaUlHusna.name?.uz
+                description = asmaUlHusna.description?.uz
                 setOnClickListener {
                     (activity as? BaseActivity)?.navigationManager?.navigateToAsmaUlHusna(asmaUlHusna)
                 }
             }
         }
     }
+
+    inner class LoadingHolder(view: View) : RecyclerView.ViewHolder(view)
 }

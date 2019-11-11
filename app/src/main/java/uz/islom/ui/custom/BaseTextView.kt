@@ -1,4 +1,4 @@
-package uz.islom.ui.base
+package uz.islom.ui.custom
 
 import android.content.Context
 import android.graphics.Typeface

@@ -19,9 +19,7 @@ import com.google.android.material.card.MaterialCardView
 import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
 import uz.islom.ext.*
-import uz.islom.ui.base.BaseImageButton
-import uz.islom.ui.base.BaseTextView
-import uz.islom.model.enums.ThemeType
+import uz.islom.model.dm.Theme
 
 class SalatStateLayout @JvmOverloads constructor(
         context: Context,
@@ -33,7 +31,7 @@ class SalatStateLayout @JvmOverloads constructor(
         return@lazy (context.screenWidth()) / 2 - dp(16)
     }
 
-    var theme = ThemeType.GREEN
+    var theme = Theme.GREEN
         set(value) {
             field = value
 

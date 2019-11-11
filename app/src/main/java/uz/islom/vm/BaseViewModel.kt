@@ -7,14 +7,16 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.islom.BuildConfig
-import uz.islom.model.AppStorage
+import uz.islom.IslomUzApp
+import uz.islom.model.AppPreferenceManager
+import uz.islom.model.AppStorageManager
 import java.util.concurrent.TimeUnit
 
 open class BaseViewModel : ViewModel() {
 
-    companion object{
+    companion object {
 
-        internal val retrofit by lazy {
+        internal val networkManager by lazy {
             Retrofit.Builder()
                     .baseUrl(BuildConfig.SERVER_URL)
                     .client(getHttpClient())
@@ -23,8 +25,12 @@ open class BaseViewModel : ViewModel() {
                     .build()
         }
 
-        internal val storage by lazy {
-            AppStorage.instance
+        internal val storageManager by lazy {
+            AppStorageManager.instance
+        }
+
+        internal val preferenceManager by lazy {
+            AppPreferenceManager(IslomUzApp.getInstance())
         }
 
         private fun getHttpClient(): OkHttpClient {
@@ -45,9 +51,6 @@ open class BaseViewModel : ViewModel() {
                     .build()
         }
     }
-
-
-
 
 
 }

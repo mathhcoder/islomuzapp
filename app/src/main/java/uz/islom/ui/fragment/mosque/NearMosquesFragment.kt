@@ -27,13 +27,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.model.entity.Mosque
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseImageButton
-import uz.islom.ui.base.BaseTextView
-import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.BaseImageButton
+import uz.islom.ui.custom.BaseTextView
+import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ui.custom.HeaderLayout
 import uz.islom.vm.MosquesViewModel
 import kotlin.math.round
@@ -57,7 +58,16 @@ class NearMosquesFragment : SwipeAbleFragment() {
         Handler()
     }
 
-    private var mapView: MapView? = null
+    private val bottomSheetDialog by lazy {
+        return@lazy BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme).apply {
+            setContentView(LinearLayout(context).apply {
+
+            })
+        }
+    }
+
+    private lateinit var mapView: MapView
+
     private var map: GoogleMap? = null
 
 
@@ -66,7 +76,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
         mapView = MapView(context)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: ThemeType): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
 
         return FrameLayout(inflater.context).apply {
 
@@ -130,9 +140,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
         view.findViewById<HeaderLayout>(R.id.idHeaderLayout)?.apply {
             onBackListener = object :HeaderLayout.OnBackClickListener{
                 override fun onBackClicked() {
@@ -149,18 +157,19 @@ class NearMosquesFragment : SwipeAbleFragment() {
             setImageResource(R.drawable.ic_information)
         }
 
-        mapView?.apply {
+        mapView.apply {
             onCreate(savedInstanceState)
             getMapAsync {
                 map = it.apply {
 
                     uiSettings?.isMyLocationButtonEnabled = true
+                    uiSettings?.isMapToolbarEnabled = false
 
                     setMinZoomPreference(11f)
 
                     setOnMarkerClickListener {
                         mosquesViewModel.mosques.value?.find { mosque -> mosque.id == it.snippet.toLong() }?.let { mosque ->
-                            showMosque(mosque)
+                            bindMosque(mosque)
                         }
                         false
                     }
@@ -194,27 +203,28 @@ class NearMosquesFragment : SwipeAbleFragment() {
     }
 
     override fun onResume() {
-        mapView?.onResume()
+        mapView.onResume()
         super.onResume()
     }
 
 
     override fun onPause() {
         super.onPause()
-        mapView?.onPause()
+        mapView.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView?.onDestroy()
+        mapView.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView?.onLowMemory()
+        mapView.onLowMemory()
     }
 
-    private fun bindTheme(appTheme: ThemeType) {
+    private fun bindTheme(appTheme: Theme) {
+
         view?.findViewById<View>(R.id.idHeaderLayout)?.apply {
             setBackgroundColor(appTheme.toolBarColor)
         }
@@ -242,18 +252,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
         }
     }
 
-
-    private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
-            } else {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
-            }
-        }
-    }
-
-    private fun showMosque(mosque: Mosque) {
+    private fun bindMosque(mosque: Mosque) {
 
         view?.findViewById<TextView>(R.id.idNameView)?.apply {
             text = mosque.name
@@ -261,8 +260,16 @@ class NearMosquesFragment : SwipeAbleFragment() {
 
         if (mosque.distance != null)
             view?.findViewById<TextView>(R.id.idDistanceView)?.apply {
-                text = "${round(mosque.distance * 100) / 100} km"
+                string(R.string.mosque_distance_format)?.let {
+                    text = String.format(it,round(mosque.distance * 100) / 100)
+                }
             }
+
+        view?.findViewById<BaseImageButton>(R.id.idNavigationView)?.apply {
+            setOnClickListener {
+                bottomSheetDialog.show()
+            }
+        }
 
         view?.findViewById<ImageButton>(R.id.idInfoView)?.apply {
             if (mosque.url?.isNotEmpty() == true) {
@@ -334,6 +341,16 @@ class NearMosquesFragment : SwipeAbleFragment() {
                         .withEndAction {}
                         .start()
 
+            }
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
+            } else {
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 101)
             }
         }
     }

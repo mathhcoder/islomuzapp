@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
-import uz.islom.ui.base.BaseTextView;
-
 public class TrimmedTextView extends BaseTextView {
 
     public enum EllipsizeRange {

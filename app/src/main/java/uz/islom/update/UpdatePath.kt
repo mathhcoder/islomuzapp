@@ -2,7 +2,7 @@ package uz.islom.update
 
 import uz.islom.model.dm.Salat
 import uz.islom.model.entity.User
-import uz.islom.model.enums.ThemeType
+import uz.islom.model.dm.Theme
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,7 +22,7 @@ sealed class UpdatePath<T> {
         override fun key(): String? = "date"
     }
 
-    object ThemeUpdate : UpdatePath<ThemeType>() {
+    object ThemeUpdate : UpdatePath<Theme>() {
         override fun key(): String? = "theme"
     }
 

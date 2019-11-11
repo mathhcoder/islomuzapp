@@ -1,4 +1,4 @@
-package uz.islom.ui.base
+package uz.islom.ui.fragment
 
 import androidx.fragment.app.Fragment
 
