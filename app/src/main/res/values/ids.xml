@@ -3,17 +3,19 @@
 
     <!--Common-->
 
-    <item name="viewPager" type="id" />
     <item name="bottomNavigationView" type="id" />
     <item name="calendarView" type="id" />
 
     <item name="idBackButton" type="id" />
     <item name="idTitleTextView" type="id" />
+    <item name="idActionButton" type="id"/>
 
     <item name="idRecyclerView" type="id" />
+    <item name="idViewPager" type="id" />
 
     <item name="idHeaderLayout" type="id" />
     <item name="idFooterLayout" type="id" />
+    <item name="idTabLayout" type="id"/>
 
     <item name="idTextView" type="id" />
     <item name="idImageView" type="id" />

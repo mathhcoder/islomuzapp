@@ -22,7 +22,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.*
 import uz.islom.R
 import uz.islom.fiqh.calculateQibla
-import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ext.compass.CompassAssistantListener
 import uz.islom.ext.compass.CompassListener
 import uz.islom.ext.dp
@@ -31,7 +31,7 @@ import uz.islom.ext.getMinScreenSize
 import uz.islom.ext.string
 import uz.islom.fiqh.makkahLat
 import uz.islom.fiqh.makkahLng
-import uz.islom.model.enums.ThemeType
+import uz.islom.model.dm.Theme
 import uz.islom.ui.custom.FooterLayout
 import uz.islom.ui.custom.HeaderLayout
 
@@ -58,7 +58,7 @@ class QiblaFragment : SwipeAbleFragment() {
         imageSize = (activity?.getMinScreenSize() ?: dp(360)) / 4 * 3
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: ThemeType): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
 
         return FrameLayout(inflater.context).apply {
 
@@ -66,7 +66,7 @@ class QiblaFragment : SwipeAbleFragment() {
 
             addView(HeaderLayout(context).apply {
                 id = R.id.idHeaderLayout
-                title = string(R.string.kibla)
+                title = string(R.string.qibla)
                 theme = appTheme
             }, FrameLayout.LayoutParams(full, dp(56)))
 
@@ -110,9 +110,7 @@ class QiblaFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
         view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
             onBackListener = object :HeaderLayout.OnBackClickListener{
                 override fun onBackClicked() {

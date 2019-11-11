@@ -11,9 +11,9 @@ import android.widget.ScrollView
 import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.model.entity.AsmaUlHusna
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseTextView
-import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.BaseTextView
+import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ui.custom.HeaderLayout
 
 class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
@@ -30,13 +30,13 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
         arguments?.getSerializable("asmaUlHusna") as? AsmaUlHusna
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: ThemeType): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
         return FrameLayout(inflater.context).apply {
 
             addView(HeaderLayout(context).apply {
                 id = R.id.idHeaderLayout
-                title = asmaUlHusna?.name?.uz
                 theme = appTheme
+                title = asmaUlHusna?.name?.uz
             }, FrameLayout.LayoutParams(full, dp(56)))
 
             addView(ScrollView(context).apply {
@@ -72,9 +72,7 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
         view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
             onBackListener = object :HeaderLayout.OnBackClickListener{
                 override fun onBackClicked() {

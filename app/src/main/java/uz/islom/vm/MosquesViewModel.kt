@@ -19,7 +19,7 @@ class MosquesViewModel : BaseViewModel() {
 
         setMosqueUrl("https://api.masjid.uz/api/v1/mosques/nearest")
 
-        retrofit.create(MosqueApi::class.java).getMosques(getMosqueUrl(), latLng.latitude, latLng.longitude)
+        networkManager.create(MosqueApi::class.java).getMosques(getMosqueUrl(), latLng.latitude, latLng.longitude)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {

@@ -12,16 +12,18 @@ import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.model.dm.Salat
-import uz.islom.model.enums.ThemeType
+import uz.islom.model.dm.Theme
 import uz.islom.model.enums.SalatType
-import uz.islom.ui.base.BaseImageButton
-import uz.islom.ui.base.SwipeAbleFragment
+import uz.islom.ui.custom.BaseImageButton
+import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ui.cell.SalatCell
+import uz.islom.ui.custom.HeaderLayout
 import uz.islom.vm.SalatViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,9 +41,7 @@ class SalatFragment : SwipeAbleFragment() {
         ViewModelProviders.of(this).get(SalatViewModel::class.java)
     }
 
-    private val theme = ThemeType.GREEN
-
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,appTheme: ThemeType): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
         return NestedScrollView(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -50,29 +50,50 @@ class SalatFragment : SwipeAbleFragment() {
 
                 orientation = LinearLayout.VERTICAL
 
-                addView(FrameLayout(context).apply {
+                addView(HeaderLayout(context).apply {
+                    id = R.id.idHeaderLayout
+                    title = string(R.string.quran)
+                    actionIcon = R.drawable.ic_settings_material
+                    theme = appTheme
+                    onBackListener = object : HeaderLayout.OnBackClickListener {
+                        override fun onBackClicked() {
+                            childFragmentManager.popBackStack()
+                        }
+                    }
+                }, FrameLayout.LayoutParams(full, dp(56)))
 
-                    setBackgroundColor(theme.toolBarColor)
+                addView(TabLayout(context).apply {
+                    id = R.id.idTabLayout
+                    setBackgroundColor(appTheme.toolBarColor)
+                    setTabTextColors(appTheme.secondaryColor.getColorWithAlpha(0.7f), appTheme.secondaryColor)
+                    setSelectedTabIndicatorColor(appTheme.secondaryColor)
 
-                    addView(BaseImageButton(context).apply {
-                        id = R.id.idBackButton
-                        setButtonPadding(dp(16))
-                    }, ViewGroup.LayoutParams(dp(56), dp(56)))
-
-                    addView(TabLayout(context).apply {
-                        id = R.id.idTextView
-                        gravity = Gravity.CENTER
-                        setBackgroundColor(theme.toolBarColor)
-                        setTabTextColors(theme.mainLineColor, theme.secondaryColor)
-                        setSelectedTabIndicatorColor(theme.secondaryColor)
-
-                    }, FrameLayout.LayoutParams(full, full).apply {
-                        leftMargin = dp(56)
-                        rightMargin = dp(56)
+                    addTab(newTab().apply {
+                        setText(R.string.surah)
+                    })
+                    addTab(newTab().apply {
+                        setText(R.string.juz)
+                    })
+                    addTab(newTab().apply {
+                        setText(R.string.bookmark)
                     })
 
-                }, ViewGroup.LayoutParams(full, dp(56)))
+                    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                        override fun onTabReselected(tab: TabLayout.Tab?) {
 
+                        }
+
+                        override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+                        }
+
+                        override fun onTabSelected(tab: TabLayout.Tab?) {
+                            view?.findViewById<ViewPager>(R.id.idViewPager)?.currentItem = selectedTabPosition
+                        }
+
+                    })
+
+                }, FrameLayout.LayoutParams(full, dp(56)))
 
                 addView(CalendarView(context).apply {
                     id = R.id.calendarView
@@ -90,31 +111,12 @@ class SalatFragment : SwipeAbleFragment() {
                     topMargin = dp(16)
                 })
 
-
             }, ViewGroup.LayoutParams(full, full))
 
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.findViewById<BaseImageButton>(R.id.idBackButton).apply {
-            setImageResources(R.drawable.ic_arrow_left, theme.secondaryColor)
-            setOnClickListener {
-                fragmentManager?.popBackStack()
-            }
-        }
-
-        view.findViewById<TabLayout>(R.id.idTextView).apply {
-            addTab(newTab().apply {
-                setText(R.string.salat)
-            })
-            addTab(newTab().apply {
-                setText(R.string.fasting)
-            })
-        }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
 
         view.findViewById<CalendarView>(R.id.calendarView).apply {
             setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -144,7 +146,6 @@ class SalatFragment : SwipeAbleFragment() {
                     it.type == SalatType.MAGHRIB ||
                     it.type == SalatType.ISHA
         })
-
     }
 
     inner class SalatsAdapter : RecyclerView.Adapter<SalatHolder>() {

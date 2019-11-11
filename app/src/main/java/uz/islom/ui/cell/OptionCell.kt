@@ -4,10 +4,11 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseTextView
+import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.BaseTextView
 import uz.islom.ext.dp
 import uz.islom.ext.full
 import uz.islom.ext.setTextSizeSp
@@ -33,40 +34,43 @@ class OptionCell @JvmOverloads constructor(
 
     var navigateImage: Drawable? = null
         set(value) {
+            if (value != null) {
+                navigateImageView.setImageDrawable(value)
+                navigateImageView.visibility = View.VISIBLE
+            }else{
+                navigateImageView.visibility = View.GONE
+            }
             field = value
-            navigateImageView.setImageDrawable(value)
+
         }
 
-    var theme: ThemeType = ThemeType.GREEN
+    var theme: Theme? = null
         set(value) {
+            if (value != null) {
+                optionNameView.setTextColor(value.tertiaryColor)
+                optionImageView.setColorFilter(value.tertiaryColor)
+                setCardBackgroundColor(value.secondaryColor)
+            }
             field = value
-            optionNameView.setTextColor(theme.tertiaryColor)
-            optionImageView.setColorFilter(theme.tertiaryColor)
-            setCardBackgroundColor(theme.secondaryColor)
         }
 
     private val optionImageView = AppCompatImageView(context).apply {
         setPadding(dp(16), dp(16), dp(16), dp(16))
-        setColorFilter(theme.tertiaryColor)
     }
 
     private val optionNameView = BaseTextView(context).apply {
-        setTextColor(theme.tertiaryColor)
         setTextSizeSp(16)
         gravity = Gravity.CENTER_VERTICAL
     }
 
     private val navigateImageView = AppCompatImageView(context).apply {
         setPadding(dp(20), dp(20), dp(20), dp(20))
-        setColorFilter(theme.tertiaryColor)
     }
 
 
     init {
         isClickable = true
         cardElevation = 1f
-
-        setCardBackgroundColor(theme.secondaryColor)
 
         addView(optionImageView, LayoutParams(dp(64), dp(64)))
         addView(navigateImageView, LayoutParams(dp(64), dp(64), Gravity.END))

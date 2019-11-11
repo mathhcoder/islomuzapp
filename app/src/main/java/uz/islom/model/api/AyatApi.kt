@@ -1,5 +1,5 @@
 package uz.islom.model.api
 
-interface QuranApi {
+interface AyatApi {
 
 }

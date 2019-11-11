@@ -7,27 +7,16 @@ import uz.islom.R
 import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.enums.FunctionType
 import uz.islom.model.enums.OptionType
-import uz.islom.model.entity.Site
+import uz.islom.ui.fragment.asma.AsmaUlHusnaDescriptionFragment
 import uz.islom.ui.fragment.asma.AsmaUlHusnaFragment
-import uz.islom.ui.fragment.main.MainFragment
 import uz.islom.ui.fragment.auth.AuthorizationFragment
 import uz.islom.ui.fragment.auth.RegistrationFragment
-import uz.islom.ui.fragment.tasbih.*
 import uz.islom.ui.fragment.info.SalatFragment
-import uz.islom.ui.fragment.profile.AboutFragment
-import uz.islom.ui.fragment.profile.FeedbackFragment
-import uz.islom.ui.fragment.profile.OfferFragment
-import uz.islom.ui.fragment.profile.SettingsFragment
-import uz.islom.ui.fragment.article.SiteFragment
-import uz.islom.ui.fragment.asma.AsmaUlHusnaDescriptionFragment
-import uz.islom.ui.fragment.calendar.CalendarFragment
-import uz.islom.ui.fragment.dua.DuaFragment
-import uz.islom.ui.fragment.media.MediaFragment
+import uz.islom.ui.fragment.main.MainFragment
 import uz.islom.ui.fragment.mosque.NearMosquesFragment
 import uz.islom.ui.fragment.qibla.QiblaFragment
 import uz.islom.ui.fragment.quran.QuranFragment
-import uz.islom.ui.fragment.radio.RadioFragment
-import uz.islom.ui.fragment.zakat.ZakatCalculatorFragment
+
 
 
 class NavigationManager {
@@ -108,33 +97,32 @@ class NavigationManager {
     fun navigateToFunction(function: FunctionType) {
 
 
-
         val fragment = when (function) {
 
             //FunctionType.NOTIFICATION -> NotificationFragment.newInstance()
 
-            FunctionType.KURAN -> QuranFragment.newInstance()
+            FunctionType.QURAN -> QuranFragment.newInstance()
 
             FunctionType.MOSQUE -> NearMosquesFragment.newInstance()
 
-            FunctionType.KIBLA -> QiblaFragment.newInstance()
+            FunctionType.QIBLA -> QiblaFragment.newInstance()
 
-            FunctionType.RADIO -> RadioFragment.newInstance()
+//            FunctionType.RADIO -> RadioFragment.newInstance()
+//
+//
+//            FunctionType.CALENDAR -> CalendarFragment.newInstance()
+//
+//            FunctionType.MEDIA -> MediaFragment.newInstance()
+//
+//            FunctionType.DUA -> DuaFragment.newInstance()
+//
+            else -> AsmaUlHusnaFragment.newInstance()
+//
+//            FunctionType.TASBIH -> TasbihFragment.newInstance()
+//
+//            FunctionType.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
 
-
-            FunctionType.CALENDAR -> CalendarFragment.newInstance()
-
-            FunctionType.MEDIA -> MediaFragment.newInstance()
-
-            FunctionType.DUA -> DuaFragment.newInstance()
-
-            FunctionType.ASMAUL_HUSNA -> AsmaUlHusnaFragment.newInstance()
-
-            FunctionType.TASBIH -> TasbihFragment.newInstance()
-
-            FunctionType.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
-
-          //  FunctionType.FAVOURITE -> FavouriteFragment.newInstance()
+            //  FunctionType.FAVOURITE -> FavouriteFragment.newInstance()
 
         }
 
@@ -144,52 +132,48 @@ class NavigationManager {
     fun navigateToOption(optionType: OptionType) {
         val fragment = when (optionType) {
 
-            OptionType.SETTINGS -> {
-                SettingsFragment.newInstance()
-            }
-
-            OptionType.FEEDBACK -> {
-                FeedbackFragment.newInstance()
-            }
-
-            OptionType.OFFER -> {
-                OfferFragment.newInstance()
-            }
-
-            OptionType.ABOUT -> {
-                AboutFragment.newInstance()
-            }
+//            OptionType.SETTINGS -> {
+//                SettingsFragment.newInstance()
+//            }
+//
+//            OptionType.FEEDBACK -> {
+//                FeedbackFragment.newInstance()
+//            }
+//
+//            OptionType.OFFER -> {
+//                OfferFragment.newInstance()
+//            }
+//
+//            OptionType.ABOUT -> {
+//                AboutFragment.newInstance()
+//            }
 
             else -> null
 
         }
 
-        if (fragment != null) {
-
-            addFragment(fragment = fragment, tag = optionType.name, withBackStack = true, withAnimation = true)
-
-        } else when (optionType) {
-
-            OptionType.SHARE -> {
-
-            }
-
-            OptionType.LOGOUT -> {
-
-            }
-
-            else -> {
-
-            }
-        }
+//        if (fragment != null) {
+//
+//            addFragment(fragment = fragment, tag = optionType.name, withBackStack = true, withAnimation = true)
+//
+//        } else when (optionType) {
+//
+//            OptionType.SHARE -> {
+//
+//            }
+//
+//            OptionType.LOGOUT -> {
+//
+//            }
+//
+//            else -> {
+//
+//            }
+//        }
     }
 
     fun navigateToSalats() {
         addFragment(fragment = SalatFragment.newInstance(), tag = "salats", withBackStack = true, withAnimation = true)
-    }
-
-    fun navigateToSite(site: Site) {
-        addFragment(fragment = SiteFragment.newInstance(site), tag = "${site.javaClass.name}:${site.id}", withBackStack = true, withAnimation = true)
     }
 
     fun navigateToAsmaUlHusna(asmaUlHusna: AsmaUlHusna) {

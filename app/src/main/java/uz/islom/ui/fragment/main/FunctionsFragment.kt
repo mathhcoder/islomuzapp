@@ -26,10 +26,10 @@ import uz.islom.model.dm.DateState
 import uz.islom.model.dm.Salat
 import uz.islom.model.dm.SalatTimeState
 import uz.islom.model.enums.FunctionType
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseActivity
-import uz.islom.ui.base.BaseFragment
-import uz.islom.ui.base.BaseTextView
+import uz.islom.model.dm.Theme
+import uz.islom.ui.BaseActivity
+import uz.islom.ui.fragment.BaseFragment
+import uz.islom.ui.custom.BaseTextView
 import uz.islom.ui.cell.FunctionCell
 import uz.islom.ui.custom.FooterLayout
 import uz.islom.ui.custom.SalatStateLayout
@@ -61,7 +61,7 @@ class FunctionsFragment : BaseFragment() {
         ViewModelProviders.of(this).get(SalatViewModel::class.java)
     }
 
-    private val appTheme = ThemeType.GREEN
+    private val appTheme = Theme.GREEN
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -109,7 +109,7 @@ class FunctionsFragment : BaseFragment() {
             }
         }
 
-        bindTheme(ThemeType.GREEN)
+        bindTheme(Theme.GREEN)
         bindDate(DateState.with(Calendar.getInstance(), 1))
         bindSalats(prayTimeViewModel.getSalatTimes(Calendar.getInstance()))
 
@@ -138,7 +138,7 @@ class FunctionsFragment : BaseFragment() {
                 })
     }
 
-    private fun bindTheme(appTheme: ThemeType) {
+    private fun bindTheme(appTheme: Theme) {
         view?.findViewById<View>(R.id.idRootLayout)?.setBackgroundColor(appTheme.mainListColor)
         functionsAdapter.theme = appTheme
 
@@ -182,7 +182,7 @@ class FunctionsFragment : BaseFragment() {
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
 
-        var theme = ThemeType.DARK
+        var theme = Theme.DARK
             set(value) {
                 field = value
                 notifyDataSetChanged()
@@ -213,7 +213,7 @@ class FunctionsFragment : BaseFragment() {
     }
 
     inner class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindFunction(function: FunctionType, theme: ThemeType) {
+        fun bindFunction(function: FunctionType, theme: Theme) {
             (itemView as? FunctionCell)?.imageRes = function.imageRes
             (itemView as? FunctionCell)?.textRes = function.nameRes
             (itemView as? FunctionCell)?.theme = theme

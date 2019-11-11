@@ -23,9 +23,9 @@ import uz.islom.update.UpdatePath
 import uz.islom.ext.subscribeKt
 import uz.islom.model.enums.OptionType
 import uz.islom.model.entity.User
-import uz.islom.ui.base.BaseActivity
-import uz.islom.model.enums.ThemeType
-import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.BaseActivity
+import uz.islom.model.dm.Theme
+import uz.islom.ui.fragment.BaseFragment
 import uz.islom.ui.cell.OptionCell
 import uz.islom.ext.dp
 import uz.islom.ext.full
@@ -43,7 +43,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private var appTheme = ThemeType.GREEN
+    private var appTheme = Theme.GREEN
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

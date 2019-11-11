@@ -10,9 +10,8 @@ import uz.islom.model.entity.AsmaUlHusna
 @Dao
 interface AsmaUlHusnaDao : BaseDao {
 
-
-    @Query("SELECT * FROM asmaulhusna")
-    fun getAll(): Single<List<AsmaUlHusna>>
+    @Query("SELECT * FROM asmaulhusna ORDER BY id LIMIT :size OFFSET :offset")
+    fun getAsmaUlHusna(size : Int, offset : Int): Single<List<AsmaUlHusna>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(asmaUlHusna: AsmaUlHusna)

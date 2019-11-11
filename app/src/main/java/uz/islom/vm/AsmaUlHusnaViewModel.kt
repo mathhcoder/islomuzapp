@@ -11,20 +11,21 @@ import uz.islom.model.repository.AsmaUlHusnaRepository
 
 class AsmaUlHusnaViewModel : BaseViewModel() {
 
-    val data = MutableLiveData<List<AsmaUlHusna>>()
+    val newItemsUpdate = MutableLiveData<List<AsmaUlHusna>>()
 
     private val disposable = CompositeDisposable()
+    private val api = networkManager.create(AsmaUlHusnaApi::class.java)
+    private val dao = storageManager.asmaUlHusnaDao()
+    private val asmaUlHusnaRepository = AsmaUlHusnaRepository(api, dao)
 
-    init {
+    fun isFullyLoaded() = asmaUlHusnaRepository.isFullyLoaded
 
-        val api = retrofit.create(AsmaUlHusnaApi::class.java)
-        val dao = storage.asmaUlHusnaDao()
-
-        disposable.add(AsmaUlHusnaRepository(api,dao)
-                .getAll()
+    fun loadMore(size: Int, offset: Int) {
+        disposable.add(asmaUlHusnaRepository
+                .loadAsmaUlHusna(size, offset)
                 .subscribeOn(Schedulers.io())
-                .subscribeKt(Consumer{
-                    data.postValue(it)
+                .subscribeKt(Consumer {
+                    newItemsUpdate.postValue(it)
                 }))
     }
 

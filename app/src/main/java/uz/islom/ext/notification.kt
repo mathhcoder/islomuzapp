@@ -39,6 +39,6 @@ fun makeNotification(context: Context,
 }
 
 
-fun makeAdhanChannel(soundUri: Uri){
+fun makeChannel(soundUri: Uri) {
 
 }

@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import uz.islom.ui.base.BaseFragment
+import uz.islom.ui.fragment.BaseFragment
 import uz.islom.ext.full
 
 class SitesFragment : BaseFragment() {

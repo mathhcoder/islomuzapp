@@ -1,4 +1,4 @@
-package uz.islom.ui.base
+package uz.islom.ui
 
 import android.content.Context
 import android.content.res.Configuration
