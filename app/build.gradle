@@ -9,6 +9,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 
+
 Pair<Integer, String> getAppVersion(boolean increment = true) {
     def file = new File(projectDir, "version.properties")
 
@@ -26,6 +27,7 @@ Pair<Integer, String> getAppVersion(boolean increment = true) {
 
     return new Pair(build + minor * 10**3 + major * 10**5, "$major.$minor.$build")
 }
+
 
 android {
     compileSdkVersion 29
@@ -119,7 +121,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$androidx_version"
     implementation "androidx.vectordrawable:vectordrawable:$androidx_version"
-    implementation "androidx.preferenceManager:preferenceManager-ktx:$androidx_version"
+    implementation "androidx.preference:preference-ktx:$androidx_version"
     implementation "androidx.core:core-ktx:$androidx_version"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -140,7 +142,7 @@ dependencies {
 
     //networkManager
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.retrofit2:networkManager:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // room

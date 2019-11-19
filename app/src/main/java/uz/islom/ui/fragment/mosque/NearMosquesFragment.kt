@@ -86,6 +86,9 @@ class NearMosquesFragment : SwipeAbleFragment() {
                 id = R.id.idHeaderLayout
                 title = string(R.string.mosque)
                 theme = appTheme
+                setUpBackAction {
+                    fragmentManager?.popBackStack()
+                }
             }, FrameLayout.LayoutParams(full, dp(56)))
 
             addView(mapView, FrameLayout.LayoutParams(full, full).apply {
@@ -141,13 +144,6 @@ class NearMosquesFragment : SwipeAbleFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-        view.findViewById<HeaderLayout>(R.id.idHeaderLayout)?.apply {
-            onBackListener = object :HeaderLayout.OnBackClickListener{
-                override fun onBackClicked() {
-                    fragmentManager?.popBackStack()
-                }
-            }
-        }
 
         view.findViewById<BaseImageButton>(R.id.idNavigationView).apply {
             setImageResource(R.drawable.ic_navigation)

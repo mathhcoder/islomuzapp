@@ -24,7 +24,6 @@ class QuranFragment : SwipeAbleFragment() {
         fun newInstance() = QuranFragment()
     }
 
-
     override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
 
         return FrameLayout(inflater.context).apply {
@@ -32,12 +31,12 @@ class QuranFragment : SwipeAbleFragment() {
             addView(HeaderLayout(context).apply {
                 id = R.id.idHeaderLayout
                 title = string(R.string.quran)
-                actionIcon = R.drawable.ic_settings_material
                 theme = appTheme
-                onBackListener = object : HeaderLayout.OnBackClickListener {
-                    override fun onBackClicked() {
-                        childFragmentManager.popBackStack()
-                    }
+                setUpBackAction {
+                    fragmentManager?.popBackStack()
+                }
+                setUpFirstAction(R.drawable.ic_settings_material) {
+
                 }
             }, FrameLayout.LayoutParams(full, dp(56)))
 
@@ -106,7 +105,7 @@ class QuranFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?,appTheme: Theme) {
 
         view.findViewById<ViewPager>(R.id.idViewPager)?.let {
 
@@ -114,9 +113,9 @@ class QuranFragment : SwipeAbleFragment() {
 
                 override fun getItem(position: Int): BaseFragment {
                     return when (position) {
-                        0 -> SurahListFragment.newInstance(appTheme)
-                        1 -> SurahListFragment.newInstance(appTheme)
-                        else -> SurahListFragment.newInstance(appTheme)
+                        0 -> SurahListFragment.newInstance()
+                        1 -> SurahListFragment.newInstance()
+                        else -> SurahListFragment.newInstance()
                     }
                 }
 

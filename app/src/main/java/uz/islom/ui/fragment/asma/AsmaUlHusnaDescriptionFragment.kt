@@ -37,6 +37,9 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
                 id = R.id.idHeaderLayout
                 theme = appTheme
                 title = asmaUlHusna?.name?.uz
+                setUpBackAction {
+                    fragmentManager?.popBackStack()
+                }
             }, FrameLayout.LayoutParams(full, dp(56)))
 
             addView(ScrollView(context).apply {
@@ -73,13 +76,7 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-        view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
-            onBackListener = object :HeaderLayout.OnBackClickListener{
-                override fun onBackClicked() {
-                    fragmentManager?.popBackStack()
-                }
-            }
-        }
+
     }
 
 }

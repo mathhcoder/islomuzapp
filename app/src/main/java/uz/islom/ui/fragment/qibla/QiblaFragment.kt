@@ -21,14 +21,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.*
 import uz.islom.R
+import uz.islom.ext.*
 import uz.islom.fiqh.calculateQibla
 import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ext.compass.CompassAssistantListener
 import uz.islom.ext.compass.CompassListener
-import uz.islom.ext.dp
-import uz.islom.ext.full
-import uz.islom.ext.getMinScreenSize
-import uz.islom.ext.string
 import uz.islom.fiqh.makkahLat
 import uz.islom.fiqh.makkahLng
 import uz.islom.model.dm.Theme
@@ -52,6 +49,10 @@ class QiblaFragment : SwipeAbleFragment() {
         LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
+    private val progressSize by lazy {
+        return@lazy (context?.screenWidth() ?: 0) / 2 - dp(16)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mapView = MapView(context)
@@ -68,19 +69,19 @@ class QiblaFragment : SwipeAbleFragment() {
                 id = R.id.idHeaderLayout
                 title = string(R.string.qibla)
                 theme = appTheme
+                setUpBackAction { fragmentManager?.popBackStack() }
             }, FrameLayout.LayoutParams(full, dp(56)))
+
+            addView(mapView, FrameLayout.LayoutParams(full, progressSize).apply {
+                topMargin = dp(56)
+            })
 
             addView(FooterLayout(context).apply {
                 id = R.id.idFooterLayout
                 theme = appTheme
             }, FrameLayout.LayoutParams(full, dp(96), Gravity.BOTTOM))
 
-            addView(LinearLayout(context).apply {
-
-                orientation = LinearLayout.VERTICAL
-                gravity = Gravity.BOTTOM
-
-                addView(mapView, LinearLayout.LayoutParams(full, 0, 1f))
+            addView(FrameLayout(context).apply {
 
                 addView(FrameLayout(context).apply {
 
@@ -98,27 +99,15 @@ class QiblaFragment : SwipeAbleFragment() {
                     }, FrameLayout.LayoutParams(imageSize, imageSize))
 
 
-                }, LinearLayout.LayoutParams(imageSize, imageSize).apply {
-                    gravity = Gravity.CENTER_HORIZONTAL
-                    bottomMargin = dp(16)
-                    topMargin = dp(16)
-                })
+                }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER))
 
             }, FrameLayout.LayoutParams(full, full).apply {
-                topMargin = dp(56)
+                topMargin = dp(56) + progressSize
             })
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-        view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
-            onBackListener = object :HeaderLayout.OnBackClickListener{
-                override fun onBackClicked() {
-                    fragmentManager?.popBackStack()
-                }
-
-            }
-        }
 
         mapView?.apply {
             onCreate(savedInstanceState)
@@ -168,7 +157,7 @@ class QiblaFragment : SwipeAbleFragment() {
                         ra.duration = 210
                         ra.fillAfter = true
 
-                       // view.findViewById<View>(R.id.container)?.startAnimation(ra)
+                        view.findViewById<View>(R.id.container)?.startAnimation(ra)
 
                         curDegree = degrees
                     }

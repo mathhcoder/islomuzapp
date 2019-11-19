@@ -12,51 +12,36 @@ import uz.islom.model.preference.UserPreference
 
 data class UserRepository(val sharedPreference: UserPreference, val api: UserApi) {
 
-    var isFullyLoaded = false
-    lateinit var source: Source
 
     fun getUser(): Single<User> {
+        Timber.i("Trying to get User")
         return getFromNetwork()
                 .doOnSuccess {
-
-                    Timber.d("Saving user to sharedPreference user : $it")
-
                     saveToSharedPreference(it)
-
-                    source = Source.NETWORK(isFullyLoaded)
-
                 }.onErrorResumeNext {
-                    Timber.d("Trying to get user from sharedPreference")
                     getFromPreference()
-                }.doOnSuccess {
-                    source = Source.DATABASE(isFullyLoaded)
-                }.doOnError {
-                    source = Source.ERROR()
                 }
     }
 
     fun auth(signInMethod: SignInMethod, appVersion: AppVersion, device: Device): Single<User> {
         return getFromNetwork()
                 .doOnSuccess {
-
-                    Timber.d("Saving user to sharedPreference user : $it")
-
                     saveToSharedPreference(it)
-
-                    source = Source.NETWORK(isFullyLoaded)
-
                 }
     }
 
     private fun saveToSharedPreference(user: User) {
+        Timber.i("Saving user to sharedPreference user : $user")
         sharedPreference.setUser(user)
     }
 
     private fun getFromNetwork(): Single<User> {
+        Timber.i("Trying to get user from remote")
         return api.getUser()
     }
 
     private fun getFromPreference(): Single<User> {
+        Timber.i("Trying to get user from sharedPreference")
         return Single.just(sharedPreference.getUser())
     }
 
