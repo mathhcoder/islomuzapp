@@ -22,15 +22,7 @@ import uz.islom.vm.SurahViewModel
 class JuzListFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(themeType: Theme) = JuzListFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable("themeType",themeType)
-            }
-        }
-    }
-
-    private val appTheme by lazy {
-        arguments?.getSerializable("themeType") as Theme
+        fun newInstance() = JuzListFragment()
     }
 
     private val surahViewModel by lazy {
@@ -41,7 +33,7 @@ class JuzListFragment : BaseFragment() {
         SurahAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,appTheme: Theme): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -57,8 +49,7 @@ class JuzListFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?,appTheme: Theme) {
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = surahAdapter

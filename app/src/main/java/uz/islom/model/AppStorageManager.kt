@@ -8,13 +8,15 @@ import uz.islom.IslomUzApp
 import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.converter.ContentConverter
 import uz.islom.model.dao.AsmaUlHusnaDao
+import uz.islom.model.dao.DuaDao
 import uz.islom.model.dao.SurahDao
 import uz.islom.model.entity.Content
+import uz.islom.model.entity.Dua
 import uz.islom.model.entity.Surah
 import java.util.concurrent.atomic.AtomicReference
 
 
-@Database(entities = [AsmaUlHusna::class, Content::class,Surah::class],
+@Database(entities = [AsmaUlHusna::class, Content::class, Surah::class, Dua::class],
         exportSchema = false,
         version = 1)
 
@@ -41,13 +43,14 @@ abstract class AppStorageManager : RoomDatabase() {
 //            SingleThreadExecutor()
 //        }
 
-      //  val databaseScheduler = Schedulers.from(databaseExecutor)
+        //  val databaseScheduler = Schedulers.from(databaseExecutor)
 
 
     }
 
     abstract fun asmaUlHusnaDao(): AsmaUlHusnaDao
     abstract fun surahDao(): SurahDao
+    abstract fun duaDao() : DuaDao
 
 }
 

@@ -11,6 +11,6 @@ enum class FunctionType(val nameRes: Int, val imageRes: Int) {
     MEDIA(R.string.media, R.drawable.ic_media),
     DUA(R.string.dua, R.drawable.ic_dua),
     ASMAUL_HUSNA(R.string.names, R.drawable.ic_asmaul_husna),
-    TASBIH(R.string.tasbih, R.drawable.ic_tasbih),
+    ZIKR(R.string.tasbih, R.drawable.ic_tasbih),
     ZAKAT_CALCULATOR(R.string.zakat_calculator, R.drawable.ic_zakat_calculator),
 }

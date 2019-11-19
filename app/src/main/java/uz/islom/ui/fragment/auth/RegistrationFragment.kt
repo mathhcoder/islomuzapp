@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import uz.islom.ui.fragment.BaseFragment
 import uz.islom.ext.full
+import uz.islom.model.dm.Theme
 
 class RegistrationFragment : BaseFragment() {
 
@@ -14,7 +15,7 @@ class RegistrationFragment : BaseFragment() {
         fun newInstance() = RegistrationFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
         return FrameLayout(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -22,8 +23,7 @@ class RegistrationFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
 
     }
 }

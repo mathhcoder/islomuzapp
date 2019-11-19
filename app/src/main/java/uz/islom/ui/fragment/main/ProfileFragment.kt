@@ -43,10 +43,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private var appTheme = Theme.GREEN
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
         return NestedScrollView(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -82,10 +79,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
         UpdateCenter.subscribeTo(UpdatePath.UserUpdate)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeKt(Consumer {

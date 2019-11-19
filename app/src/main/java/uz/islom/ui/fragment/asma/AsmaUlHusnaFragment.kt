@@ -50,6 +50,9 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
                 id = R.id.idHeaderLayout
                 title = string(R.string.asma_ul_husna)
                 theme = appTheme
+                setUpBackAction {
+                    fragmentManager?.popBackStack()
+                }
             }, FrameLayout.LayoutParams(full, dp(56)))
 
             addView(FrameLayout(context).apply {
@@ -72,13 +75,6 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-        view.findViewById<HeaderLayout>(R.id.idHeaderLayout).apply {
-            onBackListener = object : HeaderLayout.OnBackClickListener {
-                override fun onBackClicked() {
-                    fragmentManager?.popBackStack()
-                }
-            }
-        }
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = asmaUlHusnaAdapter.apply {

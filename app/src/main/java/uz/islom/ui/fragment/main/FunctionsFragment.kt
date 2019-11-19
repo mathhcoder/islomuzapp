@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +16,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import me.tankery.lib.circularseekbar.CircularSeekBar
 import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.ext.subscribeKt
@@ -29,7 +26,6 @@ import uz.islom.model.enums.FunctionType
 import uz.islom.model.dm.Theme
 import uz.islom.ui.BaseActivity
 import uz.islom.ui.fragment.BaseFragment
-import uz.islom.ui.custom.BaseTextView
 import uz.islom.ui.cell.FunctionCell
 import uz.islom.ui.custom.FooterLayout
 import uz.islom.ui.custom.SalatStateLayout
@@ -61,16 +57,18 @@ class FunctionsFragment : BaseFragment() {
         ViewModelProviders.of(this).get(SalatViewModel::class.java)
     }
 
-    private val appTheme = Theme.GREEN
+    private val salatStateLayout by lazy {
+        view?.findViewById<SalatStateLayout>(R.id.idStateLayout)
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
 
         return FrameLayout(inflater.context).apply {
             id = R.id.idRootLayout
             layoutParams = ViewGroup.LayoutParams(full, full)
 
             addView(SalatStateLayout(context).apply {
-                id = R.id.idSalatStateLayout
+                id = R.id.idStateLayout
                 theme = appTheme
             }, FrameLayout.LayoutParams(full, progressSize))
 
@@ -93,19 +91,11 @@ class FunctionsFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
 
-        view.findViewById<View>(R.id.idSalatStateLayout)?.apply {
+        view.findViewById<View>(R.id.idStateLayout)?.apply {
             setOnClickListener {
                 (activity as? BaseActivity)?.navigationManager?.navigateToSalats()
-            }
-        }
-
-        view.findViewById<ImageButton>(R.id.idNotificationImageView)?.apply {
-            setBackgroundResource(R.drawable.ic_circle)
-            setOnClickListener {
-
             }
         }
 
@@ -141,12 +131,14 @@ class FunctionsFragment : BaseFragment() {
     private fun bindTheme(appTheme: Theme) {
         view?.findViewById<View>(R.id.idRootLayout)?.setBackgroundColor(appTheme.mainListColor)
         functionsAdapter.theme = appTheme
+        salatStateLayout?.theme = appTheme
 
     }
 
     private fun bindDate(dateState: DateState) {
-        view?.findViewById<TextView>(R.id.idGrigorianView)?.text = view?.context?.calendar2uzbekTimeFormat(dateState.grigorian)
-        view?.findViewById<TextView>(R.id.idHijriDate)?.text = view?.context?.calendar2uzbekHijrTimeFormat(dateState.hijri)
+        salatStateLayout?.grigorianDate = context?.calendar2uzbekTimeFormat(dateState.grigorian)
+                ?: ""
+        salatStateLayout?.hijriDate = context?.calendar2uzbekHijrTimeFormat(dateState.hijri) ?: ""
     }
 
     private fun bindSalats(salats: ArrayList<Salat>) {
@@ -165,16 +157,16 @@ class FunctionsFragment : BaseFragment() {
 
     private fun bindSalatTimeState(salatTimeState: SalatTimeState) {
 
-        view?.findViewById<BaseTextView>(R.id.idCurrentSalatNameView)?.text = string(salatTimeState.currentSalat.type.title)
-        view?.findViewById<CircularSeekBar>(R.id.idProgressView)?.progress = salatTimeState.progress
-        view?.findViewById<ImageView>(R.id.idNotificationImageView)?.setImageResource(salatTimeState.nextSalat.notificationType.image)
-        view?.findViewById<BaseTextView>(R.id.idNextSalatView)?.text = SpannableStringBuilder().apply {
+        salatStateLayout?.currentSalatName = string(salatTimeState.currentSalat.type.title) ?: ""
+        salatStateLayout?.salatProgress = salatTimeState.progress
+        salatStateLayout?.notificationImageResource = salatTimeState.nextSalat.notificationType.image
+        salatStateLayout?.nextSalatName = SpannableStringBuilder().apply {
             append(string(salatTimeState.nextSalat.type.title)?.ellipsize())
             append(SimpleDateFormat(" HH:mm", Locale.getDefault()).format(salatTimeState.nextSalat.date.time))
-        }
+        }.toString()
 
         string(R.string.left_salat_format)?.let {
-            view?.findViewById<BaseTextView>(R.id.idNextSalatTimeView)?.text = String.format(it, salatTimeState.left.milliseconds2formattedTime())
+            salatStateLayout?.remainingTime = String.format(it, salatTimeState.left.milliseconds2formattedTime())
         }
 
     }

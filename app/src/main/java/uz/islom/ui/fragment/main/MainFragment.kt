@@ -23,9 +23,7 @@ import uz.islom.ext.setTextSizeSp
 
 class MainFragment : BaseFragment() {
 
-    private val appTheme = Theme.GREEN
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
         return LinearLayout(inflater.context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.BOTTOM
@@ -49,7 +47,7 @@ class MainFragment : BaseFragment() {
                 menu.add(0, 1, 1, string(R.string.web)).setIcon(R.drawable.ic_web)
                 menu.add(0, 2, 1, string(R.string.settings)).setIcon(R.drawable.ic_settings)
 
-                val colors = intArrayOf(appTheme.navigationIconsColor,appTheme.primaryColor)
+                val colors = intArrayOf(appTheme.navigationIconsColor, appTheme.primaryColor)
                 val states = arrayOf(intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked), intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked))
 
                 itemTextColor = ColorStateList(states, colors)
@@ -59,8 +57,7 @@ class MainFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
 
         val viewPager = view.findViewById<ViewPager>(R.id.idViewPager)?.apply {
 

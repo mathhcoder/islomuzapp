@@ -22,15 +22,7 @@ import uz.islom.vm.SurahViewModel
 class SurahListFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(theme: Theme) = SurahListFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable("theme",theme)
-            }
-        }
-    }
-
-    private val appTheme by lazy {
-        arguments?.getSerializable("theme") as Theme
+        fun newInstance() = SurahListFragment()
     }
 
     private val surahViewModel by lazy {
@@ -41,7 +33,7 @@ class SurahListFragment : BaseFragment() {
         SurahAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -57,8 +49,7 @@ class SurahListFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = surahAdapter
@@ -98,10 +89,7 @@ class SurahListFragment : BaseFragment() {
                 order = surah.id
                 nameArabic = surah.name?.ar
                 nameLocal = surah.name?.uz
-                //description = surahAdapter.description?.uz
-//                setOnClickListener {
-//                    (activity as? BaseActivity)?.navigationManager?.navigateToAsmaUlHusna(surahAdapter)
-//                }
+
             }
         }
     }

@@ -1,7 +1,6 @@
 package uz.islom.ui.fragment.info
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import uz.islom.ext.*
 import uz.islom.model.dm.Salat
 import uz.islom.model.dm.Theme
 import uz.islom.model.enums.SalatType
-import uz.islom.ui.custom.BaseImageButton
 import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ui.cell.SalatCell
 import uz.islom.ui.custom.HeaderLayout
@@ -53,12 +51,12 @@ class SalatFragment : SwipeAbleFragment() {
                 addView(HeaderLayout(context).apply {
                     id = R.id.idHeaderLayout
                     title = string(R.string.quran)
-                    actionIcon = R.drawable.ic_settings_material
                     theme = appTheme
-                    onBackListener = object : HeaderLayout.OnBackClickListener {
-                        override fun onBackClicked() {
-                            childFragmentManager.popBackStack()
-                        }
+                    setUpBackAction {
+                        fragmentManager?.popBackStack()
+                    }
+                    setUpFirstAction(R.drawable.ic_settings_material){
+
                     }
                 }, FrameLayout.LayoutParams(full, dp(56)))
 

@@ -11,12 +11,13 @@ import uz.islom.ui.fragment.asma.AsmaUlHusnaDescriptionFragment
 import uz.islom.ui.fragment.asma.AsmaUlHusnaFragment
 import uz.islom.ui.fragment.auth.AuthorizationFragment
 import uz.islom.ui.fragment.auth.RegistrationFragment
+import uz.islom.ui.fragment.dua.DuaFragment
 import uz.islom.ui.fragment.info.SalatFragment
 import uz.islom.ui.fragment.main.MainFragment
 import uz.islom.ui.fragment.mosque.NearMosquesFragment
 import uz.islom.ui.fragment.qibla.QiblaFragment
 import uz.islom.ui.fragment.quran.QuranFragment
-
+import uz.islom.ui.fragment.zikr.ZikrFragment
 
 
 class NavigationManager {
@@ -107,6 +108,11 @@ class NavigationManager {
 
             FunctionType.QIBLA -> QiblaFragment.newInstance()
 
+            FunctionType.ZIKR -> ZikrFragment.newInstance()
+
+            FunctionType.DUA -> DuaFragment.newInstance()
+
+
 //            FunctionType.RADIO -> RadioFragment.newInstance()
 //
 //
@@ -114,11 +120,9 @@ class NavigationManager {
 //
 //            FunctionType.MEDIA -> MediaFragment.newInstance()
 //
-//            FunctionType.DUA -> DuaFragment.newInstance()
 //
             else -> AsmaUlHusnaFragment.newInstance()
 //
-//            FunctionType.TASBIH -> TasbihFragment.newInstance()
 //
 //            FunctionType.ZAKAT_CALCULATOR -> ZakatCalculatorFragment.newInstance()
 

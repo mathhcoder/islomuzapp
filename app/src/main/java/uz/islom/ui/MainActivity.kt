@@ -1,21 +1,29 @@
 package uz.islom.ui
 
 import android.os.Bundle
-import uz.islom.model.preference.getUserToken
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import uz.islom.vm.UserViewModel
+
 
 class MainActivity : BaseActivity() {
+
+    private val userViewModel by lazy {
+        ViewModelProviders.of(this).get(UserViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (getUserToken().isNotEmpty()) {
-            navigationManager.navigateToMain()
-        } else {
-            navigationManager.navigateToAuthorization()
-        }
-
-
+        userViewModel.userUpdate.observe(this, Observer {
+            if (it == null) {
+                navigationManager.navigateToAuthorization()
+            } else {
+                navigationManager.navigateToMain()
+            }
+        })
 
     }
+
 
 }

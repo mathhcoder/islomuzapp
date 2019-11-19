@@ -15,31 +15,14 @@
 
     <item name="idHeaderLayout" type="id" />
     <item name="idFooterLayout" type="id" />
+    <item name="idStateLayout" type="id" />
     <item name="idTabLayout" type="id"/>
+    <item name="idRootLayout" type="id"/>
 
     <item name="idTextView" type="id" />
     <item name="idImageView" type="id" />
 
 
-    <!-- SalatState -->
-    <item name="idRootLayout" type="id" />
-    <item name="idSalatStateLayout" type="id" />
-
-    <item name="idProgressView" type="id" />
-    <item name="idCurrentSalatNameView" type="id" />
-    <item name="idClockView" type="id" />
-    <item name="idNextSalatTimeView" type="id" />
-
-    <item name="idTopLineView" type="id" />
-    <item name="idMiddleLineView" type="id" />
-    <item name="idBottomLineView" type="id" />
-
-    <item name="idGrigorianView" type="id" />
-    <item name="idHijriDate" type="id" />
-    <item name="idNextSalatView" type="id" />
-    <item name="idNextSalatLayout" type="id" />
-    <item name="idNotificationView" type="id" />
-    <item name="idNotificationImageView" type="id" />
 
 
     <item name="imageView2" type="id" />
