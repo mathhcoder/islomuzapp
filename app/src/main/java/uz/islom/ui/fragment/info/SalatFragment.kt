@@ -39,7 +39,7 @@ class SalatFragment : SwipeAbleFragment() {
         ViewModelProviders.of(this).get(SalatViewModel::class.java)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return NestedScrollView(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -114,7 +114,7 @@ class SalatFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         view.findViewById<CalendarView>(R.id.calendarView).apply {
             setOnDateChangeListener { _, year, month, dayOfMonth ->

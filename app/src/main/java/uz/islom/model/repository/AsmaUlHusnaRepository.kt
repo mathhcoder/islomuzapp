@@ -1,6 +1,5 @@
 package uz.islom.model.repository
 
-import io.reactivex.Flowable
 import io.reactivex.Single
 import timber.log.Timber
 import uz.islom.model.api.AsmaUlHusnaApi

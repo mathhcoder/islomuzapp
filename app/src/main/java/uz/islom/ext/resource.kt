@@ -1,6 +1,7 @@
 package uz.islom.ext
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.ColorRes
@@ -74,6 +75,10 @@ fun Fragment.string(@StringRes res: Int): String? {
 
 fun Context.string(@StringRes res: Int): String? {
     return this.resources.getString(res)
+}
+
+fun Resources.string(@StringRes res: Int): String? {
+    return getString(res)
 }
 
 fun View.bitmapDescriptorFromVector(vectorResId: Int): BitmapDescriptor? {

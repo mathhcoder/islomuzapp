@@ -30,7 +30,7 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
         arguments?.getSerializable("asmaUlHusna") as? AsmaUlHusna
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return FrameLayout(inflater.context).apply {
 
             addView(HeaderLayout(context).apply {
@@ -73,10 +73,6 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
             layoutParams = ViewGroup.LayoutParams(full, full)
 
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-
     }
 
 }

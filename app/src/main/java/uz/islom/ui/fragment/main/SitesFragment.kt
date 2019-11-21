@@ -16,7 +16,7 @@ import uz.islom.model.dm.Theme
 class SitesFragment : BaseFragment() {
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return NestedScrollView(inflater.context).apply {
 
             setBackgroundColor(appTheme.secondaryColor.getColorWithAlpha(0.7f))
@@ -37,7 +37,7 @@ class SitesFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
 

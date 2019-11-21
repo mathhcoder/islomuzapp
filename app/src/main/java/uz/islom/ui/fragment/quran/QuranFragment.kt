@@ -24,7 +24,7 @@ class QuranFragment : SwipeAbleFragment() {
         fun newInstance() = QuranFragment()
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -105,8 +105,8 @@ class QuranFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?,appTheme: Theme) {
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.findViewById<ViewPager>(R.id.idViewPager)?.let {
 
             it.adapter = object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -122,6 +122,9 @@ class QuranFragment : SwipeAbleFragment() {
                 override fun getCount(): Int = 3
             }
         }
+    }
+
+    fun smth(){
     }
 
 }

@@ -11,7 +11,7 @@ interface MosqueApi  {
     @GET
     fun getMosques(
             @Url url: String,
-            @Query("lat") lat: Double,
-            @Query("lon") lng: Double): Single<List<Mosque>>
+            @Query("lat") lat: Float,
+            @Query("lon") lng: Float): Single<List<Mosque>>
 
 }

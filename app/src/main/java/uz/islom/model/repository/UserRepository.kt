@@ -32,7 +32,7 @@ data class UserRepository(val sharedPreference: UserPreference, val api: UserApi
 
     private fun saveToSharedPreference(user: User) {
         Timber.i("Saving user to sharedPreference user : $user")
-        sharedPreference.setUser(user)
+        sharedPreference.user = user
     }
 
     private fun getFromNetwork(): Single<User> {
@@ -42,7 +42,7 @@ data class UserRepository(val sharedPreference: UserPreference, val api: UserApi
 
     private fun getFromPreference(): Single<User> {
         Timber.i("Trying to get user from sharedPreference")
-        return Single.just(sharedPreference.getUser())
+        return Single.just(sharedPreference.user)
     }
 
 

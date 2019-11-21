@@ -2,10 +2,11 @@ package uz.islom
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.multidex.MultiDex
 import timber.log.Timber
+import uz.islom.manager.AppAlarmManager
+import uz.islom.manager.AppNotificationManager
+import uz.islom.manager.AppPreferenceManager
 
 /**
  * key store pass : 1111111
@@ -17,7 +18,7 @@ import timber.log.Timber
  * github -> github.com/qodiriy
  */
 
-class IslomUzApp : Application(), ViewModelStoreOwner {
+class IslomUzApp : Application() {
 
     companion object {
 
@@ -29,6 +30,18 @@ class IslomUzApp : Application(), ViewModelStoreOwner {
 
     }
 
+    val notificationManager by lazy {
+        AppNotificationManager
+    }
+
+    val alarmManager by lazy {
+        AppAlarmManager
+    }
+
+    val preferenceManager by lazy {
+        AppPreferenceManager(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -38,19 +51,13 @@ class IslomUzApp : Application(), ViewModelStoreOwner {
 
         appInstance = this
 
+        alarmManager.getAdhan().setNextSalatAlarm()
+
     }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(base)
-    }
-
-    override fun onTerminate() {
-        super.onTerminate()
-    }
-
-    override fun getViewModelStore(): ViewModelStore {
-        return ViewModelStore()
     }
 
 }

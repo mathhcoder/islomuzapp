@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import timber.log.Timber
 import uz.islom.R
 import uz.islom.ext.string
 import uz.islom.ui.fragment.BaseFragment
@@ -23,8 +24,12 @@ import uz.islom.ext.setTextSizeSp
 
 class MainFragment : BaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
-        return LinearLayout(inflater.context).apply {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+        val start = System.currentTimeMillis()
+        Timber.i("SpeedManagement: MainFragment onCreateView: started at$start")
+
+        val rootView = LinearLayout(inflater.context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.BOTTOM
 
@@ -54,10 +59,21 @@ class MainFragment : BaseFragment() {
                 itemIconTintList = ColorStateList(states, colors)
 
             }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+
         }
+
+        val end = System.currentTimeMillis()
+        Timber.i("SpeedManagement: MainFragment onCreateView: ended at $end")
+
+        Timber.i("RenderManagement: MainFragment view renderTime : ${end - start}")
+
+        return rootView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Timber.i("SpeedManagement: MainFragment onViewCreated: start ${System.currentTimeMillis()}")
 
         val viewPager = view.findViewById<ViewPager>(R.id.idViewPager)?.apply {
 
@@ -98,6 +114,13 @@ class MainFragment : BaseFragment() {
         })
 
         bindTheme(Theme.GREEN)
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("SpeedManagement: MainFragment onResume: ${System.currentTimeMillis()}")
 
     }
 

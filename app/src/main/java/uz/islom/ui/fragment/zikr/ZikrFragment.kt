@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.setPadding
 import uz.islom.R
-import uz.islom.ext.dp
-import uz.islom.ext.full
-import uz.islom.ext.screenWidth
-import uz.islom.ext.string
+import uz.islom.ext.*
 import uz.islom.model.dm.Theme
 import uz.islom.ui.custom.FooterLayout
 import uz.islom.ui.custom.HeaderLayout
@@ -26,15 +22,15 @@ class ZikrFragment : SwipeAbleFragment() {
         fun newInstance() = ZikrFragment()
     }
 
-    private val progressSize by lazy {
-        return@lazy (context?.screenWidth() ?: 0) / 2 - dp(16)
+    private val stateSize by lazy {
+        return@lazy context?.headerSize() ?: 0
     }
 
     private val stateView by lazy {
         view?.findViewById<ZikrStateLayout>(R.id.idStateLayout)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -61,7 +57,7 @@ class ZikrFragment : SwipeAbleFragment() {
                 theme = appTheme
                 currentZikrText = "Barchasi : 3"
 
-            }, FrameLayout.LayoutParams(full, progressSize).apply {
+            }, FrameLayout.LayoutParams(full, stateSize).apply {
                 topMargin = dp(56)
             })
 
@@ -77,10 +73,10 @@ class ZikrFragment : SwipeAbleFragment() {
                     count = 3
                     setPadding(dp(16))
                     theme = appTheme
-                }, FrameLayout.LayoutParams(progressSize, progressSize, Gravity.CENTER))
+                }, FrameLayout.LayoutParams(stateSize, stateSize, Gravity.CENTER))
 
             }, FrameLayout.LayoutParams(full, full).apply {
-                topMargin = dp(56) + progressSize
+                topMargin = dp(56) + stateSize
             })
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -88,7 +84,8 @@ class ZikrFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         stateView?.let {
             it.currentZikrImage = R.drawable.img_subhan_allah
             it.progressInfo = "3/33"

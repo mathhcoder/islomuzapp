@@ -13,7 +13,8 @@ class DuaRepository(private val api: DuaApi,
     var isFullyLoaded = false
     lateinit var source: Source
 
-    fun loadAsmaUlHusna(size: Int, offset: Int): Single<List<Dua>> {
+    fun loadData(size: Int, offset: Int): Single<List<Dua>> {
+
         Timber.d("Trying to load duas from network with offset:$offset")
 
         return getFromNetwork(size, offset)

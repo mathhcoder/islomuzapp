@@ -1,4 +1,4 @@
-package uz.islom.model
+package uz.islom.manager
 
 import androidx.room.Database
 import androidx.room.Room
