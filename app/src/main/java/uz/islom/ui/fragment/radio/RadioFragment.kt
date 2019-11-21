@@ -103,7 +103,7 @@ import uz.islom.ui.cell.OptionCell
 //    inner class PlayListAdapter : RecyclerView.Adapter<PlayListHolder>() {
 //
 //        var newItemsUpdate: List<OptionType> = ArrayList()
-//            set(value) {
+//            setAlarm(value) {
 //                field = value
 //                notifyDataSetChanged()
 //            }

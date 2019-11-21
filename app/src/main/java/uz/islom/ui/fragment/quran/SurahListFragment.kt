@@ -33,7 +33,7 @@ class SurahListFragment : BaseFragment() {
         SurahAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -49,7 +49,8 @@ class SurahListFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = surahAdapter

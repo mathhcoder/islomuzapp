@@ -191,7 +191,7 @@ public class CurlView extends GLSurfaceView implements View.OnTouchListener,
 	@Override
 	public void onSurfaceCreated() {
 		// In case surface is recreated, let page meshes drop allocated texture
-		// ids and ask for new ones. There's no need to set textures here as
+		// ids and ask for new ones. There's no need to setAlarm textures here as
 		// onPageSizeChanged should be called later on.
 		mPageLeft.resetTexture();
 		mPageRight.resetTexture();
@@ -410,7 +410,7 @@ public class CurlView extends GLSurfaceView implements View.OnTouchListener,
 
 	/**
 	 * Set current page index. Page indices are zero based values presenting
-	 * page being shown on right side of the book. E.g if you set value to 4;
+	 * page being shown on right side of the book. E.g if you setAlarm value to 4;
 	 * right side front facing bitmap will be with index 4, back facing 5 and
 	 * for left side page index 3 is front facing, and index 2 back facing (once
 	 * page is on left side it's flipped over).
@@ -433,7 +433,7 @@ public class CurlView extends GLSurfaceView implements View.OnTouchListener,
 	}
 
 	/**
-	 * If set to true, touch event pressure information is used to adjust curl
+	 * If setAlarm to true, touch event pressure information is used to adjust curl
 	 * radius. The more you press, the flatter the curl becomes. This is
 	 * somewhat experimental and results may vary significantly between devices.
 	 * On emulator pressure information seems to be flat 1.0f which is maximum
@@ -452,7 +452,7 @@ public class CurlView extends GLSurfaceView implements View.OnTouchListener,
 	}
 
 	/**
-	 * Update/set page provider.
+	 * Update/setAlarm page provider.
 	 */
 	public void setPageProvider(PageProvider pageProvider) {
 		mPageProvider = pageProvider;
@@ -615,7 +615,7 @@ public class CurlView extends GLSurfaceView implements View.OnTouchListener,
 		// Leaving it as is until get my hands on a real device. On emulator
 		// this doesn't work anyway.
 		radius *= Math.max(1f - pointerPos.mPressure, 0f);
-		// NOTE: Here we set pointerPos to mCurlPos. It might be a bit confusing
+		// NOTE: Here we setAlarm pointerPos to mCurlPos. It might be a bit confusing
 		// later to see e.g "mCurlPos.x - mDragStartPos.x" used. But it's
 		// actually pointerPos we are doing calculations against. Why? Simply to
 		// optimize code a bit with the cost of making it unreadable. Otherwise

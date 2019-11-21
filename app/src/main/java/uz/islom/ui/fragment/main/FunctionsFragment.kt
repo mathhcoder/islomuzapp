@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +15,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.ext.subscribeKt
@@ -29,8 +29,6 @@ import uz.islom.ui.fragment.BaseFragment
 import uz.islom.ui.cell.FunctionCell
 import uz.islom.ui.custom.FooterLayout
 import uz.islom.ui.custom.SalatStateLayout
-import uz.islom.update.UpdateCenter
-import uz.islom.update.UpdatePath
 import uz.islom.vm.SalatViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,8 +47,8 @@ class FunctionsFragment : BaseFragment() {
         }
     }
 
-    private val progressSize by lazy {
-        return@lazy (context?.screenWidth() ?: 0) / 2 - dp(16)
+    private val stateSize by lazy {
+        return@lazy context?.headerSize() ?: 0
     }
 
     private val prayTimeViewModel by lazy {
@@ -61,16 +59,19 @@ class FunctionsFragment : BaseFragment() {
         view?.findViewById<SalatStateLayout>(R.id.idStateLayout)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        return FrameLayout(inflater.context).apply {
+        val start = System.currentTimeMillis()
+        Timber.i("SpeedManagement: FunctionsFragment onCreateView: start $start")
+
+        val rootView = FrameLayout(inflater.context).apply {
             id = R.id.idRootLayout
             layoutParams = ViewGroup.LayoutParams(full, full)
 
             addView(SalatStateLayout(context).apply {
                 id = R.id.idStateLayout
                 theme = appTheme
-            }, FrameLayout.LayoutParams(full, progressSize))
+            }, FrameLayout.LayoutParams(full, stateSize))
 
             addView(FooterLayout(context).apply {
                 id = R.id.idFooterLayout
@@ -86,12 +87,22 @@ class FunctionsFragment : BaseFragment() {
                 isNestedScrollingEnabled = true
                 overScrollMode = View.OVER_SCROLL_NEVER
             }, FrameLayout.LayoutParams(full, wrap).apply {
-                topMargin = progressSize
+                topMargin = stateSize
             })
         }
+
+        val end = System.currentTimeMillis()
+        Timber.i("SpeedManagement: FunctionsFragment onCreateView: end $end")
+
+        Timber.i("RenderManagement: FunctionsFragment view renderTime : ${end - start}")
+
+        return rootView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Timber.i("SpeedManagement: FunctionsFragment onViewCreated: start ${System.currentTimeMillis()}")
 
         view.findViewById<View>(R.id.idStateLayout)?.apply {
             setOnClickListener {
@@ -99,39 +110,42 @@ class FunctionsFragment : BaseFragment() {
             }
         }
 
-        bindTheme(Theme.GREEN)
         bindDate(DateState.with(Calendar.getInstance(), 1))
         bindSalats(prayTimeViewModel.getSalatTimes(Calendar.getInstance()))
 
         listenUpdates()
     }
 
+    override fun onResume() {
+        super.onResume()
 
-    private fun listenUpdates() {
+        Timber.i("SpeedManagement: FunctionsFragment onResume: ${System.currentTimeMillis()}")
 
-        UpdateCenter.subscribeTo(UpdatePath.DateUpdate)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeKt(Consumer {
-                    bindDate(DateState.with(it, 1))
-                })
-
-        UpdateCenter.subscribeTo(UpdatePath.SalatUpdate)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeKt(Consumer {
-                    bindSalats(it)
-                })
-
-        UpdateCenter.subscribeTo(UpdatePath.ThemeUpdate)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeKt(Consumer {
-                    bindTheme(it)
-                })
     }
 
-    private fun bindTheme(appTheme: Theme) {
+
+    private fun listenUpdates() {
+//
+//        UpdateCenter.subscribeTo(UpdatePath.DateUpdate)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeKt(Consumer {
+//                    bindDate(DateState.with(it, 1))
+//                })
+//
+//        UpdateCenter.subscribeTo(UpdatePath.SalatUpdate)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeKt(Consumer {
+//                    bindSalats(it)
+//                })
+
+    }
+
+
+    override fun onThemeChanged(theme: Theme) {
+        Timber.d("Theme changed $theme")
         view?.findViewById<View>(R.id.idRootLayout)?.setBackgroundColor(appTheme.mainListColor)
-        functionsAdapter.theme = appTheme
-        salatStateLayout?.theme = appTheme
+        functionsAdapter.theme = theme
+        salatStateLayout?.theme = theme
 
     }
 
@@ -174,7 +188,7 @@ class FunctionsFragment : BaseFragment() {
 
     inner class FunctionsAdapter : RecyclerView.Adapter<FunctionHolder>() {
 
-        var theme = Theme.DARK
+        var theme = Theme.GREEN
             set(value) {
                 field = value
                 notifyDataSetChanged()

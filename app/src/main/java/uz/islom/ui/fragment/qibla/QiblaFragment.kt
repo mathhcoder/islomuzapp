@@ -11,7 +11,6 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -49,8 +48,8 @@ class QiblaFragment : SwipeAbleFragment() {
         LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
-    private val progressSize by lazy {
-        return@lazy (context?.screenWidth() ?: 0) / 2 - dp(16)
+    private val mapSize by lazy {
+        return@lazy context?.headerSize() ?: 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +58,7 @@ class QiblaFragment : SwipeAbleFragment() {
         imageSize = (activity?.getMinScreenSize() ?: dp(360)) / 4 * 3
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -72,7 +71,7 @@ class QiblaFragment : SwipeAbleFragment() {
                 setUpBackAction { fragmentManager?.popBackStack() }
             }, FrameLayout.LayoutParams(full, dp(56)))
 
-            addView(mapView, FrameLayout.LayoutParams(full, progressSize).apply {
+            addView(mapView, FrameLayout.LayoutParams(full, mapSize).apply {
                 topMargin = dp(56)
             })
 
@@ -102,12 +101,12 @@ class QiblaFragment : SwipeAbleFragment() {
                 }, FrameLayout.LayoutParams(imageSize, imageSize, Gravity.CENTER))
 
             }, FrameLayout.LayoutParams(full, full).apply {
-                topMargin = dp(56) + progressSize
+                topMargin = dp(56) + mapSize
             })
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         mapView?.apply {
             onCreate(savedInstanceState)
@@ -130,43 +129,46 @@ class QiblaFragment : SwipeAbleFragment() {
 
     private fun onHasPermissionForLocation(view: View, map: GoogleMap) {
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+        fusedLocationClient.lastLocation.addOnSuccessListener { l ->
+            l?.let { location ->
 
-            val qiblaDegree = calculateQibla(location.latitude, location.longitude)
+                val qiblaDegree = calculateQibla(location.latitude, location.longitude)
 
-            val pattern = arrayListOf(Dash(dp(16).toFloat()), Gap(dp(4).toFloat()))
+                val pattern = arrayListOf(Dash(dp(16).toFloat()), Gap(dp(4).toFloat()))
 
-            map.addPolyline(PolylineOptions().width(dp(4).toFloat()).clickable(true).addAll(listOf(LatLng(makkahLat, makkahLng), LatLng(location.latitude, location.longitude))).pattern(pattern).geodesic(true))
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds(
-                    LatLng(makkahLat, makkahLng),
-                    LatLng(location.latitude, location.longitude)),
-                    (activity?.getMinScreenSize() ?: dp(360)) / 100 * 8)
-            )
+                map.addPolyline(PolylineOptions().width(dp(4).toFloat()).clickable(true).addAll(listOf(LatLng(makkahLat, makkahLng), LatLng(location.latitude, location.longitude))).pattern(pattern).geodesic(true))
+                map.moveCamera(CameraUpdateFactory.newLatLngBounds(LatLngBounds(
+                        LatLng(makkahLat, makkahLng),
+                        LatLng(location.latitude, location.longitude)),
+                        (activity?.getMinScreenSize() ?: dp(360)) / 100 * 8)
+                )
 
-            view.findViewById<ImageView>(R.id.imageView2)?.apply {
-                rotation = qiblaDegree.toFloat()
-                visibility = View.VISIBLE
-            }
+                view.findViewById<ImageView>(R.id.imageView2)?.apply {
+                    rotation = qiblaDegree.toFloat()
+                    visibility = View.VISIBLE
+                }
 
-            listener = CompassListener(view.context, location.latitude.toFloat(), location.longitude.toFloat(), 0f).apply {
-                addListener(object : CompassAssistantListener {
-                    override fun onNewDegreesToNorth(degrees: Float) {}
+                listener = CompassListener(view.context, location.latitude.toFloat(), location.longitude.toFloat(), 0f).apply {
+                    addListener(object : CompassAssistantListener {
+                        override fun onNewDegreesToNorth(degrees: Float) {}
 
-                    override fun onNewSmoothedDegreesToNorth(degrees: Float) {
-                        val ra = RotateAnimation(curDegree, degrees, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-                        ra.duration = 210
-                        ra.fillAfter = true
+                        override fun onNewSmoothedDegreesToNorth(degrees: Float) {
+                            val ra = RotateAnimation(curDegree, degrees, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+                            ra.duration = 210
+                            ra.fillAfter = true
 
-                        view.findViewById<View>(R.id.container)?.startAnimation(ra)
+                            view.findViewById<View>(R.id.container)?.startAnimation(ra)
 
-                        curDegree = degrees
-                    }
+                            curDegree = degrees
+                        }
 
-                    override fun onCompassStopped() {}
+                        override fun onCompassStopped() {}
 
-                    override fun onCompassStarted() {}
+                        override fun onCompassStarted() {}
 
-                })
+                    })
+                }
+
             }
 
         }

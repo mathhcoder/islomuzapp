@@ -15,15 +15,10 @@ class RegistrationFragment : BaseFragment() {
         fun newInstance() = RegistrationFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return FrameLayout(inflater.context).apply {
-
             layoutParams = ViewGroup.LayoutParams(full, full)
-
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-
-    }
 }

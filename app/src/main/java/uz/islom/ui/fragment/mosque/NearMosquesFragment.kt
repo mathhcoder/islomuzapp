@@ -76,7 +76,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
         mapView = MapView(context)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         return FrameLayout(inflater.context).apply {
 
@@ -143,7 +143,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         view.findViewById<BaseImageButton>(R.id.idNavigationView).apply {
             setImageResource(R.drawable.ic_navigation)
@@ -164,7 +164,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
                     setMinZoomPreference(11f)
 
                     setOnMarkerClickListener {
-                        mosquesViewModel.mosques.value?.find { mosque -> mosque.id == it.snippet.toLong() }?.let { mosque ->
+                        mosquesViewModel.mosquesData.value?.find { mosque -> mosque.id == it.snippet.toLong() }?.let { mosque ->
                             bindMosque(mosque)
                         }
                         false
@@ -190,7 +190,7 @@ class NearMosquesFragment : SwipeAbleFragment() {
             }
         }
 
-        mosquesViewModel.mosques.observe(this, Observer { mosques ->
+        mosquesViewModel.mosquesData.observe(this, Observer { mosques ->
             mosques.forEach {
                 map?.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).snippet(it.id.toString())
                         .icon(view.bitmapDescriptorFromVector(R.drawable.ic_mosque_marker)))

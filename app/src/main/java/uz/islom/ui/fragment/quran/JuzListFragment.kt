@@ -33,8 +33,7 @@ class JuzListFragment : BaseFragment() {
         SurahAdapter()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,appTheme: Theme): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return FrameLayout(inflater.context).apply {
 
             addView(RecyclerView(context).apply {
@@ -49,7 +48,8 @@ class JuzListFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?,appTheme: Theme) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = surahAdapter
@@ -94,6 +94,7 @@ class JuzListFragment : BaseFragment() {
 //                    (activity as? BaseActivity)?.navigationManager?.navigateToAsmaUlHusna(surahAdapter)
 //                }
             }
+
         }
     }
 }

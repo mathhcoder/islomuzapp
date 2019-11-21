@@ -9,6 +9,9 @@
     <string name="hijri_date_format">%d %s, %d</string>
     <string name="mosque_distance_format">%.1f км</string>
 
+    <string name="notification_adhan_enter_format"><b>%s</b> vaqti %s da kirdi</string>
+    <string name="notification_adhan_close_format"><b>%s</b> vaqti %s da chiqdi</string>
+
     <string name="home">Асосий</string>
     <string name="web">Вебсаҳифа</string>
     <string name="settings">Созламалар</string>

@@ -771,7 +771,7 @@ public class CurlMesh {
 
 	/**
 	 * Resets allocated texture id forcing creation of new one. After calling
-	 * this method you most likely want to set bitmap too as it's lost. This
+	 * this method you most likely want to setAlarm bitmap too as it's lost. This
 	 * method should be called only once e.g GL context is re-created as this
 	 * method does not release previous texture id, only makes sure new one is
 	 * requested on next render.

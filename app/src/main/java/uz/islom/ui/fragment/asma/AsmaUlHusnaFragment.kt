@@ -43,7 +43,7 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         asmaUlHusnaViewModel.loadMore(pageSize, 0)
     }
 
-    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View? {
+    override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return FrameLayout(inflater.context).apply {
 
             addView(HeaderLayout(context).apply {
@@ -74,8 +74,8 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
             adapter = asmaUlHusnaAdapter.apply {
                 setItems(asmaUlHusnaViewModel.newItemsUpdate.value ?: ArrayList())
@@ -85,7 +85,8 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
 
                     val visibleItemCount = layoutManager?.childCount ?: 0
                     val totalItemCount = layoutManager?.itemCount ?: 0
-                    val lastVisibleItemPosition = ((layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition() ?: 0)
+                    val lastVisibleItemPosition = ((layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
+                            ?: 0)
 
                     if (!asmaUlHusnaViewModel.isFullyLoaded()
                             && !loading

@@ -26,8 +26,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDnTZmLcQhGKHexcJSg2h1mFHhDctUcu-o" />
 
-        <service android:name=".service.RadioService" />
+        <receiver android:name=".manager.service.CommandListener">
+            <intent-filter>
+                <action android:name="uz.islom.salat.adhan" />
+            </intent-filter>
+        </receiver>
 
+        <service android:name="uz.islom.manager.service.RadioService" />
     </application>
 
     <uses-permission android:name="android.permission.VIBRATE" />

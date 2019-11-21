@@ -18,9 +18,6 @@ import uz.islom.ext.media.CircleTransform
 import uz.islom.R
 import uz.islom.ext.drawable
 import uz.islom.ext.string
-import uz.islom.update.UpdateCenter
-import uz.islom.update.UpdatePath
-import uz.islom.ext.subscribeKt
 import uz.islom.model.enums.OptionType
 import uz.islom.model.entity.User
 import uz.islom.ui.BaseActivity
@@ -43,7 +40,7 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, appTheme: Theme): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return NestedScrollView(inflater.context).apply {
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -79,12 +76,13 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?, appTheme: Theme) {
-        UpdateCenter.subscribeTo(UpdatePath.UserUpdate)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeKt(Consumer {
-                    bindUser(view, it)
-                })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        UpdateCenter.subscribeTo(UpdatePath.UserUpdate)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeKt(Consumer {
+//                    bindUser(view, it)
+//                })
     }
 
 
