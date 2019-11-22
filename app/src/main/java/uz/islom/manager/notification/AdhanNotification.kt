@@ -2,13 +2,12 @@ package uz.islom.manager.notification
 
 import android.content.Context
 import android.content.res.Resources
-import android.net.Uri
 import androidx.core.app.NotificationCompat
 import uz.islom.R
 import uz.islom.ext.makeChannel
 import uz.islom.ext.makeNotification
 import uz.islom.ext.string
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.enums.SalatType
 import uz.islom.ui.MainActivity
 import java.text.SimpleDateFormat

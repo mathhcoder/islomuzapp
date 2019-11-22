@@ -5,7 +5,7 @@ import android.os.Bundle
 import timber.log.Timber
 import uz.islom.ext.makeAlarm
 import uz.islom.manager.service.CommandListener
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.dm.SalatTimeState
 import uz.islom.model.repository.SalatRepository
 import java.text.SimpleDateFormat

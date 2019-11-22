@@ -1,4 +1,4 @@
-package uz.islom.ui
+package uz.islom.manager
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
@@ -20,7 +20,7 @@ import uz.islom.ui.fragment.quran.QuranFragment
 import uz.islom.ui.fragment.zikr.ZikrFragment
 
 
-class NavigationManager {
+class AppNavigationManager {
 
     private var fragmentManager: FragmentManager? = null
 

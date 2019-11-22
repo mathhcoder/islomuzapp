@@ -5,7 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.AlarmManagerCompat
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.manager.service.CommandListener
 import uz.islom.ui.MainActivity
 

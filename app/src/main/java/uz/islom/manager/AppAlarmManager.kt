@@ -4,7 +4,7 @@ import uz.islom.IslomUzApp
 import uz.islom.manager.alarm.AdhanAlarm
 import uz.islom.model.repository.SalatRepository
 
-object AppAlarmManager {
+class AppAlarmManager {
 
     fun getAdhan(): AdhanAlarm {
         val adjustmentPreference = IslomUzApp.getInstance().preferenceManager.getAdjustmentPreference()

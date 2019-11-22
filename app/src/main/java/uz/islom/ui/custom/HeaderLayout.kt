@@ -118,6 +118,18 @@ class HeaderLayout @JvmOverloads constructor(
         }
     }
 
+    fun setFirstActionIcon(@DrawableRes actionIcon: Int) {
+        firstActionButton.setImageResource(actionIcon)
+    }
+
+    fun setSecondActionIcon(@DrawableRes actionIcon: Int) {
+        secondActionButton.setImageResource(actionIcon)
+    }
+
+    fun setThirdActionIcon(@DrawableRes actionIcon: Int) {
+        thirdActionButton.setImageResource(actionIcon)
+    }
+
     init {
 
         setBackgroundColor(theme.toolBarColor)

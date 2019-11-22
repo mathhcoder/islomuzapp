@@ -1,4 +1,4 @@
-package uz.islom.model.dm
+package uz.islom.model.entity
 
 import uz.islom.model.enums.NotificationType
 import uz.islom.model.enums.SalatType

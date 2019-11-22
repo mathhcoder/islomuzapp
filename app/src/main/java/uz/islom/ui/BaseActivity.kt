@@ -5,12 +5,12 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import uz.islom.ext.setNewLocale
-import uz.islom.ui.NavigationManager
+import uz.islom.manager.AppNavigationManager
 
 abstract class BaseActivity : AppCompatActivity() {
 
     val navigationManager by lazy {
-        NavigationManager()
+        AppNavigationManager()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

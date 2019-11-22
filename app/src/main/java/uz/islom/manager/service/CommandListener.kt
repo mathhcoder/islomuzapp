@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import timber.log.Timber
 import uz.islom.IslomUzApp
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 
 class CommandListener : BroadcastReceiver() {
 

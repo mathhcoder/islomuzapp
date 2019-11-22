@@ -19,15 +19,19 @@ class FooterLayout @JvmOverloads constructor(
     var theme = Theme.GREEN
         set(value) {
             field = value
-            findViewById<AppCompatImageView>(R.id.idImageView)?.setColorFilter(value.footerColor)
+            imageView.setColorFilter(value.footerColor)
         }
 
-    init {
-        addView(AppCompatImageView(context).apply {
+    private val imageView by lazy {
+        AppCompatImageView(context).apply {
             id = R.id.idImageView
             setImageResource(R.drawable.img_footer)
             scaleType = ImageView.ScaleType.FIT_XY
-        }, ViewGroup.LayoutParams(full, full))
+        }
+    }
+
+    init {
+        addView(imageView, ViewGroup.LayoutParams(full, full))
 
     }
 }
