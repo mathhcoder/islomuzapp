@@ -2,10 +2,7 @@ package uz.islom.manager
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import uz.islom.model.preference.AdditionalServicesPreference
-import uz.islom.model.preference.AdjustmentPreference
-import uz.islom.model.preference.UniversityPreference
-import uz.islom.model.preference.UserPreference
+import uz.islom.model.preference.*
 
 class AppPreferenceManager(val context: Context) {
 
@@ -27,6 +24,10 @@ class AppPreferenceManager(val context: Context) {
     fun getAdjustmentPreference(): AdjustmentPreference {
         val preference = context.getSharedPreferences("adjustment", MODE_PRIVATE)
         return AdjustmentPreference(preference)
+    }
 
+    fun getZikrPreference(): ZikrPreference {
+        val preference = context.getSharedPreferences("zikr", MODE_PRIVATE)
+        return ZikrPreference(preference)
     }
 }

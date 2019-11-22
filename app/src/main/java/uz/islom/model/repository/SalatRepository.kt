@@ -4,13 +4,12 @@ import timber.log.Timber
 import uz.islom.fiqh.calculateSalatTimes
 import uz.islom.model.dm.Adjustments
 import uz.islom.model.dm.GeoPoint
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.entity.Madhab
 import uz.islom.model.entity.University
 import uz.islom.model.enums.NotificationType
 import uz.islom.model.enums.SalatType
 import uz.islom.model.preference.AdjustmentPreference
-import uz.islom.model.preference.UniversityPreference
 import uz.islom.model.preference.UserPreference
 import java.util.*
 

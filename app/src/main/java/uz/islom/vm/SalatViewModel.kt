@@ -1,6 +1,6 @@
 package uz.islom.vm
 
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.repository.SalatRepository
 import java.util.*
 

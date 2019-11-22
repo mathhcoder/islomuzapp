@@ -20,7 +20,7 @@ import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.ext.subscribeKt
 import uz.islom.model.dm.DateState
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.dm.SalatTimeState
 import uz.islom.model.enums.FunctionType
 import uz.islom.model.dm.Theme

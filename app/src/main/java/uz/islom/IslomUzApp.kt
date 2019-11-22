@@ -7,6 +7,7 @@ import timber.log.Timber
 import uz.islom.manager.AppAlarmManager
 import uz.islom.manager.AppNotificationManager
 import uz.islom.manager.AppPreferenceManager
+import uz.islom.manager.AppToneManager
 
 /**
  * key store pass : 1111111
@@ -35,7 +36,11 @@ class IslomUzApp : Application() {
     }
 
     val alarmManager by lazy {
-        AppAlarmManager
+        AppAlarmManager()
+    }
+
+    val toneManager by lazy {
+        AppToneManager()
     }
 
     val preferenceManager by lazy {

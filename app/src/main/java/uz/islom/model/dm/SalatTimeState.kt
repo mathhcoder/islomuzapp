@@ -1,5 +1,7 @@
 package uz.islom.model.dm
 
+import uz.islom.model.entity.Salat
+
 data class SalatTimeState(
         val salats: ArrayList<Salat>,
         val currentSalat: Salat,

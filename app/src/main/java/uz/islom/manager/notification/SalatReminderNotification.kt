@@ -6,7 +6,7 @@ import androidx.core.app.NotificationCompat
 import uz.islom.R
 import uz.islom.ext.makeNotification
 import uz.islom.ext.string
-import uz.islom.model.dm.Salat
+import uz.islom.model.entity.Salat
 import uz.islom.model.enums.SalatType
 import uz.islom.ui.MainActivity
 
