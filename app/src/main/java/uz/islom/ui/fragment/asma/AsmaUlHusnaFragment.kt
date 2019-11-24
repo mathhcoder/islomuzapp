@@ -14,11 +14,10 @@ import uz.islom.ext.recycler.ItemDivider
 import uz.islom.ext.dp
 import uz.islom.ext.full
 import uz.islom.ext.string
-import uz.islom.model.dm.Theme
+import uz.islom.model.dm.DataResult
 import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.ui.BaseActivity
-import uz.islom.ui.cell.AsmaUlHusnaCell
-import uz.islom.ui.cell.LoadingCell
+import uz.islom.ui.adapter.AsmaUlHusnaListAdapter
 import uz.islom.ui.custom.HeaderLayout
 import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.vm.AsmaUlHusnaViewModel
@@ -30,20 +29,22 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
         fun newInstance() = AsmaUlHusnaFragment()
     }
 
-    private val asmaUlHusnaAdapter = AsmaUlHusnaAdapter()
+    private val asmaUlHusnaAdapter by lazy {
+        AsmaUlHusnaListAdapter {
+            (activity as? BaseActivity)?.navigationManager?.navigateToAsmaUlHusna(it)
+        }
+    }
     private val asmaUlHusnaViewModel by lazy {
         ViewModelProviders.of(this).get(AsmaUlHusnaViewModel::class.java)
     }
 
-    private var loading = false
-    private val pageSize = 12
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        asmaUlHusnaViewModel.loadMore(pageSize, 0)
+        asmaUlHusnaViewModel.loadMore(0)
     }
 
     override fun getSwipeBackView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         return FrameLayout(inflater.context).apply {
 
             addView(HeaderLayout(context).apply {
@@ -62,12 +63,12 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
                     layoutManager = LinearLayoutManager(context)
                     overScrollMode = View.OVER_SCROLL_NEVER
                     addItemDecoration(ItemDivider(context, appTheme, 0))
+                    adapter = asmaUlHusnaAdapter
                 }, FrameLayout.LayoutParams(full, full))
 
             }, FrameLayout.LayoutParams(full, full).apply {
                 topMargin = dp(56)
             })
-
 
             layoutParams = ViewGroup.LayoutParams(full, full)
 
@@ -77,9 +78,6 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
-            adapter = asmaUlHusnaAdapter.apply {
-                setItems(asmaUlHusnaViewModel.newItemsUpdate.value ?: ArrayList())
-            }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
@@ -89,88 +87,36 @@ class AsmaUlHusnaFragment : SwipeAbleFragment() {
                             ?: 0)
 
                     if (!asmaUlHusnaViewModel.isFullyLoaded()
-                            && !loading
+                            && !asmaUlHusnaViewModel.isLoading
                             && (visibleItemCount + lastVisibleItemPosition) >= totalItemCount
                             && lastVisibleItemPosition >= 0) {
 
-                        asmaUlHusnaViewModel.loadMore(pageSize, asmaUlHusnaAdapter.itemCount)
-                        loading = true
+                        asmaUlHusnaViewModel.loadMore(asmaUlHusnaAdapter.itemCount)
+                        asmaUlHusnaViewModel.isLoading = true
                     }
                 }
             })
         }
 
-        asmaUlHusnaViewModel.newItemsUpdate.observe(this, Observer {
-            asmaUlHusnaAdapter.addItems(it)
-            asmaUlHusnaAdapter.isLoading(asmaUlHusnaViewModel.isFullyLoaded())
-            loading = false
-        })
-    }
+        asmaUlHusnaViewModel.newItemsUpdate.let {
+            it.value?.let { data ->
+                submitData(true,data)
+                asmaUlHusnaViewModel.isLoading = false
 
-    inner class AsmaUlHusnaAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-        private var data = ArrayList<AsmaUlHusna>()
-        private var isLoading = false
-
-        fun setItems(items: List<AsmaUlHusna>) {
-            data.clear()
-            data.addAll(items)
-            notifyDataSetChanged()
-        }
-
-        fun addItems(items: List<AsmaUlHusna>) {
-            data.addAll(items)
-            notifyDataSetChanged()
-        }
-
-        fun isLoading(isLoading: Boolean) {
-            this.isLoading = isLoading
-            if (isLoading) {
-                data.add(AsmaUlHusna())
-                notifyItemInserted(data.size - 1)
-            } else {
-                val position = data.size - 1
-                val item = data.getOrNull(position)
-                if (item != null) {
-                    data.removeAt(position)
-                    notifyItemRemoved(position)
-                }
             }
-        }
-
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder =
-                if (p1 == 0) AsmaUlHusnaHolder(AsmaUlHusnaCell(p0.context).apply {
-                    layoutParams = ViewGroup.LayoutParams(full, dp(72))
-                }) else LoadingHolder(LoadingCell(p0.context).apply {
-                    layoutParams = ViewGroup.LayoutParams(full, dp(72))
-                })
-
-        override fun getItemCount() = data.size
-
-        override fun getItemViewType(position: Int): Int {
-            return if (isLoading && data.size - 1 == position) 1 else 0
-        }
-
-        override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-            data.getOrNull(p1)?.let {
-                (p0 as? AsmaUlHusnaHolder)?.bindOption(it)
-            }
+            it.observe(this, Observer { data ->
+                submitData(false,data)
+                asmaUlHusnaViewModel.isLoading = false
+            })
         }
     }
 
-    inner class AsmaUlHusnaHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindOption(asmaUlHusna: AsmaUlHusna) {
-            (itemView as? AsmaUlHusnaCell)?.apply {
-                order = asmaUlHusna.id
-                nameArabic = asmaUlHusna.name?.ar
-                nameLocal = asmaUlHusna.name?.uz
-                description = asmaUlHusna.description?.uz
-                setOnClickListener {
-                    (activity as? BaseActivity)?.navigationManager?.navigateToAsmaUlHusna(asmaUlHusna)
-                }
-            }
+    private fun submitData(needClean: Boolean, dataResult: DataResult<AsmaUlHusna>) {
+        if (dataResult.result) {
+            asmaUlHusnaAdapter.submitItems(needClean, dataResult.data)
+        } else {
+
         }
     }
 
-    inner class LoadingHolder(view: View) : RecyclerView.ViewHolder(view)
 }

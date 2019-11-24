@@ -5,27 +5,30 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import uz.islom.ext.subscribeKt
-import uz.islom.model.api.DuaApi
+import uz.islom.model.entity.AsmaUlHusna
+import uz.islom.model.api.AsmaUlHusnaApi
+import uz.islom.model.api.AyatApi
 import uz.islom.model.dm.DataResult
 import uz.islom.model.dm.DataSource
-import uz.islom.model.entity.Dua
-import uz.islom.model.repository.DuaRepository
+import uz.islom.model.entity.Ayat
+import uz.islom.model.repository.AsmaUlHusnaRepository
+import uz.islom.model.repository.AyatRepository
 
-class DuaViewModel : BaseViewModel() {
+class AyatViewModel : BaseViewModel() {
 
-    val newItemsUpdate = MutableLiveData<DataResult<Dua>>()
+    val newItemsUpdate = MutableLiveData<DataResult<Ayat>>()
     var isLoading = true
 
     private val disposable = CompositeDisposable()
-    private val api = networkManager.create(DuaApi::class.java)
-    private val dao = storageManager.duaDao()
-    private val repository = DuaRepository(api, dao)
+    private val api = networkManager.create(AyatApi::class.java)
+    private val dao = storageManager.ayatDao()
+    private val repository = AyatRepository(api, dao)
 
     fun isFullyLoaded() = repository.isFullyLoaded
 
-    fun loadMore( offset: Int) {
+    fun loadMore(surahId: Long, offset: Int) {
         disposable.add(repository
-                .loadData(PAGE_SIZE, offset)
+                .loadData(surahId,PAGE_SIZE, offset)
                 .subscribeOn(Schedulers.io())
                 .subscribeKt(Consumer {
                     newItemsUpdate.postValue(DataResult(
@@ -40,7 +43,7 @@ class DuaViewModel : BaseViewModel() {
                             dataSource = DataSource.DATABASE,
                             isFullyLoaded = false,
                             data = emptyList(),
-                            errorMessage = it.message?:""))
+                            errorMessage = it.message ?: ""))
                 }))
     }
 

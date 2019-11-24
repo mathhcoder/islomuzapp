@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import uz.islom.R
 import uz.islom.model.entity.AsmaUlHusna
+import uz.islom.model.entity.Dua
+import uz.islom.model.entity.Juz
+import uz.islom.model.entity.Surah
 import uz.islom.model.enums.FunctionType
 import uz.islom.model.enums.OptionType
 import uz.islom.ui.fragment.asma.AsmaUlHusnaDescriptionFragment
@@ -17,6 +20,7 @@ import uz.islom.ui.fragment.main.MainFragment
 import uz.islom.ui.fragment.mosque.NearMosquesFragment
 import uz.islom.ui.fragment.qibla.QiblaFragment
 import uz.islom.ui.fragment.quran.QuranFragment
+import uz.islom.ui.fragment.quran.SurahFragment
 import uz.islom.ui.fragment.zikr.ZikrFragment
 
 
@@ -158,7 +162,7 @@ class AppNavigationManager {
 
 //        if (fragment != null) {
 //
-//            addFragment(fragment = fragment, tag = optionType.name, withBackStack = true, withAnimation = true)
+//            addFragment(fragment = fragment, tag = optionType.title, withBackStack = true, withAnimation = true)
 //
 //        } else when (optionType) {
 //
@@ -182,6 +186,18 @@ class AppNavigationManager {
 
     fun navigateToAsmaUlHusna(asmaUlHusna: AsmaUlHusna) {
         addFragment(fragment = AsmaUlHusnaDescriptionFragment.newInstance(asmaUlHusna), tag = "${asmaUlHusna.javaClass.name}:${asmaUlHusna.id}", withBackStack = true, withAnimation = true)
+    }
+
+    fun navigateToDua(dua: Dua) {
+
+    }
+
+    fun navigateToSurah(surah: Surah) {
+        addFragment(fragment = SurahFragment.newInstance(surah), tag = "${surah.javaClass.name}:${surah.id}", withBackStack = true, withAnimation = true)
+    }
+
+    fun navigateToJuz(suz: Juz) {
+
     }
 
     private fun addFragment(fragment: Fragment, tag: String, withBackStack: Boolean, withAnimation: Boolean) {

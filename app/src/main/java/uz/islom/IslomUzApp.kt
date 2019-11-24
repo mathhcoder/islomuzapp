@@ -2,12 +2,10 @@ package uz.islom
 
 import android.app.Application
 import android.content.Context
+import android.os.Vibrator
 import androidx.multidex.MultiDex
 import timber.log.Timber
-import uz.islom.manager.AppAlarmManager
-import uz.islom.manager.AppNotificationManager
-import uz.islom.manager.AppPreferenceManager
-import uz.islom.manager.AppToneManager
+import uz.islom.manager.*
 
 /**
  * key store pass : 1111111
@@ -41,6 +39,12 @@ class IslomUzApp : Application() {
 
     val toneManager by lazy {
         AppToneManager()
+    }
+
+    val vibrationManager by lazy {
+        (getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator)?.let {
+            AppVibrationManager(it)
+        }
     }
 
     val preferenceManager by lazy {

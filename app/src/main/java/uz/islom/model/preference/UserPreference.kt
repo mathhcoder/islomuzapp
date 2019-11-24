@@ -20,10 +20,10 @@ class UserPreference(private val userSharedPreference: SharedPreferences,
 
     var name: String
         get() {
-            return userSharedPreference.getString("name", "") ?: ""
+            return userSharedPreference.getString("title", "") ?: ""
         }
         set(value) {
-            userSharedPreference.edit().putString("name", value).apply()
+            userSharedPreference.edit().putString("title", value).apply()
         }
 
     var image: String
@@ -76,6 +76,6 @@ class UserPreference(private val userSharedPreference: SharedPreferences,
         }
         get() {
             return User.DEFAULT
-            //User(id, name, image, geoPoint, university, madhab)
+            //User(id, title, image, geoPoint, university, madhab)
         }
 }

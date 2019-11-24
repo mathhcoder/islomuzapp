@@ -7,30 +7,42 @@ import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.Gravity
+import android.widget.FrameLayout
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import uz.islom.ext.dp
+import uz.islom.ext.full
 import uz.islom.ext.setTextSizeSp
+import uz.islom.ext.wrap
 import uz.islom.model.dm.Theme
 
 class ZikrButton @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
         defStyleAttr: Int = 0
-) : MaterialTextView(context, attributeSet, defStyleAttr) {
+) : MaterialCardView(context, attributeSet, defStyleAttr) {
 
     var theme = Theme.GREEN
         set(value) {
             field = value
             strokeDrawable.setStroke(dp(3), value.secondaryColor)
             solidDrawable.setColor(value.primaryColor)
-            setTextColor(value.mainSeekBarProgressColor)
+            textView.setTextColor(value.mainSeekBarProgressColor)
         }
 
     var count = 0
         set(value) {
-            text = value.toString()
+            textView.text = value.toString()
             field = value
         }
+
+    private val textView by lazy {
+        MaterialTextView(context).apply {
+            gravity = Gravity.CENTER
+            setTypeface(typeface, Typeface.BOLD)
+            setTextSizeSp(40)
+        }
+    }
 
     private var strokeDrawable = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
@@ -41,14 +53,16 @@ class ZikrButton @JvmOverloads constructor(
     }
 
     init {
-        background = LayerDrawable(arrayOf(solidDrawable, InsetDrawable(strokeDrawable, dp(3), dp(3), dp(3), dp(3))))
-        gravity = Gravity.CENTER
-        setTypeface(typeface, Typeface.BOLD)
-        setTextSizeSp(40)
+        isClickable = true
+        addView(FrameLayout(context).apply {
+            background = LayerDrawable(arrayOf(solidDrawable, InsetDrawable(strokeDrawable, dp(3), dp(3), dp(3), dp(3))))
+            addView(textView, LayoutParams(full, full))
+        }, LayoutParams(full, full))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         strokeDrawable.cornerRadius = widthMeasureSpec.toFloat() / 2
+        radius = widthMeasureSpec.toFloat() / 2
     }
 }

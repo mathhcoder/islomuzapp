@@ -16,7 +16,7 @@
 # Default PV proguard file - use it and abuse it if its useful.
 
 # If you keep the line number information, uncomment this to
-# hide the original source file name.
+# hide the original source file title.
 #-renamesourcefileattribute SourceFile
 
 -dontusemixedcaseclassnames
@@ -121,7 +121,7 @@
 # WebViews
 #############
 # If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
+# and specify the fully qualified class title to the JavaScript interface
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;

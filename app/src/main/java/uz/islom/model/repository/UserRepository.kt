@@ -6,7 +6,6 @@ import uz.islom.model.api.UserApi
 import uz.islom.model.dm.AppVersion
 import uz.islom.model.dm.Device
 import uz.islom.model.dm.SignInMethod
-import uz.islom.model.dm.Source
 import uz.islom.model.entity.User
 import uz.islom.model.preference.UserPreference
 

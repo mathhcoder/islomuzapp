@@ -4,42 +4,45 @@ import io.reactivex.Single
 import timber.log.Timber
 import uz.islom.model.api.AsmaUlHusnaApi
 import uz.islom.model.dao.AsmaUlHusnaDao
-import uz.islom.model.dm.Source
+import uz.islom.model.dm.DataSource
 import uz.islom.model.entity.AsmaUlHusna
 
 class AsmaUlHusnaRepository(private val api: AsmaUlHusnaApi,
                             private val dao: AsmaUlHusnaDao) : BaseRepository() {
 
     var isFullyLoaded = false
-    lateinit var source: Source
+    var source: DataSource = DataSource.NETWORK
 
-    fun loadAsmaUlHusna(size: Int, offset: Int): Single<List<AsmaUlHusna>> {
+    fun loadData(size: Int, offset: Int): Single<List<AsmaUlHusna>> {
         Timber.d("Trying to load asmaUlHusna from network with offset:$offset")
 
-        return getFromNetwork(size, offset)
-                .doOnSuccess {
+        return getFromNetwork(size, offset).doOnSuccess {
 
-                    Timber.d("Saving asmaUlHusna to database size : $size")
+            Timber.d("Saving asmaUlHusna to database size : $size")
 
-                    saveToDb(it)
+            saveToDb(it)
 
-                    isFullyLoaded = if (it.size < size) {
-                        Timber.d("AsmaUlHusna fully loaded"); true
-                    } else false
+            isFullyLoaded = if (it.size < size) {
+                Timber.d("AsmaUlHusna fully loaded"); true
+            } else false
 
-                    source = Source.NETWORK(isFullyLoaded)
+            source = DataSource.NETWORK
 
-                }.onErrorResumeNext {
-                    Timber.d("Trying to load asmaUlHusna from database with offset:$offset")
-                    getFromDB(size, offset)
-                }.doOnSuccess {
+        }.onErrorResumeNext {
 
-                    isFullyLoaded = if (it.size < size) {
-                        Timber.d("AsmaUlHusna fully loaded"); true
-                    } else false
+            Timber.d("Trying to load asmaUlHusna from database with offset:$offset")
 
-                    source = Source.DATABASE(isFullyLoaded)
-                }
+            getFromDB(size, offset)
+
+        }.doOnSuccess {
+
+            isFullyLoaded = if (it.size < size) {
+                Timber.d("AsmaUlHusna fully loaded"); true
+            } else false
+
+            source = DataSource.DATABASE
+
+        }
 
     }
 
@@ -54,6 +57,5 @@ class AsmaUlHusnaRepository(private val api: AsmaUlHusnaApi,
     private fun getFromDB(size: Int, offset: Int): Single<List<AsmaUlHusna>> {
         return dao.getAsmaUlHusna(size, offset)
     }
-
 
 }

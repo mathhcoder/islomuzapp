@@ -9,8 +9,8 @@ import uz.islom.model.entity.Dua
 interface DuaApi {
 
     @GET("duas")
-    fun getAsmaUlHusna(@Query("size") size : Int,
-                       @Query("offset") offset: Int): Single<List<Dua>>
+    fun getDuas(@Query("size") size : Int,
+                @Query("offset") offset: Int): Single<List<Dua>>
 
 
 

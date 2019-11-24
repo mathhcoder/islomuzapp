@@ -7,4 +7,4 @@ import java.io.Serializable
 data class Dua(
         val id: Long?=null,
         val title: Content?=null,
-        val body: Content?=null) : Serializable
+        val meaning: Content?=null) : Serializable

@@ -19,6 +19,8 @@ open class BaseViewModel : ViewModel() {
 
     companion object {
 
+        const val PAGE_SIZE  =12
+
         internal val networkManager by lazy {
             Retrofit.Builder()
                     .baseUrl(BuildConfig.SERVER_URL)

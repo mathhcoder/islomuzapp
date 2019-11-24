@@ -5,21 +5,21 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import uz.islom.ext.subscribeKt
-import uz.islom.model.api.DuaApi
+import uz.islom.model.api.JuzApi
 import uz.islom.model.dm.DataResult
 import uz.islom.model.dm.DataSource
-import uz.islom.model.entity.Dua
-import uz.islom.model.repository.DuaRepository
+import uz.islom.model.entity.Juz
+import uz.islom.model.repository.JuzRepository
 
-class DuaViewModel : BaseViewModel() {
+class JuzViewModel : BaseViewModel() {
 
-    val newItemsUpdate = MutableLiveData<DataResult<Dua>>()
+    val newItemsUpdate = MutableLiveData<DataResult<Juz>>()
     var isLoading = true
 
     private val disposable = CompositeDisposable()
-    private val api = networkManager.create(DuaApi::class.java)
-    private val dao = storageManager.duaDao()
-    private val repository = DuaRepository(api, dao)
+    private val api = networkManager.create(JuzApi::class.java)
+    private val dao = storageManager.juzDao()
+    private val repository = JuzRepository(api, dao)
 
     fun isFullyLoaded() = repository.isFullyLoaded
 

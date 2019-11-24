@@ -12,6 +12,15 @@
     <string name="notification_adhan_enter_format"><b>%s</b> vaqti %s da kirdi</string>
     <string name="notification_adhan_close_format"><b>%s</b> vaqti %s da chiqdi</string>
 
+    <string name="juz_title_format">%d-жуз</string>
+    <string name="juz_subtitle_format">%s сураси, %d-оят дан бошланади</string>
+    <string name="surah_subtitle_format">%s, %d оятдан иборат</string>
+
+    <string name="surah_city_makkah">маккий</string>
+    <string name="surah_city_madina">маданий</string>
+
+    <string name="ayat_meaning_format">%d. %s</string>
+
     <string name="home">Асосий</string>
     <string name="web">Вебсаҳифа</string>
     <string name="settings">Созламалар</string>
@@ -19,7 +28,7 @@
     <string name="quran">Қуръон</string>
     <string name="surah">Сура</string>
     <string name="juz">Жуз</string>
-    <string name="bookmark">Хатчуп</string>
+    <string name="bookmark">Хатчўп</string>
 
     <string name="radio">Радио</string>
     <string name="mosque">Масжидлар</string>
