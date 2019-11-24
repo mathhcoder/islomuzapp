@@ -12,8 +12,8 @@ import uz.islom.model.entity.Surah
 interface SurahDao : BaseDao {
 
 
-    @Query("SELECT * FROM surahs")
-    fun getAll(): Single<List<Surah>>
+    @Query("SELECT * FROM surahs ORDER BY id LIMIT :size OFFSET :offset")
+    fun getSurahs(size : Int, offset : Int): Single<List<Surah>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(surah: Surah)

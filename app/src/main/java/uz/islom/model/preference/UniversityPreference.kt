@@ -10,7 +10,7 @@ class UniversityPreference(private val preference: SharedPreferences) {
     var university: University
         get() {
             return University.DEFAULT
-            //University(id, name, type, fajr, isha, ishaRamadan)
+            //University(id, title, type, fajr, isha, ishaRamadan)
         }
         set(value) {
             id = value.id

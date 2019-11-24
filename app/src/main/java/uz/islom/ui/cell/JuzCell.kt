@@ -11,51 +11,41 @@ import uz.islom.ext.*
 import uz.islom.model.dm.Theme
 import uz.islom.ui.custom.BaseTextView
 
-class DuaCell @JvmOverloads constructor(
+class JuzCell @JvmOverloads constructor(
         context: Context,
         attributes: AttributeSet? = null,
         defStyle: Int = 0
 ) : MaterialCardView(context, attributes, defStyle) {
 
-    var order : Long? = 0
+    var title: String? = ""
         set(value) {
             field = value
-            orderView.text = String.format("%d.",value)
+            nameView.text = value
         }
 
-    var nameLocal: String? = ""
+    var subtitle: String? = ""
         set(value) {
             field = value
-            nameInLocalView.text = value
-        }
-
-    var description: String? = ""
-        set(value) {
-            field = value
-            descriptionView.text = value
+            ayatView.text = value
         }
 
     var theme: Theme? = null
         set(value) {
             field = value
-            if(value!=null){
-                nameInLocalView.setTextColor(value.tertiaryColor)
+            if (value != null) {
+                ayatView.setTextColor(value.tertiaryColor)
+                nameView.setTextColor(value.tertiaryColor)
                 setCardBackgroundColor(value.secondaryColor)
             }
         }
 
-    private val orderView = BaseTextView(context).apply {
-        setTextSizeSp(20)
-        gravity = Gravity.CENTER
-    }
-
-    private val nameInLocalView = BaseTextView(context).apply {
+    private val nameView = BaseTextView(context).apply {
         maxLines = 1
         ellipsize = TextUtils.TruncateAt.END
         setTextSizeSp(16)
     }
 
-    private val descriptionView = BaseTextView(context).apply {
+    private val ayatView = BaseTextView(context).apply {
         maxLines = 1
         ellipsize = TextUtils.TruncateAt.END
         setTextSizeSp(14)
@@ -66,8 +56,6 @@ class DuaCell @JvmOverloads constructor(
         isClickable = true
         cardElevation = 1f
 
-        addView(orderView, LayoutParams(dp(72), dp(72)))
-
         addView(LinearLayout(context).apply {
 
             orientation = LinearLayout.HORIZONTAL
@@ -77,10 +65,10 @@ class DuaCell @JvmOverloads constructor(
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER_VERTICAL
 
-                addView(nameInLocalView,LinearLayout.LayoutParams(full,wrap).apply {
+                addView(nameView, LinearLayout.LayoutParams(full, wrap).apply {
                     bottomMargin = dp(1)
                 })
-                addView(descriptionView,LinearLayout.LayoutParams(full,wrap).apply {
+                addView(ayatView, LinearLayout.LayoutParams(full, wrap).apply {
                     topMargin = dp(1)
                 })
 
@@ -88,8 +76,8 @@ class DuaCell @JvmOverloads constructor(
                 gravity = Gravity.CENTER_VERTICAL
             })
 
-        }, LayoutParams(full,dp(72)).apply {
-            leftMargin = dp(72)
+        }, LayoutParams(full, dp(56)).apply {
+            leftMargin = dp(16)
             rightMargin = dp(16)
         })
 

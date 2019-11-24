@@ -114,17 +114,14 @@ class QuranFragment : SwipeAbleFragment() {
                 override fun getItem(position: Int): BaseFragment {
                     return when (position) {
                         0 -> SurahListFragment.newInstance()
-                        1 -> SurahListFragment.newInstance()
-                        else -> SurahListFragment.newInstance()
+                        1 -> JuzListFragment.newInstance()
+                        else -> BookmarkFragment.newInstance()
                     }
                 }
 
                 override fun getCount(): Int = 3
             }
         }
-    }
-
-    fun smth(){
     }
 
 }

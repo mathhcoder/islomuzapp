@@ -1,30 +1,61 @@
 package uz.islom.model.repository
 
 import io.reactivex.Single
-import uz.islom.model.api.AsmaUlHusnaApi
+import timber.log.Timber
 import uz.islom.model.api.SurahApi
-import uz.islom.model.dao.AsmaUlHusnaDao
 import uz.islom.model.dao.SurahDao
-import uz.islom.model.entity.AsmaUlHusna
+import uz.islom.model.dm.DataSource
 import uz.islom.model.entity.Surah
 
-class SurahRepository(private val surahApi: SurahApi,
-                      private val surahDao: SurahDao) : BaseRepository() {
+class SurahRepository(private val api: SurahApi,
+                      private val dao: SurahDao) : BaseRepository() {
 
-    fun getAll(): Single<List<Surah>> {
-        return getFromNetwork().doOnSuccess { saveToDb(it) }.flatMap { getFromDB() }
+    var isFullyLoaded = false
+    var source: DataSource = DataSource.NETWORK
+
+    fun loadData(size: Int, offset: Int): Single<List<Surah>> {
+        Timber.d("Trying to load surahs from network with offset:$offset")
+
+        return getFromNetwork(size, offset).doOnSuccess {
+
+            Timber.d("Saving surahs to database size : $size")
+
+            saveToDb(it)
+
+            isFullyLoaded = if (it.size < size) {
+                Timber.d("Surahs fully loaded"); true
+            } else false
+
+            source = DataSource.NETWORK
+
+        }.onErrorResumeNext {
+
+            Timber.d("Trying to load surahs from database with offset:$offset")
+
+            getFromDB(size, offset)
+
+        }.doOnSuccess {
+
+            isFullyLoaded = if (it.size < size) {
+                Timber.d("Surahs fully loaded"); true
+            } else false
+
+            source = DataSource.DATABASE
+
+        }
+
     }
 
-    private fun saveToDb(data : List<Surah>){
-         surahDao.insertAll(data)
+    private fun saveToDb(data: List<Surah>) {
+        dao.insertAll(data)
     }
 
-    private fun getFromNetwork() : Single<List<Surah>>{
-        return surahApi.getSurahs(120,0)
+    private fun getFromNetwork(size: Int, offset: Int): Single<List<Surah>> {
+        return api.getSurahs(size, offset)
     }
 
-    private fun getFromDB() : Single<List<Surah>>{
-        return surahDao.getAll()
+    private fun getFromDB(size: Int, offset: Int): Single<List<Surah>> {
+        return dao.getSurahs(size, offset)
     }
 
 

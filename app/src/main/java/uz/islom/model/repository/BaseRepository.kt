@@ -10,11 +10,6 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseRepository {
 
-    companion object {
-        private var okClient: OkHttpClient? = null
-    }
-
-
 
 
 }

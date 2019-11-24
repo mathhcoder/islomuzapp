@@ -116,10 +116,10 @@ class ZikrFragment : SwipeAbleFragment() {
             zikrViewModel.zikrStateData.value?.let {
                 when (it.reaction) {
                     0 -> {
-                        makeSound()
+                        makeSound(it.typeProgress == it.typeMax)
                     }
                     1 -> {
-                        vibrate()
+                        vibrate(it.typeProgress == it.typeMax)
                     }
                 }
             }
@@ -149,7 +149,7 @@ class ZikrFragment : SwipeAbleFragment() {
             }
 
             when (state.reaction) {
-                0 -> it.setFirstActionIcon(R.drawable.ic_notification_adhan)
+                0 -> it.setFirstActionIcon(R.drawable.ic_notification_volume)
                 1 -> it.setFirstActionIcon(R.drawable.ic_notification_silent)
                 else -> it.setFirstActionIcon(R.drawable.ic_notification_off)
             }
@@ -159,11 +159,16 @@ class ZikrFragment : SwipeAbleFragment() {
 
     }
 
-    private fun makeSound() {
-        IslomUzApp.getInstance().toneManager.makeZikrTone()
+    private fun makeSound(typeChanged: Boolean) {
+        if (typeChanged)
+            IslomUzApp.getInstance().toneManager.makeZikrTypeChanedTone()
+        else IslomUzApp.getInstance().toneManager.makeZikrSimpleTone()
     }
 
-    private fun vibrate() {
-        zing()
+    private fun vibrate(typeChanged: Boolean) {
+        if (typeChanged)
+            IslomUzApp.getInstance().vibrationManager?.makeZikrTypeChangedVibration()
+        else
+            IslomUzApp.getInstance().vibrationManager?.makeZikrSimpleVibration()
     }
 }

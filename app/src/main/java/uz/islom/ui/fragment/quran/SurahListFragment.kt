@@ -13,8 +13,12 @@ import uz.islom.R
 import uz.islom.ext.recycler.ItemDivider
 import uz.islom.ext.dp
 import uz.islom.ext.full
+import uz.islom.model.dm.DataResult
 import uz.islom.model.dm.Theme
+import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.entity.Surah
+import uz.islom.ui.BaseActivity
+import uz.islom.ui.adapter.SurahListAdapter
 import uz.islom.ui.cell.SurahCell
 import uz.islom.ui.fragment.BaseFragment
 import uz.islom.vm.SurahViewModel
@@ -30,7 +34,14 @@ class SurahListFragment : BaseFragment() {
     }
 
     private val surahAdapter by lazy {
-        SurahAdapter()
+        SurahListAdapter{
+            (activity as? BaseActivity)?.navigationManager?.navigateToSurah(it)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        surahViewModel.loadMore(0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -42,6 +53,7 @@ class SurahListFragment : BaseFragment() {
                 layoutManager = LinearLayoutManager(context)
                 overScrollMode = View.OVER_SCROLL_NEVER
                 addItemDecoration(ItemDivider(context, appTheme, 0))
+                adapter = surahAdapter
             }, FrameLayout.LayoutParams(full, full))
 
             layoutParams = ViewGroup.LayoutParams(full, full)
@@ -51,47 +63,45 @@ class SurahListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         view.findViewById<RecyclerView>(R.id.idRecyclerView).apply {
-            adapter = surahAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                    val visibleItemCount = layoutManager?.childCount ?: 0
+                    val totalItemCount = layoutManager?.itemCount ?: 0
+                    val lastVisibleItemPosition = ((layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
+                            ?: 0)
+
+                    if (!surahViewModel.isFullyLoaded()
+                            && !surahViewModel.isLoading
+                            && (visibleItemCount + lastVisibleItemPosition) >= totalItemCount
+                            && lastVisibleItemPosition >= 0) {
+
+                        surahViewModel.loadMore(surahAdapter.itemCount)
+                        surahViewModel.isLoading = true
+                    }
+                }
+            })
         }
 
-        surahViewModel.data.observe(this, Observer {
-            surahAdapter.data = it
-        })
+        surahViewModel.newItemsUpdate.let {
+            it.value?.let { data ->
+                submitData(true,data)
+                surahViewModel.isLoading = false
 
-    }
-
-    inner class SurahAdapter : RecyclerView.Adapter<SurahHolder>() {
-
-        var data: List<Surah> = ArrayList()
-            set(value) {
-                field = value
-                notifyDataSetChanged()
             }
-
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): SurahHolder = SurahHolder(SurahCell(p0.context).apply {
-            layoutParams = ViewGroup.LayoutParams(full, dp(72))
-        })
-
-        override fun getItemCount() = data.size
-
-        override fun onBindViewHolder(p0: SurahHolder, p1: Int) {
-            data.getOrNull(p1)?.let {
-                p0.bindSurah(it)
-            }
-
+            it.observe(this, Observer { data ->
+                submitData(false,data)
+                surahViewModel.isLoading = false
+            })
         }
     }
 
-    inner class SurahHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindSurah(surah: Surah) {
-            (itemView as? SurahCell)?.apply {
-                order = surah.id
-                nameArabic = surah.name?.ar
-                nameLocal = surah.name?.uz
+    private fun submitData(needClean: Boolean, dataResult: DataResult<Surah>) {
+        if (dataResult.result) {
+            surahAdapter.submitItems(needClean, dataResult.data)
+        } else {
 
-            }
         }
     }
 }
