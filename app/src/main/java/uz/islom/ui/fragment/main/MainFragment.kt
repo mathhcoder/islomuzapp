@@ -30,6 +30,7 @@ class MainFragment : BaseFragment() {
         Timber.i("SpeedManagement: MainFragment onCreateView: started at$start")
 
         val rootView = LinearLayout(inflater.context).apply {
+            setBackgroundColor(appTheme.secondaryColor)
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.BOTTOM
 

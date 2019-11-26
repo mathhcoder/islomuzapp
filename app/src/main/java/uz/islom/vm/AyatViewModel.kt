@@ -37,13 +37,6 @@ class AyatViewModel : BaseViewModel() {
                             isFullyLoaded = repository.isFullyLoaded,
                             data = it,
                             errorMessage = ""))
-                }, Consumer {
-                    newItemsUpdate.postValue(DataResult(
-                            result = false,
-                            dataSource = DataSource.DATABASE,
-                            isFullyLoaded = false,
-                            data = emptyList(),
-                            errorMessage = it.message ?: ""))
                 }))
     }
 

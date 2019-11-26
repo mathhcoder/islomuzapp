@@ -12,6 +12,7 @@ import uz.islom.R
 import uz.islom.ext.*
 import uz.islom.model.entity.AsmaUlHusna
 import uz.islom.model.dm.Theme
+import uz.islom.ui.custom.AsmaUlHusnaLayout
 import uz.islom.ui.custom.BaseTextView
 import uz.islom.ui.fragment.SwipeAbleFragment
 import uz.islom.ui.custom.HeaderLayout
@@ -48,13 +49,11 @@ class AsmaUlHusnaDescriptionFragment : SwipeAbleFragment() {
 
                     orientation = LinearLayout.VERTICAL
 
-                    addView(BaseTextView(context).apply {
-                        typeface = font(R.font.scheherazade_normal)
-                        gravity = Gravity.CENTER
-                        text = asmaUlHusna?.name?.ar
-                        setTextColor(appTheme.tertiaryColor)
-                        setTextSizeSp(64)
-                    },FrameLayout.LayoutParams(full, dp(196)))
+                    addView(AsmaUlHusnaLayout(context).apply {
+                        text = asmaUlHusna?.name?.ar?:""
+                    },LinearLayout.LayoutParams(wrap, wrap).apply {
+                        gravity = Gravity.CENTER_HORIZONTAL
+                    })
 
                     addView(BaseTextView(context).apply {
                         text = asmaUlHusna?.description?.uz
